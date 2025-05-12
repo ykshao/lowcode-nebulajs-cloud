@@ -1,0 +1,14 @@
+module.exports = {
+    apps: [
+        {
+            name: '<%=code%>',
+            script: './bin/www.js',
+            env_uat: {
+                HTTP_PORT: '3000',
+                NODE_ENV: 'uat',
+                SERVICE_URL: 'http://10.126.32.219:3000',
+                WS_SERVICE_URL: 'ws://10.126.32.219:3001',
+            },
+        },
+    ],
+}

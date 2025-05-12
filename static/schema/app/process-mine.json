@@ -1,0 +1,144 @@
+{
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "title": "我发起的",
+    "body": [
+        {
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "cloud/app/app-process/mine-list",
+                "messages": {},
+                "data": {
+                    "page": "${page}",
+                    "size": "${size}"
+                },
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)"
+            },
+            "columns": [
+                {
+                    "name": "extraInfo.summary",
+                    "label": "名称",
+                    "type": "tpl",
+                    "id": "u:b9ffb0416cb1",
+                    "tpl": "${extraInfo.summary || extraInfo.definitionName}"
+                },
+                {
+                    "name": "extraInfo.formName",
+                    "label": "表单模型",
+                    "type": "text",
+                    "id": "u:1d823350a234",
+                    "align": "center",
+                    "width": 120
+                },
+                {
+                    "name": "startTime",
+                    "label": "开始时间",
+                    "type": "date",
+                    "id": "u:1b334750a123",
+                    "width": 150,
+                    "format": "YYYY-MM-DD HH:mm",
+                    "align": "center"
+                },
+                {
+                    "name": "endTime",
+                    "label": "结束时间",
+                    "type": "date",
+                    "id": "u:6c224750a721",
+                    "width": 150,
+                    "format": "YYYY-MM-DD HH:mm",
+                    "align": "center"
+                },
+                {
+                    "name": "state",
+                    "label": "状态",
+                    "type": "mapping",
+                    "id": "u:b9ffb0416cb1",
+                    "width": 90,
+                    "align": "center",
+                    "map": {
+                        "ACTIVE": {
+                            "type": "tag",
+                            "label": "活跃",
+                            "displayMode": "rounded",
+                            "color": "active",
+                            "style": {
+                                "fontSize":"12px"
+                            }
+                        },
+                        "EXTERNALLY_TERMINATED":{
+                            "type": "tag",
+                            "label": "中止",
+                            "displayMode": "rounded",
+                            "color": "inactive",
+                            "style": {
+                                "fontSize":"12px"
+                            }
+                        },
+                        "COMPLETED": {
+                            "type": "tag",
+                            "label": "完成",
+                            "displayMode": "rounded",
+                            "color": "success",
+                            "style": {
+                                "fontSize":"12px"
+                            }
+                        }
+                    }
+                },
+                {
+                    "label": "操作",
+                    "type": "operation",
+                    "id": "u:ed0fba2d6daa",
+                    "align": "center",
+                    "width": 120,
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "label": "详情",
+                            "level": "link",
+                            "hiddenOn": "${formModel == ''}",
+                            "className": "text-primary",
+                            "actionType": "link",
+                            "link": "/system/process-detail?processId=${id}"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "level": "link",
+                            "hiddenOn": "${state == 'ACTIVE'}",
+                            "className": "text-danger",
+                            "actionType": "ajax",
+                            "confirmText": "确定要删除流程吗？",
+                            "api": {
+                                "method": "delete",
+                                "url": "cloud/app/app-process/$rootProcessInstanceId",
+                                "messages": {
+                                    "success": "删除流程成功"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+            "bulkActions": [],
+            "itemActions": [],
+            "id": "u:ae16b39085b0",
+            "columnsTogglable": true,
+            "perPageField": "size",
+            "affixHeader": false,
+            "perPageAvailable": [
+                10
+            ],
+            "alwaysShowPagination": true
+        }
+    ],
+    "type": "page",
+    "id": "u:66e3fe25fc6d"
+}

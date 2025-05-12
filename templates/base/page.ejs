@@ -1,0 +1,469 @@
+{
+  "id": "u:fc892d895b93",
+  "asideResizor": false,
+  "type": "page",
+  "title": "<%=comment%>",
+  "pullRefresh": {
+    "disabled": true
+  },
+  "regions": [
+    "body"
+  ],
+  <%_if(props.filter(p=>p.dictCode).length > 0){_%>
+  "initApi": {
+    "url": "cloud/app/app-dict/search/codes",
+    "method": "get",
+    "data":{
+      "codes": "<%=props.filter(p=>p.dictCode).map(p=>p.dictCode).join(',')%>"
+    },
+    "messages": {}
+  },
+  <%_}_%>
+  "body": [
+    {
+      "type": "crud",
+      "affixHeader": false,
+      "syncLocation": false,
+      "api": {
+        "method": "get",
+        "url": "rest/<%=fn_decamelize(name) %>",
+        "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+        "data": {
+          "sort[0]": "${orderBy ? (orderBy+','+orderDir) : '<%=updatedAtField%>,desc'}",
+          "page": "${page}",
+          "size": "${size}",
+          "&": "$$"
+        }
+      },
+      "columns": [
+        <%_ for(let i=0; i<props.length; i++){ _%>
+        <%-fn_getAmisListColumnProps(props[i])%>,
+        <%_ } _%>
+        {
+          "type": "operation",
+          "label": "操作",
+          "width": 220,
+          "fixed": "right",
+          "buttons": [
+            {"type": "hidden"}
+            <%_if(crud.indexOf('U')>=0){_%>
+            ,{
+              "label": "编辑",
+              "type": "button",
+              "actionType": "dialog",
+              "level": "link",
+              "icon": "nb-icon nb-icon-bianji1",
+              <%_if(withProcess){_%>"visibleOn": "${status == '0'}",<%_}_%>
+              "dialog": {
+                "type": "dialog",
+                "title": "<%=comment%>编辑",
+                "showErrorMsg": false,
+                "showLoading": false,
+                "size": "md",
+                "body": [
+                  {
+                    "type": "form",
+                    "api": {
+                      "method": "put",
+                      "url": "rest/<%=fn_decamelize(name) %>",
+                      "dataType": "json",
+                      "messages": {
+                        "success":"保存成功"
+                      },
+                      "data": {
+                        "&": "$$",
+                        "id": "${id}"
+                      }
+                    },
+                    "body": [
+                    <%_
+                    const updProps = props
+                            .filter(p=>p.canUpdate)
+                            .filter(p=>!SystemProps.includes(p.name))
+                    var len = updProps.length;
+                    var cols = 2
+                    var rows = Math.ceil(len/cols);
+                    for(let i=0; i<rows; i++){_%>
+                      {
+                        "type": "grid",
+                        "columns": [
+                            <%_
+                            for(let j=0; j<cols; j++){ _%>
+                              {
+                                "body": [
+                                  <%_if(updProps[i*cols+j]){_%>
+                                  <%-fn_getAmisFormItemProps(updProps[i*cols+j], refs)%>
+                                  <%_}_%>
+                                ]
+                              }<%_ if(j!==(cols-1)){ _%>,<%_}_%>
+                            <%_ } _%>
+                        ]
+                      }<%_ if(i!==rows-1){ _%>,<%_}_%>
+
+                    <%_ } _%>
+                    ]
+                  }
+                ]
+              }
+            }
+            <%_}_%>
+            <%_if(crud.indexOf('D')>=0){_%>
+            ,{
+              "type": "button",
+              "label": "删除",
+              "actionType": "ajax",
+              "level": "link",
+              "className": "text-danger",
+              "confirmText": "确定要删除？",
+              "icon": "nb-icon nb-icon-shanchu",
+              <%_if(withProcess){_%>"visibleOn": "${status == '0'}",<%_}_%>
+              "api": {
+                "method": "delete",
+                "url": "rest/<%=fn_decamelize(name) %>/${id}",
+                "messages": {
+                  "success": "删除成功"
+                }
+              }
+            }
+            <%_}_%>
+
+            <%_if(crud.indexOf('R')>=0){_%>
+            ,{
+              "label": "查看",
+              "type": "button",
+              "actionType": "dialog",
+              "level": "link",
+              "icon": "nb-icon nb-icon-wenjian",
+              <%_if(withProcess){_%>"visibleOn": "${status == '2'}",<%_}_%>
+              "dialog": {
+                "type": "dialog",
+                "title": "<%=comment%>查看",
+                "showErrorMsg": false,
+                "showLoading": false,
+                "size": "md",
+                "actions":[
+                    {
+                        "type": "button",
+                        "label": "关闭",
+                        "onEvent": {
+                            "click": {
+                                "actions": [{"actionType": "closeDialog"}]
+                            }
+                        }
+                    }
+                ],
+                "body": [
+                  {
+                    "type": "form",
+                    "body": [
+                    <%_
+                    const updProps = props
+                            .filter(p=>p.canUpdate)
+                            .filter(p=>!SystemProps.includes(p.name))
+                    var len = updProps.length;
+                    var cols = 2
+                    var rows = Math.ceil(len/cols);
+                    for(let i=0; i<rows; i++){_%>
+                      {
+                        "type": "grid",
+                        "columns": [
+                            <%_
+                            for(let j=0; j<cols; j++){ _%>
+                              {
+                                "body": [
+                                  <%_if(updProps[i*cols+j]){_%>
+                                  <%-fn_getAmisFormItemProps(updProps[i*cols+j], refs, true)%>
+                                  <%_}_%>
+                                ]
+                              }<%_ if(j!==(cols-1)){ _%>,<%_}_%>
+                            <%_ } _%>
+                        ]
+                      }<%_ if(i!==rows-1){ _%>,<%_}_%>
+
+                    <%_ } _%>
+                    ]
+                  }
+                ]
+              }
+            }
+            <%_}_%>
+
+            <%_if(withProcess){_%>
+            ,{
+              "type": "button",
+              "label": "提交",
+              "actionType": "ajax",
+              "level": "link",
+              "className": "text-success",
+              "confirmText": "确定要发起流程吗？",
+              "icon": "nb-icon nb-icon-tijiao",
+              <%_if(withProcess){_%>"visibleOn": "${status == '0'}",<%_}_%>
+              "api": {
+                "method": "post",
+                "url": "rest/<%=fn_decamelize(name) %>/${id}/submit",
+                "messages": {
+                  "success": "提交成功"
+                }
+              }
+            },
+            {
+              "type": "button",
+              "label": "取消",
+              "actionType": "ajax",
+              "level": "link",
+              "className": "text-danger",
+              "confirmText": "确定要取消流程吗？",
+              "icon": "nb-icon nb-icon-chehui",
+              <%_if(withProcess){_%>"visibleOn": "${status == '1'}",<%_}_%>
+              "api": {
+                "method": "post",
+                "url": "rest/<%=fn_decamelize(name) %>/${id}/pullback",
+                "messages": {
+                  "success": "取消成功"
+                }
+              }
+            }
+            <%_}_%>
+          ]
+        }
+      ],
+      "bulkActions": [],
+      "itemActions": [],
+      "features": [
+        "create",
+        "update",
+        "delete"
+      ],
+      "headerToolbar": [
+        <%_if(crud.indexOf('C')>=0){_%>
+        {
+          "label": "新增",
+          "type": "button",
+          "actionType": "dialog",
+          "level": "primary",
+          "dialog": {
+            "type": "dialog",
+            "size": "md",
+            "title": "新增<%=comment%>",
+            "showErrorMsg": false,
+            "showLoading": false,
+            "body": [
+              {
+                "type": "form",
+                "api": {
+                  "method": "post",
+                  "url": "rest/<%=fn_decamelize(name) %>",
+                  "dataType": "json",
+                  "messages": {
+                    "success": "新增成功"
+                  }
+                },
+                "body": [
+                    <%_
+                    const insProps = props
+                            .filter(p=>p.canInsert)
+                            .filter(p=>!SystemProps.includes(p.name))
+                    var len = insProps.length;
+                    var cols = 2
+                    var rows = Math.ceil(len/cols);
+                    for(let i=0; i<rows; i++){_%>
+                      {
+                        "type": "grid",
+                        "columns": [
+                            <%_
+                            for(let j=0; j<cols; j++){ _%>
+                              {
+                                "body": [
+                                  <%_if(insProps[i*cols+j]){_%>
+                                  <%-fn_getAmisFormItemProps(insProps[i*cols+j], refs)%>
+                                  <%_}_%>
+                                ]
+                              }<%_ if(j!==(cols-1)){ _%>,<%_}_%>
+                            <%_ } _%>
+                        ]
+                      }<%_ if(i!==rows-1){ _%>,<%_}_%>
+
+                    <%_ } _%>
+                ]
+              }
+            ],
+            "showCloseButton": true,
+            "showErrorMsg": true,
+            "showLoading": true,
+            "dataMapSwitch": false,
+            "dataMap": null,
+            "data": null
+          }
+        },
+        <%_}_%>
+        "bulkActions"
+        <%_if(crud.indexOf('I')>=0){_%>
+        ,{
+            "type": "button",
+            "tpl": "内容",
+            "id": "u:f61daa006881",
+            "label": "Excel导入",
+            "align": "right",
+            "level": "enhance",
+            "onEvent": {
+                "click": {
+                    "weight": 0,
+                    "actions": [
+                        {
+                            "dialog": {
+                                "type": "dialog",
+                                "title": "Excel导入",
+                                "body": [
+                                    {
+                                        "type": "wizard",
+                                        "id": "u:3b7ce318b5d8",
+                                        "steps": [
+                                            {
+                                                "title": "选择文件",
+                                                "body": [
+                                                    {
+                                                        "type": "input-excel",
+                                                        "label": "选择Excel",
+                                                        "name": "excel",
+                                                        "id": "u:a5a70d91ca3d"
+                                                    }
+                                                ],
+                                                "id": "u:591d8d943970",
+                                                "mode": "normal"
+                                            },
+                                            {
+                                                "title": "数据映射",
+                                                "data": {},
+                                                "body": [
+                                                    {
+                                                        "type": "input-table",
+                                                        "name": "columnMap",
+                                                        "label": "数据映射",
+                                                        "columns": [
+                                                            {
+                                                                "label": "字段",
+                                                                "name": "fieldName",
+                                                                "quickEdit": false,
+                                                                "type": "text",
+                                                                "id": "u:717ec09900e5",
+                                                                "placeholder": "-"
+                                                            },
+                                                            {
+                                                                "label": "说明",
+                                                                "name": "comment",
+                                                                "quickEdit": false,
+                                                                "type": "text",
+                                                                "id": "u:929ec05511e5",
+                                                                "placeholder": "-"
+                                                            },
+                                                            {
+                                                                "label": "Excel列",
+                                                                "name": "excelCol",
+                                                                "quickEdit": false,
+                                                                "type": "select",
+                                                                "source": "${excel | first | objectToArray:value:name}",
+                                                                "labelField": "name",
+                                                                "valueField": "name",
+                                                                "multiple": false,
+                                                                "clearable": true,
+                                                                "showInvalidMatch": true,
+                                                                "id": "u:50d0024b51c3",
+                                                                "placeholder": "-"
+                                                            }
+                                                        ],
+                                                        "strictMode": true,
+                                                        "id": "u:3abf29f5a112"
+                                                    }
+                                                ],
+                                                "mode": "normal",
+                                                "id": "u:efbe8d681739",
+                                                "initApi": {
+                                                    "method": "get",
+                                                    "url": "rest/<%=fn_decamelize(name) %>/struct",
+                                                    "data": null,
+                                                    "adaptor": "return {\n    columnMap:payload.data\n}",
+                                                    "dataType": "json"
+                                                }
+                                            }
+                                        ],
+                                        "mode": "horizontal",
+                                        "api": {
+                                            "method": "post",
+                                            "url": "rest/<%=fn_decamelize(name) %>/imp",
+                                            "messages":{
+                                                "success": "导入数据成功"
+                                            }
+                                        }
+                                    }
+                                ],
+                                "showCloseButton": true,
+                                "showErrorMsg": false,
+                                "showLoading": true,
+                                "id": "u:2d6ca88f984e",
+                                "dataMapSwitch": false,
+                                "size": "md",
+                                "actions": []
+                            },
+                            "actionType": "dialog"
+                        }
+                    ]
+                }
+            }
+        }
+        <%_}_%>
+
+      ],
+
+      "messages": {},
+      "filter": {
+        "id": "u:c1ce3e27c33e",
+        "mode": "horizontal",
+        "horizontal": {},
+        "title": "查询条件",
+        "body": [
+          <%_
+          const filterProps = props
+               .filter(p=>p.canFilter)
+               .filter(p=>!SystemProps.includes(p.name))
+          var len = filterProps.length;
+          var cols = 4
+          var rows = Math.ceil(len/cols);
+          for(let i=0; i<rows; i++){_%>
+            {
+              "type": "grid",
+              "gap": "lg",
+              "columns": [
+                <%_
+                for(let j=0; j<cols; j++){ _%>
+                {
+                  "body": [
+                    <%_if(filterProps[i*cols+j]){_%>
+                    <%-fn_getAmisSearchFormItemProps(filterProps[i*cols+j])%>
+                    <%_}_%>
+                  ]
+                }<%_ if(j!==(cols-1)){ _%>,<%_}_%>
+
+                <%_ } _%>
+              ]
+            }<%_ if(i!==rows-1){ _%>,<%_}_%>
+
+          <%_ } _%>
+        ],
+        "actions": [
+          {
+            "type": "button",
+            "label": "搜索",
+            "level": "primary",
+            "icon": "nb-icon nb-icon-31sousuo",
+            "id": "u:ad0dc30b4503",
+            "actionType": "submit"
+          }
+        ]
+      },
+      "perPageField": "size",
+      "perPageAvailable": [10],
+      "alwaysShowPagination": true,
+      "affixHeader": false
+    }
+  ]
+}

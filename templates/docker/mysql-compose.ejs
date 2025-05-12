@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+    <%=name%>:
+        image: mysql:5.7
+        # hostname: mysql
+        # container_name: mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=<%=extra.middleware.password%>
+            - MYSQL_DATABASE=<%=extra.middleware.schema%>
+            - TZ=Asia/Shanghai
+            # - MYSQL_USER
+            # - MYSQL_PASSWORD
+        restart: unless-stopped
+        volumes:
+            - ./<%=name%>/db:/var/lib/mysql
+            - ./<%=name%>/conf/my.cnf:/etc/my.cnf
+            - ./<%=name%>/init:/docker-entrypoint-initdb.d/
+        ports:
+            - <%=extra.middleware.port%>:3306

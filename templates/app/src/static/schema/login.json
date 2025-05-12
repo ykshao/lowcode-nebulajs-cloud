@@ -1,0 +1,258 @@
+{
+  "id": "u:cefe891e29ba",
+  "asideResizor": false,
+  "pullRefresh": {
+    "disabled": true
+  },
+  "regions": [
+    "body",
+    "toolbar"
+  ],
+  "bodyClassName": "m-none p-none",
+  "type": "page",
+  "style": {
+    "backgroundImage": "linear-gradient(180deg, #0d1465, #3a3737)"
+  },
+  "body": [
+    {
+      "type": "container",
+      "body": [
+        {
+          "type": "container",
+          "body": [
+            {
+              "type": "tabs",
+              "id": "u:d8bde98c7d9c",
+              "tabs": [
+                {
+                  "title": "账号登录",
+                  "body": [
+                    {
+                      "type": "form",
+                      "title": "表单",
+                      "body": [
+                        {
+                          "label": "用户名",
+                          "type": "input-text",
+                          "name": "username",
+                          "id": "u:10e1477f3506",
+                          "required": true
+                        },
+                        {
+                          "type": "input-password",
+                          "label": "密码",
+                          "name": "password",
+                          "id": "u:7786db5e3ea0",
+                          "required": true,
+                          "showCounter": false,
+                          "validations": {},
+                          "validationErrors": {}
+                        },
+                        {
+                          "type": "hidden",
+                          "name": "redirect",
+                          "id": "u:c9fae0123d05"
+                        },
+                        {
+                          "type": "button",
+                          "label": "登录",
+                          "id": "u:5b251c55d763",
+                          "onEvent": {
+                            "click": {
+                              "actions": [
+                                {
+                                  "componentId": "u:7965d1786c7b",
+                                  "args": {},
+                                  "actionType": "submit"
+                                }
+                              ]
+                            }
+                          },
+                          "level": "primary",
+                          "block": true,
+                          "size": "md"
+                        }
+                      ],
+                      "id": "u:7965d1786c7b",
+                      "wrapWithPanel": false,
+                      "className": "p",
+                      "style": "border:1px solid red",
+                      "api": {
+                        "url": "auth/login",
+                        "method": "post",
+                        "messages": {
+                          "success": "登录成功"
+                        }
+                      },
+                      "onEvent": {
+                        "submitSucc": {
+                          "weight": 0,
+                          "actions": [
+                            {
+                              "args": {
+                                "url": "${redirect && redirect != '/'?redirect:'#/'}",
+                                "blank": false
+                              },
+                              "actionType": "url"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ],
+                  "id": "u:76f8491e29ab",
+                  "className": "p-none m-t-sm"
+                },
+                {
+                  "title": "手机登录",
+                  "body": [
+                    {
+                      "type": "form",
+                      "title": "表单",
+                      "body": [
+                        {
+                          "type": "input-text",
+                          "label": "手机号",
+                          "name": "phone",
+                          "required": true,
+                          "addOn": {
+                            "label": "发送验证码",
+                            "type": "button",
+                            "countDown": 60,
+                            "countDownTpl": "${timeLeft} 秒后重发",
+                            "actionType": "ajax",
+                            "api": "/amis/api/mock2/form/saveForm?phone=${phone}",
+                            "id": "u:ef838a4e63e8"
+                          },
+                          "id": "u:784943f65cea"
+                        },
+                        {
+                          "type": "input-text",
+                          "label": "验证码",
+                          "name": "text",
+                          "id": "u:65626d15ddce",
+                          "required": true,
+                          "size": "full"
+                        },
+                        {
+                          "type": "button",
+                          "label": "登录",
+                          "onEvent": {
+                            "click": {
+                              "actions": []
+                            }
+                          },
+                          "id": "u:40852dc9c184",
+                          "size": "md",
+                          "block": true,
+                          "level": "primary"
+                        }
+                      ],
+                      "id": "u:67cc2f06806f",
+                      "wrapWithPanel": false,
+                      "className": "p"
+                    }
+                  ],
+                  "id": "u:8ecf982cb12b",
+                  "className": "p-none m-t-sm"
+                }
+              ],
+              "tabsMode": ""
+            },
+            {
+              "type": "divider",
+              "id": "u:046a3e7b84c5",
+              "className": "m-r-xs m-l-xs"
+            },
+            {
+              "type": "flex",
+              "id": "u:19768ea90380",
+              "className": "p-none",
+              "items": [
+                {
+                  "type": "container",
+                  "body": [
+                    {
+                      "type": "image",
+                      "id": "u:a3a439b105a6",
+                      "width": 35,
+                      "height": 35,
+                      "src": "/images/login/dingding.png",
+                      "innerClassName": "no-border"
+                    }
+                  ],
+                  "size": "xs",
+                  "style": {
+                    "position": "static",
+                    "display": "block",
+                    "flex": "1 1 auto",
+                    "flexGrow": 1,
+                    "flexBasis": "auto",
+                    "fontFamily": "",
+                    "fontSize": 12,
+                    "textAlign": "center"
+                  },
+                  "wrapperBody": false,
+                  "isFixedHeight": false,
+                  "isFixedWidth": false,
+                  "id": "u:57a50cdda8c5"
+                }
+              ],
+              "style": {
+                "position": "static",
+                "flexWrap": "nowrap",
+                "width": "180px",
+                "overflowX": "auto",
+                "margin": "0 auto"
+              },
+              "direction": "row",
+              "justify": "center",
+              "alignItems": "stretch",
+              "isFixedHeight": false,
+              "isFixedWidth": true
+            }
+          ],
+          "style": {
+            "position": "static",
+            "display": "block",
+            "flex": "0 0 auto",
+            "overflowX": "auto",
+            "overflowY": "auto",
+            "backgroundColor": "#ffffff",
+            "borderTopLeftRadius": 8,
+            "borderTopRightRadius": 8,
+            "borderBottomLeftRadius": 8,
+            "borderBottomRightRadius": 8,
+            "width": "350px",
+            "fontFamily": "",
+            "fontSize": 12,
+            "textAlign": "left"
+          },
+          "id": "u:caa13234c64a",
+          "isFixedHeight": false,
+          "className": "p-r-lg p-l-lg p-t-md p-b-md",
+          "bodyClassName": "",
+          "size": "xs",
+          "wrapperBody": false,
+          "isFixedWidth": false
+        }
+      ],
+      "style": {
+        "position": "static",
+        "display": "flex",
+        "flexDirection": "row",
+        "flexWrap": "nowrap",
+        "justifyContent": "center",
+        "alignItems": "stretch"
+      },
+      "id": "u:6624bf4d3d0d",
+      "isFixedHeight": false,
+      "isFixedWidth": false,
+      "className": "h-full",
+      "bodyClassName": "h-full flex items-center justify-center"
+    }
+  ],
+  "title": "test",
+  "className": "",
+  "toolbar": []
+}

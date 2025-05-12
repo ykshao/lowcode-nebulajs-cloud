@@ -1,0 +1,294 @@
+<script type="text/javascript" src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/history/4.10.1/umd/history.js"></script>
+<script type="text/javascript" src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/amis/3.0.0/sdk/sdk.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>-->
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/nebula.js"></script>
+<script type="text/javascript">
+    var amisDefinitions = {
+        profileDropdown: {
+            "type": "service",
+            "api": {
+                "url":"/cloud/app/app-user/current",
+                "method":"get",
+                "responseData": {
+                    "currentUser": "$$"
+                },
+                "sendOn":"${ss:currentUser == null}"
+            },
+            "onEvent": {
+                "fetchInited":{
+                    "actions":[
+                        {
+                            "actionType":"custom",
+                            "script":"sessionStorage.setItem('currentUser', JSON.stringify(event.data.currentUser));"
+                        }
+                    ]
+                }
+            },
+            "body":[
+                {
+                    "id":"nebula:profileDropdown",
+                    "type": "dropdown-button",
+                    "className": "nb-header-user",
+                    "label": "${ss:currentUser.name || ss:currentUser.login}",
+                    "btnClassName": "nb-icon-btn",
+                    "menuClassName": "nb-header-dropdown",
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "label": "重置密码",
+                            "closeOnClick": true,
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "args": {},
+                                            "dialog": {
+                                                "type": "dialog",
+                                                "size": "sm",
+                                                "title": "更改密码",
+                                                "body": [
+                                                    {
+                                                        "type": "form",
+                                                        "api": {
+                                                            "method": "post",
+                                                            "url": "/cloud/app/app-user/change-password",
+                                                            "messages":{
+                                                                "success": "重置密码成功"
+                                                            }
+                                                        },
+                                                        "title": "表单",
+                                                        "body": [
+                                                            {
+                                                                "label": "原密码",
+                                                                "type": "input-password",
+                                                                "name": "password",
+                                                                "id": "u:84f39b4661cc",
+                                                                "showCounter": false,
+                                                                "required": true,
+                                                            },
+                                                            {
+                                                                "type": "input-password",
+                                                                "label": "新密码",
+                                                                "name": "newPassword",
+                                                                "id": "u:00db2892159a",
+                                                                "showCounter": false,
+                                                                "required": true,
+                                                                "size": "md"
+                                                            },
+                                                            {
+                                                                "type": "input-password",
+                                                                "label": "确认密码",
+                                                                "name": "rePassword",
+                                                                "id": "u:4e088bb89ce0",
+                                                                "showCounter": false,
+                                                                "validations": {
+                                                                    "equalsField": "newPassword"
+                                                                },
+                                                                "validationErrors": {
+                                                                    "equalsField": "两次输入密码不一致"
+                                                                },
+                                                                "required": true,
+                                                                "size": "md"
+                                                            }
+                                                        ],
+                                                        "id": "u:3dece493ddfb"
+                                                    }
+                                                ],
+                                                "showCloseButton": true,
+                                                "showErrorMsg": false,
+                                                "showLoading": false,
+                                                "id": "u:2f37e5d33707"
+                                            },
+                                            "actionType": "dialog"
+                                        }
+                                    ]
+                                }
+                            }
+                        },
+                        {"type": "button", "label": "", "className": "ptl-separator"},
+                        {
+                            "type": "button",
+                            "label": "退出登录",
+                            "closeOnClick": true,
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "args": {
+                                                "options": {},
+                                                "api": {
+                                                    "url": "/auth/logout",
+                                                    "method": "get",
+                                                },
+                                                "messages": {"success":""}
+                                            },
+                                            "outputVar": "loginResp",
+                                            "actionType": "ajax"
+                                        },
+                                        {
+                                            "actionType":"custom",
+                                            "script":"sessionStorage.removeItem('currentUser');"
+                                        },
+                                        {
+                                            "actionType": "custom",
+                                            "script": "window.location.href=event.data.loginResp.responseData.loginURL;",
+                                        }
+                                    ]
+                                }
+                            },
+                        },
+                    ]
+                }
+            ]
+        },
+        messageButton:{
+            "type": "service",
+            "interval": 10000,
+            "silentPolling": true,
+            "api": {
+                "method":"get",
+                "url":"cloud/app/app-message/count",
+                "headers":{
+                    "X-Print-HTTP-Log": false
+                }
+            },
+            "id": "u:275f314fd9b8",
+            "body":[
+                {
+                    "type": "button",
+                    "icon":"nb-icon nb-icon-lingdang",
+                    "className": "nb-icon-btn nb-header-bell",
+                    "badge": {
+                        "mode": "text",
+                        "text": "$count",
+                        "className": "nb-header-badge",
+                        "visibleOn": "${count > 0}"
+                    },
+                    "actionType": "drawer",
+                    "drawer": {
+                        "id": "nebula:messageDrawer",
+                        "closeOnOutside": true,
+                        "title": "消息列表",
+                        "className": "nb-header-drawer",
+                        "body": [
+                            {
+                                "id": "u:385f314fe4b1",
+                                "type": "crud",
+                                "api": {
+                                    "method": "get",
+                                    "url": "cloud/app/app-message",
+                                    "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                                    "data": {
+                                        "sort[0]": "read,asc",
+                                        "sort[1]": "createdAt,desc",
+                                        "page": "${page}",
+                                        "size": "${size}"
+                                    },
+                                    "messages": {}
+                                },
+                                "columns": [
+                                    {
+                                        "type": "static-mapping",
+                                        "name": "type",
+                                        "label": "类型",
+                                        "width": 60,
+                                        "align": "center",
+                                        "map": {
+                                            "PROCESS_TASK_TODO": "<span class='nb-tag warning'>待办</span>",
+                                            "PROCESS_TASK_DONE": "<span class='nb-tag success'>已办</span>",
+                                            "COMMON_MESSAGE": "<span class='nb-tag info'>提示</span>"
+                                        }
+                                    },
+                                    {
+                                        "name": "title",
+                                        "label": "标题",
+                                        "type": "container",
+                                        "body": [
+                                            {
+                                                "type": "button",
+                                                "actionType": "url",
+                                                "body":[
+                                                    {
+                                                        "type":"tpl",
+                                                        "tpl":"${title}",
+                                                        "className":"nb-message-title",
+                                                        "visibleOn":"${read}",
+                                                    },
+                                                    {
+                                                        "type":"tpl",
+                                                        "tpl":"${title}",
+                                                        "className":"nb-message-title warning",
+                                                        "visibleOn":"${!read}",
+                                                    }
+                                                ],
+                                                "onEvent": {
+                                                    "click": {
+                                                        "weight": 0,
+                                                        "actions": [
+                                                            {
+                                                                "args": {
+                                                                    "options": {},
+                                                                    "api": {
+                                                                        "url": "cloud/app/app-message/read/${id}",
+                                                                        "method": "post",
+                                                                        "messages": {
+                                                                            "success":""
+                                                                        }
+                                                                    }
+                                                                },
+                                                                "actionType": "ajax"
+                                                            },
+                                                            {
+                                                                "args":{
+                                                                    "link":"${link}"
+                                                                },
+                                                                "actionType": "link"
+                                                            },
+                                                            {
+                                                                "actionType": "reload",
+                                                                "componentId": "u:275f314fd9b8",
+                                                                "dataMergeMode": "merge"
+                                                            },
+                                                            {
+                                                                "actionType": "closeDrawer",
+                                                                "componentId": "nebula:messageDrawer",
+                                                            }
+
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "type":"tpl",
+                                                "tpl":"$content",
+                                                "className":"nb-message-content"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "createdAt",
+                                        "label": "日期",
+                                        "width": 90,
+                                        "type":"date",
+                                        "className":"nb-message-time",
+                                        "format": "YYYY-MM-DD HH:mm:ss"
+                                    }
+                                ],
+                                "placeholder": "您还没有消息",
+                                "affixHeader":false,
+                                "affixFooter":true,
+                                "alwaysShowPagination":true,
+                                "autoFillHeight":true,
+                                "perPage": 10,
+                                "perPageField": "size",
+                                "pageField": "page"
+                            }
+                        ],
+                        "actions":[]
+                    }
+                }
+            ]
+        }
+    }
+</script>

@@ -1,0 +1,168 @@
+{
+    "id": "u:66e3fe25fc6d",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body",
+        "toolbar",
+        "header"
+    ],
+    "body": [
+        {
+            "type": "grid",
+            "id": "u:0e877eac3845",
+            "columns": [
+                {
+                    "id": "u:e28272a57391",
+                    "body": [
+                        {
+                            "type": "input-tree",
+                            "label": "流程分组",
+                            "name": "treeGroupId",
+                            "multiple": false,
+                            "enableNodePath": false,
+                            "hideRoot": true,
+                            "showIcon": true,
+                            "initiallyOpen": true,
+                            "className": "h-full nb-card p",
+                            "source": {
+                                "method": "get",
+                                "url": "cloud/app/app-process-group/tree",
+                                "data": {}
+                            },
+                            "labelField": "name",
+                            "valueField": "id",
+                            "id": "u:9f0d3d7a9d3b"
+                        }
+                    ],
+                    "md": 3
+                },
+                {
+                    "id": "u:e168a1bfb023",
+                    "body": [
+                        {
+                            "type": "crud",
+                            "id": "u:ae16b39085b0",
+                            "syncLocation": false,
+                            "api": {
+                                "method": "get",
+                                "url": "cloud/app/app-process-def",
+                                "messages": {},
+                                "adaptor": "for(const proc of payload.data){\n  proc.icon = JSON.parse(proc.icon || '{}')\n}\nreturn nbAmis.adaptors.commonList(payload, response)"
+                            },
+                            "bulkActions": [],
+                            "itemActions": [],
+                            "columnsTogglable": true,
+                            "perPageField": "size",
+                            "alwaysShowPagination": true,
+                            "autoFillHeight": {
+                                "height": 400
+                            },
+                            "perPageAvailable": [
+                                10
+                            ],
+                            "messages": {},
+                            "card": {
+                                "type": "card",
+                                "className": "nb-process-card",
+                                "header": {
+                                    "title": "${name||'-'}",
+                                    "subTitle": "${group.name||'-'}",
+                                    "avatar": "",
+                                    "avatarText": "<div style='background-color:${icon.background}'><i class='${icon.icon}'></i></div>"
+                                },
+                                "body": [
+                                    {
+                                        "name": "remark",
+                                        "label": "",
+                                        "id": "u:6aab4c7b1397"
+                                    }
+                                ],
+                                "actions": [
+                                    {
+                                        "label": "发起流程",
+                                        "type": "button",
+                                        "id": "u:878654acb5d6",
+                                        "size": "md",
+                                        "level": "primary",
+                                        "icon": "el-icon-video-play",
+                                        "actionType": "dialog",
+                                        "dialog": {
+                                            "type": "dialog",
+                                            "title": "新建${name}",
+                                            "body": [
+                                                {
+                                                    "type": "service",
+                                                    "schemaApi": {
+                                                        "url": "cloud/app/app-process-def/schema/render/$id",
+                                                        "method": "get"
+                                                    },
+                                                    "id": "u:275f314fd9b8"
+                                                }
+                                            ],
+                                            "showCloseButton": true,
+                                            "showErrorMsg": true,
+                                            "showLoading": true,
+                                            "id": "u:772cfd8d2a46",
+                                            "actions": [
+                                                {
+                                                    "type": "button",
+                                                    "label": "取消",
+                                                    "onEvent": {
+                                                        "click": {
+                                                            "actions": [
+                                                                {
+                                                                    "args": {},
+                                                                    "actionType": "closeDialog"
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    "id": "u:e0404cb80af2"
+                                                },
+                                                {
+                                                    "type": "button",
+                                                    "label": "提交",
+                                                    "id": "u:695fb2fa4a65",
+                                                    "editorState": "default",
+                                                    "level": "primary",
+                                                    "onEvent": {
+                                                        "click": {
+                                                            "weight": 0,
+                                                            "actions": [
+                                                                {
+                                                                    "componentId": "nebula:custom_process_form",
+                                                                    "args": {},
+                                                                    "actionType": "submit"
+                                                                },
+                                                                {
+                                                                    "args": {},
+                                                                    "actionType": "closeDialog"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "id": "u:3c71ef190fa0",
+                                "avatarClassName": ""
+                            },
+                            "mode": "cards",
+                            "className": "nb-card p"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "type": "page",
+    "title": "发起流程",
+    "style": {
+        "boxShadow": " 0px 0px 0px 0px transparent"
+    }
+}

@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+    <%=name%>:
+        image: mongo:4
+        # container_name: mongodb
+        command: [--auth]
+        restart: unless-stopped
+        volumes:
+            - ./<%=name%>/db:/data/db
+            - ./<%=name%>/log:/var/log/mongodb
+            - ./<%=name%>/conf:/etc/mongo
+        ports:
+            - <%=extra.middleware.port%>:27017
+        environment:
+            TZ: "Asia/Shanghai"
+            MONGO_INITDB_ROOT_USERNAME: <%=extra.middleware.username%>
+            MONGO_INITDB_ROOT_PASSWORD: <%=extra.middleware.password%>
+            # MONGO_INITDB_DATABASE: <%=extra.middleware.schema%>

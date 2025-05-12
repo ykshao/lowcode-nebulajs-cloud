@@ -1,0 +1,83 @@
+<head>
+    <meta charset="UTF-8"/>
+    <title>Nebula Cloud</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="stylesheet" href="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/amis/3.0.0/lib/themes/default.css"/>
+<!--    <link rel="stylesheet" href="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/amis/3.0.0/lib/themes/antd.css"/>-->
+<!--    <link rel="stylesheet" href="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/amis/3.0.0/lib/themes/ang.css"/>-->
+    <link rel="stylesheet" href="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/amis/3.0.0/lib/helper.css"/>
+    <link rel="stylesheet" href="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/amis/3.0.0/sdk/iconfont.css"/>
+    <!-- nebula iconfont -->
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_3850496_b4vead7ahf.css"/>
+    <!-- element icon -->
+    <link rel="stylesheet" href="https://unpkg.zhimg.com/element-ui@2.15.13/lib/theme-chalk/index.css">
+    <!-- 这是默认主题所需的，如果是其他主题则不需要 -->
+    <!-- 从 1.1.0 开始 sdk.css 将不支持 IE 11，如果要支持 IE11 请引用这个 css，并把前面那个删了 -->
+    <!-- <link rel="stylesheet" href="sdk-ie11.css" /> -->
+    <!-- 不过 amis 开发团队几乎没测试过 IE 11 下的效果，所以可能有细节功能用不了，如果发现请报 issue -->
+
+    <link rel="stylesheet" href="css/base.css"/>
+    <!--    <link rel="stylesheet" href="css/style.css"/>-->
+    <link rel="stylesheet" href="css/portal.css"/>
+
+    <style type="text/css">
+    <%_ if (setting.hideNav) { _%>
+    .cxd-Layout-aside{
+        display: none;
+    }
+    <%_ } _%>
+
+    <%_ if (setting.hideBreadCrumbs) { _%>
+    /** 面包屑 */
+    .cxd-AppBcn{
+        display: none;
+    }
+    .cxd-Page{
+        height: 100%;
+    }
+    <%_ } _%>
+
+    <%_ if (setting.hideHeader) { _%>
+    .cxd-Layout-header{
+        display: none;
+    }
+    .cxd-Layout{
+        padding-top: 0;
+    }
+    <%_ } _%>
+
+    <%_ if (setting.hideHeaderBar) { _%>
+    .cxd-Layout-headerBar{
+        display: none;
+    }
+    <%_ } _%>
+
+    <%_ if (setting.hideBrandBar) { _%>
+    .cxd-Layout-brandBar{
+        display: none;
+    }
+    <%_ } _%>
+
+    <%_ if (setting.translucentHeader) { _%>
+    .cxd-Layout--headerFixed{
+        padding-top: 0;
+    }
+    .cxd-Layout .cxd-Layout-header{
+        background: rgba(255,255,255,0.05);
+    }
+    .cxd-Layout-headerBar{
+        background: transparent;
+    }
+    .cxd-Layout-brandBar{
+        background: transparent;
+    }
+    <%_ } _%>
+
+    </style>
+</head>

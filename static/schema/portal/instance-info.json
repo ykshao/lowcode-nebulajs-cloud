@@ -1,0 +1,425 @@
+{
+    "id": "u:936db3da14be",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "type": "page",
+    "title": "实例详情",
+    "regions": [
+        "body"
+    ],
+    "initApi": {
+        "url": "/portal/cl-instance/${id}",
+        "method": "get",
+        "messages": {}
+    },
+    "body": [
+        {
+            "type": "flex",
+            "id": "u:c65c9a14d1ae",
+            "style": {
+                "position": "static",
+                "flexWrap": "nowrap"
+            },
+            "items": [
+                {
+                    "type": "container",
+                    "size": "xs",
+                    "style": {
+                        "position": "static",
+                        "display": "block",
+                        "flex": "0 0 150px",
+                        "flexBasis": "380px",
+                        "overflowX": "auto"
+                    },
+                    "wrapperBody": false,
+                    "isFixedHeight": false,
+                    "isFixedWidth": false,
+                    "id": "u:d29dc4ba856c",
+                    "className": "m-r-sm",
+                    "body": [
+                        {
+                            "type": "grid",
+                            "id": "u:a7ed0d2caabc",
+                            "align": "left",
+                            "gap": "lg",
+                            "columns": [
+                                {
+                                    "id": "u:92f40eb92255",
+                                    "md": 1
+                                }
+                            ]
+                        },
+                        {
+                            "type": "card",
+                            "header": {
+                                "title": "${name | upperCase}",
+                                "subTitle": "${status=='0'?'停止':'运行中'} ${MINUTES(NOW(), updatedAt) * 60 | duration}",
+                                "avatar": "${logo||'/images/icons/app-default.png'}"
+                            },
+                            "body": [
+                                {
+                                    "type": "container",
+                                    "className": "ptl-instance-operation-card-actions",
+                                    "body": [
+                                        {
+                                            "type": "button",
+                                            "label": "启动",
+                                            "icon": "nb-icon nb-icon-play-fill",
+                                            "level": "link",
+                                            "actionType": "ajax",
+                                            "confirmText": "确定要启动实例吗？",
+                                            "api": {
+                                                "method": "get",
+                                                "url": "/portal/cl-instance/start/${id}",
+                                                "messages": {
+                                                    "success": "启动成功"
+                                                }
+                                            },
+                                            "reload": "u:936db3da14be",
+                                            "id": "u:affdd1aeafb3",
+                                            "disabledOn": "status=='2'",
+                                            "className": "flex items-center justify-center text-primary"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "停止",
+                                            "level": "link",
+                                            "actionType": "ajax",
+                                            "confirmText": "确定要停止实例吗？",
+                                            "api": {
+                                                "method": "get",
+                                                "url": "/portal/cl-instance/stop/${id}",
+                                                "messages": {
+                                                    "success": "停止成功"
+                                                }
+                                            },
+                                            "icon": "nb-icon nb-icon-play-fill",
+                                            "reload": "u:936db3da14be",
+                                            "id": "u:1fbfbaa82f38",
+                                            "disabledOn": "status=='0'",
+                                            "className": "flex items-center justify-center text-primary"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "删除",
+                                            "level": "link",
+                                            "confirmText": "确定要删除实例吗？",
+                                            "onEvent": {
+                                                "click": {
+                                                    "actions": [
+                                                        {
+                                                            "args": {
+                                                                "options": {},
+                                                                "api": {
+                                                                    "url": "/portal/cl-instance/${id}",
+                                                                    "method": "delete",
+                                                                    "messages": {}
+                                                                }
+                                                            },
+                                                            "outputVar": "responseResult",
+                                                            "actionType": "ajax"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "id": "u:264702f3d228",
+                                            "icon": "nb-icon nb-icon-play-fill",
+                                            "className": "flex items-center justify-center text-danger",
+                                            "iconClassName": ""
+                                        }
+                                    ]
+                                }
+                            ],
+                            "className": "nb-card ptl-instance-operation-card",
+                            "actions": [
+
+                            ],
+                            "id": "u:89f11f295a7c"
+                        },
+                        {
+                            "type": "container",
+                            "id": "u:4d89a64aadc4",
+                            "isFixedHeight": false,
+                            "isFixedWidth": false,
+                            "className": "nb-card p m-t ptl-instance-info-card",
+                            "style": {
+                                "position": "static",
+                                "display": "block",
+                                "flex": "1 1 auto",
+                                "overflowY": "auto",
+                                "flexGrow": 1,
+                                "flexBasis": "auto"
+                            },
+                            "body": [
+                                {
+                                    "type": "tpl",
+                                    "tpl": "实例信息",
+                                    "inline": true,
+                                    "wrapperComponent": "",
+                                    "id": "u:35ceafc8fc24",
+                                    "style": {
+                                        "fontFamily": "",
+                                        "fontSize": 15,
+                                        "fontWeight": "bold"
+                                    }
+                                },
+                                {
+                                    "type": "form",
+                                    "title": "表单",
+                                    "body": [
+                                        {
+                                            "label": "实例名称：",
+                                            "type": "static",
+                                            "name": "${name | upperCase}",
+                                            "id": "u:42046780a68b"
+                                        },
+                                        {
+                                            "type": "flex",
+                                            "alignItems": "center",
+                                            "justify": "start",
+                                            "items": [
+                                                {
+                                                    "label": "实例镜像：",
+                                                    "type": "static",
+                                                    "tpl": "${image}:${version}"
+                                                },
+                                                {
+                                                    "label": "切换版本",
+                                                    "type": "button",
+                                                    "size": "sm",
+                                                    "actionType": "dialog",
+                                                    "level": "link",
+                                                    "icon": "nb-icon nb-icon-qiehuan1",
+                                                    "dialog": {
+                                                        "title": "切换版本",
+                                                        "showErrorMsg": false,
+                                                        "showLoading": false,
+                                                        "size": "md",
+                                                        "body": [
+                                                            {
+                                                                "type": "form",
+                                                                "labelWidth": 0,
+                                                                "reload": "u:936db3da14be",
+                                                                "api": {
+                                                                    "method": "post",
+                                                                    "url": "/portal/cl-instance/recreate/${id}",
+                                                                    "dataType": "json",
+                                                                    "data": {
+                                                                        "imageId": "$imageId"
+                                                                    },
+                                                                    "messages": {
+                                                                        "success": "切换实例版本成功"
+                                                                    }
+                                                                },
+                                                                "body": [
+                                                                    {
+                                                                        "type": "picker",
+                                                                        "name": "imageId",
+                                                                        "label": false,
+                                                                        "embed": true,
+                                                                        "required": true,
+                                                                        "source": {
+                                                                            "url": "/portal/cl-image",
+                                                                            "method": "get",
+                                                                            "messages": {},
+                                                                            "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                                                                            "data": {
+                                                                                "filter.version.ne": "$version",
+                                                                                "sort[0]": "createdAt,desc",
+                                                                                "page": "${page}",
+                                                                                "size": "${size}"
+                                                                            }
+                                                                        },
+                                                                        "style": {
+                                                                            "marginBottom": "0"
+                                                                        },
+                                                                        "valueField": "id",
+                                                                        "pickerSchema": {
+                                                                            "mode": "table",
+                                                                            "id": "u:bb667f4ddd19",
+                                                                            "columns": [
+                                                                                {
+                                                                                    "type": "text",
+                                                                                    "label": "版本",
+                                                                                    "name": "version",
+                                                                                    "width": 120,
+                                                                                    "id": "u:92fcdee14573"
+                                                                                },
+                                                                                {
+                                                                                    "type": "text",
+                                                                                    "label": "描述",
+                                                                                    "name": "remark",
+                                                                                    "id": "u:92fcdee49274"
+                                                                                },
+                                                                                {
+                                                                                    "type": "date",
+                                                                                    "label": "时间",
+                                                                                    "width": 150,
+                                                                                    "name": "createdAt",
+                                                                                    "id": "u:92fcdee48274",
+                                                                                    "format": "YYYY-MM-DD HH:mm:ss"
+                                                                                }
+                                                                            ],
+                                                                            "bulkActions": [],
+                                                                            "columnsTogglable": false,
+                                                                            "affixHeader": false,
+                                                                            "showHeader": false,
+                                                                            "alwaysShowPagination": true,
+                                                                            "perPageField": "size",
+                                                                            "perPage": 10,
+                                                                            "pageField": "page",
+                                                                            "perPageAvailable": [
+                                                                                10
+                                                                            ],
+                                                                            "messages": {},
+                                                                            "autoFillHeight": {
+                                                                                "height": 360
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ],
+                                                        "actions": [
+                                                            {
+                                                                "type": "button",
+                                                                "label": "确定切换",
+                                                                "actionType": "submit",
+                                                                "confirmText": "切换版本时会重启应用实例，确定要继续吗？",
+                                                                "level": "primary"
+                                                            }
+                                                        ]
+                                                    }
+
+                                                }
+                                            ],
+                                            "id": "u:3eaadf9ab9b6"
+                                        },
+                                        {
+                                            "type": "static",
+                                            "label": "实例类型：",
+                                            "tpl": "<span class='nb-tag info'>${type | upperCase}</span>",
+                                            "id": "u:3eaadf9ab9b6"
+                                        },
+                                        {
+                                            "type": "static",
+                                            "label": "运行环境：",
+                                            "id": "u:35d93c93ebf3",
+                                            "tpl": "<span class='nb-tag warning'>${env | upperCase}</span>"
+                                        },
+                                        {
+                                            "type": "static",
+                                            "label": "映射端口：",
+                                            "name": "text",
+                                            "id": "u:9c4d647e61ae",
+                                            "inline": true,
+                                            "tpl": "${ports}",
+                                            "wrapperComponent": ""
+                                        },
+                                        {
+                                            "type": "static",
+                                            "label": "映射目录：",
+                                            "id": "u:c8aab106dff0",
+                                            "inline": true,
+                                            "tpl": "${volumeMapping}"
+                                        }
+                                    ],
+                                    "id": "u:4a0073695ca5",
+                                    "wrapWithPanel": false,
+                                    "mode": "horizontal"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "container",
+                    "body": [
+                        {
+                            "type": "container",
+                            "style": {
+                                "position": "static",
+                                "display": "block",
+                                "flex": "1 1 auto",
+                                "overflowY": "auto",
+                                "flexGrow": 1,
+                                "flexBasis": "auto"
+                            },
+                            "body": [
+                                {
+                                    "type": "tpl",
+                                    "tpl": "容器日志",
+                                    "inline": true,
+                                    "wrapperComponent": "",
+                                    "id": "u:35ceafc8fc24",
+                                    "style": {
+                                        "fontFamily": "",
+                                        "fontSize": 15,
+                                        "fontWeight": "bold"
+                                    }
+                                },
+                                {
+                                    "className": "m-t-sm",
+                                    "type": "log",
+                                    "height": 510,
+                                    "disableColor": false,
+                                    "source": "/portal/cl-instance/log/$id",
+                                    "id": "u:ef7b91217625",
+                                    "autoScroll": true,
+                                    "operation": [
+                                        "restart","stop","filter", "showLineNumber", "clear"
+                                    ]
+                                }
+                            ],
+                            "id": "u:4d89a64aadc3",
+                            "isFixedHeight": false,
+                            "isFixedWidth": false,
+                            "className": "nb-card p ptl-instance-log-card"
+                        }
+                    ],
+                    "size": "xs",
+                    "style": {
+                        "position": "static",
+                        "display": "flex",
+                        "flex": "1 1 auto",
+                        "flexGrow": 1,
+                        "flexBasis": "auto",
+                        "flexDirection": "column",
+                        "flexWrap": "nowrap",
+                        "justifyContent": "center",
+                        "alignItems": "stretch"
+                    },
+                    "wrapperBody": false,
+                    "isFixedHeight": false,
+                    "isFixedWidth": false,
+                    "id": "u:aa274a2f3b1c"
+                }
+            ],
+            "isFixedHeight": false,
+            "isFixedWidth": false,
+            "direction": "row",
+            "justify": "flex-start",
+            "alignItems": "stretch"
+        },
+        {
+            "type": "button",
+            "label": "返回",
+            "onEvent": {
+                "click": {
+                    "actions": [
+                        {
+                            "args": {},
+                            "actionType": "goBack"
+                        }
+                    ]
+                }
+            },
+            "id": "u:d82339738471",
+            "level": "enhance",
+            "size": "md",
+            "className": "m-t-sm"
+        }
+    ]
+}

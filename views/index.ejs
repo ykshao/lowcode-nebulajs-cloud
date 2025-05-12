@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<%- include("includes/header.ejs") %>
+<body>
+<style type="text/css">
+    .cxd-Layout .cxd-Layout-header{
+        background: #151e26;
+        color: #ffffff;
+    }
+</style>
+<div id="root" class="nb-app"></div>
+<%- include("includes/script.ejs") %>
+<script type="text/javascript">
+    ;(function () {
+        nbAmis.initAmis(
+            '#root',
+            {
+                type: 'app',
+                definitions: amisDefinitions,
+                brandName: '<%=typeof name === "undefined" ? "" : name.toUpperCase()%>',
+                logo: 'images/logo.png',
+                header: {
+                    "type": "grid",
+                    "className": "w-full h-full",
+                    "columns": [
+                        {
+                            "columnClassName":"flex justify-start items-center",
+                            "body": []
+                        },
+                        {
+                            "columnClassName":"text-center",
+                            "body": []
+                        },
+                        {
+                            "columnClassName": "flex justify-end items-center ptl-header-index-account",
+                            "body": [
+                                {
+                                    "$ref": "profileDropdown"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                // asideBefore 页面菜单上前面区域。
+                // asideAfter 页面菜单下前面区域。
+                // footer 页面
+                // api: '/cloud/app/app-menu/nav',
+                pages:[{
+                    schemaApi:'/cloud/app/app-page/schema/3133bc66-bb4d-4ca6-992d-ef1b7d03d7a9',
+                    url:'/',
+                    visible:false,
+                    isDefaultPage:true,
+                }]
+            }
+        )
+    })();
+</script>
+</body>
+</html>

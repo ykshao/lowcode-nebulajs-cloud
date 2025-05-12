@@ -1,0 +1,72 @@
+{
+  "nebula": {
+    "id": "<%=id%>",
+    "clientId": "<%=clientId%>",
+    "clientSecret": "<%=clientSecret%>"
+  },
+  "name": "<%=code%>",
+  "version": "1.0.0",
+  "description": "<%=name%>",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc --watch",
+    "build": "./node_modules/.bin/tsc",
+    "dev": "./node_modules/.bin/nodemon bin/www",
+    "local":"cross-env NODE_ENV='dev' HTTP_PORT='3003' SERVICE_URL='<%=serviceURL%>' WS_SERVICE_URL='<%=wsServiceURL%>' ./node_modules/.bin/nodemon --inspect=9229 bin/www",
+    "start": "node bin/www",
+    "gen-docs": "cross-env HTTP_PORT='3003' node ./cli/gen-docs.js",
+    "docs": "docsify serve ./docs --port 3010"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "*.js.map",
+      ".git/**",
+      "node_modules/**",
+      "static/**",
+      "schema/**",
+      "logs/**",
+      "jobs/**"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "<%=typeof gitUrl === "undefined" ? '' : gitUrl%>"
+  },
+  "author": "nebula",
+  "license": "ISC",
+  "dependencies": {
+    "@hokify/agenda": "^6.3.0",
+    "nebulajs-core": "^1.0.15",
+    "axios": "^1.1.3",
+    "camelcase": "^6.3.0",
+    "continuation-local-storage": "^3.2.1",
+    "decamelize": "^5.0.1",
+    "koa": "~2.13.4",
+    "koa-proxies": "^0.12.3",
+    "moment": "^2.29.4",
+    "mysql2": "^2",
+    "sequelize": "6.37.3",
+    "ejs": "^3.1.8",
+    "randomstring": "^1.2.1",
+    "ioredis": "^5.2.4",
+    "socket.io-client": "^4.5.4",
+    "string-format": "^2.0.0",
+    "swagger-jsdoc": "^6.1.0",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/register": "^7.18.9",
+    "@types/koa": "^2.11.6",
+    "@types/node": "^16.18.91",
+    "cross-env": "7.0.0",
+    "nodemon": "1.19.4",
+    "prettier": "~2.7.1",
+    "typescript": "^4.9.5",
+    "docsify-cli": "^4.4.4"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

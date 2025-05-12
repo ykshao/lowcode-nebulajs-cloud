@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+    <%=name%>:
+        # volumes:
+        # - /opt/log:/opt/log
+        image: <%=image%>:<%=version%>
+        # nebula拉取日志会乱码
+        tty: true
+        environment:
+            - NODE_ENV=<%=env%>
+            - SERVICE_URL=<%=extra.serviceURL%>
+            - WS_SERVICE_URL=<%=extra.wsServiceURL%>
+            - TZ=Asia/Shanghai
+        # command: npm start
+        volumes:
+            - ./logs:/usr/src/nebula/logs
+            <%_ for(let i=0; i<volumes.length; i++){
+                let vol = volumes[i].startsWith('/') ? volumes[i].substring(1, volumes[i].length) : volumes[i]
+            _%>
+            - ./<%=vol%>:/usr/src/nebula/<%=vol%>
+            <%_ } _%>
+        ports:
+            - <%=ports[0]%>:3000

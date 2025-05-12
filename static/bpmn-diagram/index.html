@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <!-- required viewer styles -->
+        <link rel="stylesheet" href="https://unpkg.com/bpmn-js@17.11.1/dist/assets/bpmn-js.css" />
+        <script src="https://unpkg.com/bpmn-js@17.11.1/dist/bpmn-viewer.development.js"></script>
+        <script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
+        <style type='text/css'>
+            a.bjs-powered-by{
+                display: none;
+            }
+        </style>
+    </head>
+<body>
+    <div id="canvas"></div>
+    <script type="application/javascript">
+
+        function fetchDefinitionXml(){
+            var params = new URLSearchParams(window.location.search);
+            var processDefinitionId = params.get('processDefinitionId');
+            return axios.get(`../cloud/app/app-process-def/${processDefinitionId}/xml`)
+        }
+
+        // function fetchProcessHistoryTasks(){
+        //     var params = new URLSearchParams(window.location.search);
+        //     var processDefinitionId = params.get('processDefinitionId');
+        //     return axios.get(`../cloud/app/app-process-def/${processDefinitionId}/xml`)
+        // }
+
+        var bpmnJS = new BpmnJS({
+            container: '#canvas'
+        });
+        fetchDefinitionXml()
+            .then(function (ret){
+                return bpmnJS.importXML(ret.data.data);
+            })
+            .then(function (){
+                console.log('loading xml success!');
+                bpmnJS.get('canvas').zoom('fit-viewport');
+            })
+            .catch(function (err){
+                console.error('something went wrong:', err);
+            })
+    </script>
+</body>
+</html>

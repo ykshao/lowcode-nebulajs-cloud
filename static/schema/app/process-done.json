@@ -1,0 +1,246 @@
+{
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "title": "已处理的",
+    "body": [
+        {
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "cloud/app/app-process/done-list",
+                "messages": {},
+                "data": {
+                    "page": "${page}",
+                    "size": "${size}"
+                },
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)"
+            },
+            "columns": [
+                {
+                    "name": "extraInfo.startUserName",
+                    "label": "发起人",
+                    "type": "text",
+                    "id": "u:1d823350a345",
+                    "align": "center",
+                    "width": 70
+                },
+                {
+                    "name": "extraInfo.summary",
+                    "label": "名称",
+                    "type": "tpl",
+                    "id": "u:b9ffb0416cb1",
+                    "tpl": "${extraInfo.summary || extraInfo.definitionName}"
+                },
+                {
+                    "name": "name",
+                    "label": "节点名",
+                    "type": "text",
+                    "id": "u:b9ffb0416cb1",
+                    "width": 110
+                },
+                {
+                    "name": "extraInfo.formName",
+                    "label": "表单模型",
+                    "type": "text",
+                    "id": "u:1d823350a234",
+                    "align": "center",
+                    "width": 110
+                },
+                {
+                    "name": "startTime",
+                    "label": "开始时间",
+                    "type": "date",
+                    "id": "u:1b334750a123",
+                    "width": 130,
+                    "format": "YYYY-MM-DD HH:mm"
+                },
+                {
+                    "name": "endTime",
+                    "label": "结束时间",
+                    "type": "date",
+                    "id": "u:6c224750a721",
+                    "width": 130,
+                    "format": "YYYY-MM-DD HH:mm"
+                },
+                {
+                    "name": "duration",
+                    "label": "处理时长",
+                    "type": "tpl",
+                    "width": 80,
+                    "align": "center",
+                    "id": "u:79444750a315",
+                    "tpl": "${HOURS(endTime, startTime)} 小时"
+                },
+                {
+                    "name": "priority",
+                    "label": "优先级",
+                    "type": "mapping",
+                    "width": 70,
+                    "align": "center",
+                    "map": {
+                        "50": {
+                            "type": "tag",
+                            "label": "一般",
+                            "displayMode": "rounded",
+                            "color": "active",
+                            "style": {
+                                "fontSize":"12px"
+                            }
+                        }
+                    }
+                },
+                {
+                    "label": "操作",
+                    "type": "operation",
+                    "id": "u:ed0fba2d6daa",
+                    "align": "center",
+                    "width": 100,
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "label": "详情",
+                            "level": "link",
+                            "className": "text-danger",
+                            "id": "u:891b6a5e8eeb",
+                            "hiddenOn": "${formModel != ''}",
+                            "actionType": "drawer",
+                            "drawer": {
+                                "type": "drawer",
+                                "title": "待办详情 - $name",
+                                "width": 500,
+                                "className": "nb-task-info-drawer",
+                                "body": [
+                                    {
+                                        "type": "tabs",
+                                        "tabs": [
+                                            {
+                                                "title": "流程表单",
+                                                "className": "p-0",
+                                                "icon": "nb-icon nb-icon-biaodan",
+                                                "body": [
+                                                    {
+                                                        "type": "service",
+                                                        "className": "nb-task-info-form",
+                                                        "schemaApi": {
+                                                            "url": "cloud/app/app-process-def/schema/render/${processDefinitionKey}?mode=view",
+                                                            "method": "get",
+                                                            "sendOn": "${processDefinitionKey}"
+                                                        },
+                                                        "id": "u:275f314fd9b8"
+                                                    }
+                                                ],
+                                                "id": "u:1e7c28469e59"
+                                            },
+                                            {
+                                                "title": "处理意见",
+                                                "className": "p-0",
+                                                "icon": "nb-icon nb-icon-7yijianfankui",
+                                                "body": [
+                                                    {
+                                                        "type": "crud",
+                                                        "mode": "cards",
+                                                        "columnsCount": 1,
+                                                        "placeholder": "没有处理信息",
+                                                        "className": "nb-task-info-tasks",
+                                                        "api": {
+                                                            "url": "cloud/app/app-process/comments?processInstanceId=$processInstanceId",
+                                                            "method": "get",
+                                                            "adaptor": "return nbAmis.adaptors.commonList(payload, response)"
+                                                        },
+                                                        "syncLocation": false,
+                                                        "id": "u:275f314fd9b8",
+                                                        "card": {
+                                                            "type": "card",
+                                                            "header": {
+                                                                "title": "$name",
+                                                                "subTitle": "${createTime | toDate | date:YYYY-MM-DD HH\\:mm\\:ss}",
+                                                                "avatarText": "<span>${assigneeName | substring:0:1}</span><h5>${assigneeName}</h5>"
+                                                            },
+                                                            "body": [
+                                                                {
+                                                                    "type": "tpl",
+                                                                    "tpl": "$comment"
+                                                                }
+                                                            ],
+                                                            "toolbar": [
+                                                                {
+                                                                    "type": "tpl",
+                                                                    "tpl": "驳回",
+                                                                    "className": "label label-danger",
+                                                                    "hiddenOn": "flag == true"
+                                                                },
+                                                                {
+                                                                    "type": "tpl",
+                                                                    "tpl": "同意",
+                                                                    "className": "label label-success",
+                                                                    "hiddenOn": "flag != true"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ],
+                                                "id": "u:2c8v38267a34"
+                                            }
+                                        ],
+                                        "id": "u:02f873b558e5"
+                                    }
+                                ],
+                                "id": "u:524e5e3437ff",
+                                "actions": [
+
+                                ]
+                            }
+                        },
+                        {
+                            "type": "button",
+                            "label": "详情",
+                            "level": "link",
+                            "hiddenOn": "${formModel == ''}",
+                            "className": "text-danger",
+                            "actionType": "link",
+                            "link": "/system/process-detail?processId=${processInstanceId}&taskId=${id}"
+                        },
+                        {
+                            "type": "button",
+                            "label": "流程",
+                            "level": "link",
+                            "className": "text-info",
+                            "actionType": "dialog",
+                            "dialog": {
+                                "type": "dialog",
+                                "title": "查看流程",
+                                "size": "md",
+                                "body": [
+                                    {
+                                        "type": "iframe",
+                                        "src": "${window:location.pathname}bpmn-diagram/index.html?processDefinitionId=${processDefinitionId}"
+                                    }
+                                ],
+                                "actions": []
+                            }
+                        }
+
+                    ]
+                }
+            ],
+            "bulkActions": [],
+            "itemActions": [],
+            "id": "u:ae16b39085b0",
+            "columnsTogglable": true,
+            "perPageField": "size",
+            "affixHeader": false,
+            "perPageAvailable": [
+                10
+            ],
+            "alwaysShowPagination": true
+        }
+    ],
+    "type": "page",
+    "id": "u:66e3fe25fc6d"
+}

@@ -1,0 +1,510 @@
+{
+  "id": "u:3av04bdf0b12",
+  "asideResizor": false,
+  "pullRefresh": {
+    "disabled": true
+  },
+  "regions": ["body"],
+  "body": [
+    {
+      "type": "crud",
+      "id": "u:74a948e50de0",
+      "columns": [
+        {
+          "type": "text",
+          "label": "名称",
+          "name": "name",
+          "id": "u:13198a7600bd",
+          "width": 130
+        },
+        {
+          "type": "text",
+          "label": "描述",
+          "name": "remark",
+          "id": "u:8cce8d9dg1h3",
+          "width": 300
+        },
+        {
+          "type": "text",
+          "label": "脚本路径",
+          "name": "scriptPath",
+          "id": "u:6f5cc3cc1e77",
+          "width": 130
+        },
+        {
+          "type": "text",
+          "label": "运行周期",
+          "name": "cron",
+          "id": "u:8bbf6f0df62d",
+          "width": 80
+        },
+        {
+          "type": "text",
+          "label": "运行环境",
+          "name": "env",
+          "id": "u:1dlf6f0df78u",
+          "align": "center",
+          "width": 80
+        },
+        {
+          "type": "date",
+          "label": "上次执行时间",
+          "name": "lastRunAt",
+          "format": "YYYY-MM-DD HH:mm:ss",
+          "id": "u:8ccf6f0df65h",
+          "width": 150
+        },
+        {
+          "type": "date",
+          "label": "下次执行时间",
+          "name": "nextRunAt",
+          "format": "YYYY-MM-DD HH:mm:ss",
+          "id": "u:8ccc9d0df36h",
+          "width": 150
+        },
+        {
+          "type": "container",
+          "label": "状态",
+          "name": "disabled",
+          "id": "u:8ddf6f0df64f",
+          "align": "center",
+          "placeholder": "-",
+          "width": 80,
+          "fixed": "right",
+          "body": [
+            {
+              "type": "tpl",
+              "visibleOn": "${!disabled}",
+              "tpl": "<span class='nb-tag success'>运行中</span>"
+            },
+            {
+              "type": "tpl",
+              "visibleOn": "${disabled}",
+              "tpl": "<span class='nb-tag danger'>已停止</span>"
+            }
+          ]
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "width": 130,
+          "align": "center",
+          "id": "u:e5e135d333f2",
+          "fixed": "right",
+          "buttons": [
+            {
+              "type": "dropdown-button",
+              "level": "link",
+              "label": "操作",
+              "size": "sm",
+              "buttons": [
+                {
+                  "label": "编辑",
+                  "type": "button",
+                  "actionType": "dialog",
+                  "level": "link",
+                  "disabledOn": "disabled==false",
+                  "dialog": {
+                    "type": "dialog",
+                    "title": "编辑任务",
+                    "body": [
+                      {
+                        "type": "form",
+                        "title": "表单",
+                        "body": [
+                          {
+                            "label": "名称",
+                            "type": "input-text",
+                            "name": "name",
+                            "id": "u:0a565d8bf88b",
+                            "description": "输入任务名称。（不少于5个字符）",
+                            "validations": {
+                              "minLength": 5
+                            },
+                            "size": "md",
+                            "required": true
+                          },
+                          {
+                            "label": "运行周期",
+                            "type": "input-text",
+                            "name": "cron",
+                            "id": "u:7f3g11b3847d",
+                            "description": "脚本的运行周期（CRON表达式，<a target='_blank' href='https://cron.ciding.cc/'>在线编辑器</a>）",
+                            "required": true,
+                            "disabled": true,
+                            "size": "md"
+                          },
+                          {
+                            "label": "脚本路径",
+                            "type": "input-text",
+                            "name": "scriptPath",
+                            "prefix": "./jobs/",
+                            "id": "u:4d6r44b4839d",
+                            "description": "JS/TS脚本存放的路径（相对于项目的src目录，如：./jobs/sync-xxx.ts）",
+                            "required": true,
+                            "size": "md"
+                          },
+                          {
+                            "name": "env",
+                            "type": "button-group-select",
+                            "label": "运行环境",
+                            "multiple": true,
+                            "joinValues": true,
+                            "required": true,
+                            "size": "md",
+                            "options": [
+                              {
+                                "label": "开发环境",
+                                "value": "dev"
+                              },
+                              {
+                                "label": "测试环境",
+                                "value": "uat"
+                              },
+                              {
+                                "label": "生产环境",
+                                "value": "prod"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "textarea",
+                            "label": "备注",
+                            "name": "remark",
+                            "id": "u:487a034df7a9",
+                            "minRows": 3,
+                            "maxRows": 20,
+                            "size": "lg"
+                          }
+                        ],
+                        "api": {
+                          "method": "put",
+                          "url": "/portal/cl-job",
+                          "messages": {
+                            "success": "保存任务成功"
+                          },
+                          "dataType": "json",
+                          "data": {
+                            "id": "${id}",
+                            "&": "$$"
+                          }
+                        },
+                        "id": "u:32b382dee285",
+                        "onEvent": {
+                          "submitSucc": {
+                            "weight": 0,
+                            "actions": [
+                              {
+                                "componentId": "u:74a948e50de0",
+                                "args": {
+                                  "resetPage": false
+                                },
+                                "actionType": "reload",
+                                "data": null
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "button",
+                  "label": "运行",
+                  "confirmText": "确定要运行任务吗？",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "args": {
+                            "options": {
+                              "silent": false
+                            },
+                            "api": {
+                              "method": "post",
+                              "url": "/portal/cl-job/run/${id}",
+                              "messages": {
+                                "success": "运行任务成功"
+                              }
+                            }
+                          },
+                          "outputVar": "responseResult",
+                          "actionType": "ajax"
+                        },
+                        {
+                          "componentId": "u:74a948e50de0",
+                          "args": {
+                            "resetPage": false
+                          },
+                          "actionType": "reload",
+                          "data": null
+                        }
+                      ]
+                    }
+                  },
+                  "id": "u:affdd1aeafb3",
+                  "loading": true,
+                  "level": "link",
+                  "size": "sm"
+                },
+                {
+                  "type": "button",
+                  "label": "启动",
+                  "confirmText": "确定要启动任务吗？",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "args": {
+                            "options": {
+                              "silent": false
+                            },
+                            "api": {
+                              "method": "get",
+                              "url": "/portal/cl-job/start/${id}",
+                              "messages": {
+                                "success": "启动成功"
+                              }
+                            }
+                          },
+                          "outputVar": "responseResult",
+                          "actionType": "ajax"
+                        },
+                        {
+                          "componentId": "u:74a948e50de0",
+                          "args": {
+                            "resetPage": false
+                          },
+                          "actionType": "reload",
+                          "data": null
+                        }
+                      ]
+                    }
+                  },
+                  "id": "u:affdd1aeafb3",
+                  "disabledOn": "disabled==false",
+                  "loading": true,
+                  "level": "link",
+                  "size": "sm"
+                },
+                {
+                  "type": "button",
+                  "label": "停止",
+                  "confirmText": "确定要停止任务吗？",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "args": {
+                            "options": {
+                              "silent": false
+                            },
+                            "api": {
+                              "method": "get",
+                              "url": "/portal/cl-job/stop/${id}",
+                              "messages": {
+                                "success": "停止成功"
+                              }
+                            }
+                          },
+                          "outputVar": "responseResult",
+                          "actionType": "ajax"
+                        },
+                        {
+                          "componentId": "u:74a948e50de0",
+                          "args": {
+                            "resetPage": false
+                          },
+                          "actionType": "reload",
+                          "data": null
+                        }
+                      ]
+                    }
+                  },
+                  "id": "u:1fbfbaa82f38",
+                  "level": "link",
+                  "disabledOn": "disabled==true",
+                  "size": "sm"
+                },
+                {
+                  "type": "button",
+                  "label": "删除",
+                  "level": "link",
+                  "id": "u:6dbb74cc22f4",
+                  "actionType": "ajax",
+                  "className": "text-danger",
+                  "confirmText": "确定要删除？",
+                  "api": {
+                    "method": "delete",
+                    "url": "/portal/cl-job/${id}",
+                    "messages": {
+                      "success": "删除成功"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "button",
+              "label": "运行结果",
+              "id": "u:1fbfbaa82f38",
+              "level": "link",
+              "size": "sm",
+              "actionType": "link",
+              "link": "/portal/job-execution?jobId=${id}"
+            }
+          ]
+        }
+      ],
+      "syncLocation": false,
+      "api": {
+        "method": "get",
+        "url": "/portal/cl-job",
+        "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+        "data": {
+          "sort[0]": "updatedAt,desc",
+          "page": "${page}",
+          "size": "${size}"
+        }
+      },
+      "bulkActions": [],
+      "itemActions": [],
+      "features": ["delete"],
+      "perPageField": "size",
+      "perPageAvailable": [10],
+      "messages": {},
+      "alwaysShowPagination": true,
+      "headerToolbar": [
+        {
+          "type": "bulk-actions"
+        },
+        {
+          "type": "button",
+          "tpl": "内容",
+          "label": "创建任务",
+          "align": "left",
+          "level": "primary",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "dialog": {
+                    "type": "dialog",
+                    "title": "创建任务",
+                    "body": [
+                      {
+                        "type": "form",
+                        "title": "表单",
+                        "body": [
+                          {
+                            "label": "名称",
+                            "type": "input-text",
+                            "name": "name",
+                            "id": "u:0a828d8bf99b",
+                            "description": "输入任务名称。（不少于5个字符）",
+                            "validations": {
+                              "minLength": 5
+                            },
+                            "size": "md",
+                            "required": true
+                          },
+                          {
+                            "label": "运行周期",
+                            "type": "input-text",
+                            "name": "cron",
+                            "id": "u:9d8b22b9818d",
+                            "description": "脚本的运行周期（CRON表达式，<a target='_blank' href='https://cron.ciding.cc/'>在线编辑器</a>）",
+                            "required": true,
+                            "size": "md"
+                          },
+                          {
+                            "label": "脚本路径",
+                            "type": "input-text",
+                            "name": "scriptPath",
+                            "prefix": "./jobs/",
+                            "id": "u:9d8b22b9818d",
+                            "description": "JS/TS脚本存放的路径（相对于项目的src目录，如：./jobs/sync-xxx.ts）",
+                            "required": true,
+                            "size": "md"
+                          },
+                          {
+                            "name": "env",
+                            "type": "button-group-select",
+                            "label": "运行环境",
+                            "multiple": true,
+                            "joinValues": true,
+                            "required": true,
+                            "size": "md",
+                            "options": [
+                              {
+                                "label": "开发环境",
+                                "value": "dev"
+                              },
+                              {
+                                "label": "测试环境",
+                                "value": "uat"
+                              },
+                              {
+                                "label": "生产环境",
+                                "value": "prod"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "textarea",
+                            "label": "备注",
+                            "name": "remark",
+                            "id": "u:487a034df7a9",
+                            "minRows": 3,
+                            "maxRows": 20,
+                            "size": "lg"
+                          }
+                        ],
+                        "api": {
+                          "method": "post",
+                          "url": "/portal/cl-job",
+                          "messages": {
+                            "success": "创建任务成功"
+                          },
+                          "dataType": "json"
+                        },
+                        "id": "u:61b102cbb132",
+                        "onEvent": {
+                          "submitSucc": {
+                            "weight": 0,
+                            "actions": [
+                              {
+                                "componentId": "u:74a948e50de0",
+                                "args": {
+                                  "resetPage": false
+                                },
+                                "actionType": "reload",
+                                "data": null
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    ],
+                    "showCloseButton": true,
+                    "showErrorMsg": true,
+                    "showLoading": false,
+                    "id": "u:2816ad10c1d9",
+                    "closeOnEsc": false,
+                    "dataMapSwitch": false
+                  },
+                  "actionType": "dialog"
+                }
+              ],
+              "weight": 0
+            }
+          },
+          "id": "u:05a0ac945104"
+        }
+      ]
+    }
+  ],
+  "title": "任务",
+  "type": "page"
+}

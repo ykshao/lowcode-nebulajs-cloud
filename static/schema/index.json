@@ -1,0 +1,20 @@
+{
+  "id": "u:7164b4b64650",
+  "asideResizor": false,
+  "pullRefresh": {
+    "disabled": true
+  },
+  "regions": [
+    "body"
+  ],
+  "body": [
+    {
+      "type": "container",
+      "className": "nb-card p",
+      "body": []
+    }
+  ],
+  "type": "page",
+  "className": "",
+  "bodyClassName": ""
+}

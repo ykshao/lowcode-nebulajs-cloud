@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<%- include("includes/header.ejs") %>
+<body>
+<div id="root" class="nb-app"></div>
+<%- include("includes/script.ejs") %>
+<script type="text/javascript">
+    ;(function () {
+        nbAmis.initAmis(
+            '#root',
+            {
+                type: 'app',
+                brandName: '<%=typeof name === "undefined" ? "" : name.toUpperCase()%>',
+                logo: 'images/logo.png',
+                header: {
+                    type: 'tpl',
+                    inline: false,
+                    className: 'w-full',
+                    tpl: '',
+                },
+                // asideBefore 页面菜单上前面区域。
+                // asideAfter 页面菜单下前面区域。
+                // footer 页面
+                // api: '/cloud/app/app-menu/nav',
+                pages:[{
+                    schemaApi:'/schema/portal/login.json',
+                    url:'/',
+                    isDefaultPage:true,
+                    visible:false,
+                }]
+            }
+        )
+    })();
+</script>
+</body>
+</html>

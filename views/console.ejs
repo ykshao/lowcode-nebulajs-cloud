@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<%- include("includes/header.ejs") %>
+<body>
+<div id="root" class="nb-app"></div>
+<%- include("includes/script.ejs") %>
+<script type="text/javascript">
+    ;(function () {
+        nbAmis.initAmis(
+            '#root',
+            {
+                type: 'app',
+                definitions: amisDefinitions,
+                brandName: '<%=typeof name === "undefined" ? "" : name.toUpperCase()%>',
+                logo: 'images/logo.png',
+                header: {
+                    "type": "grid",
+                    "className": "w-full h-full",
+                    "columns": [
+                        {
+                            "columnClassName":"flex justify-start items-center",
+                            "body": [
+                                {
+                                    "type": "dropdown-button",
+                                    "btnClassName": "nb-icon-btn ptl-header-apps",
+                                    "menuClassName": "nb-header-dropdown",
+                                    "label": "<%=currentApp.name%>",
+                                    "icon": "nb-icon nb-icon-yingyongguanli",
+                                    "rightIcon": "nb-icon nb-icon-xiala",
+                                    "hideCaret": true,
+                                    "closeOnClick": true,
+                                    "buttons": [
+                                        <%for(const app of apps){%>
+                                        {
+                                            "type": "button",
+                                            "className": "<%=currentApp.id === app.id?'ptl-active':''%>",
+                                            "label": "<%=app.name%>",
+                                            "onEvent": {
+                                                "click": {
+                                                    "actions": [
+                                                        {
+                                                            "args": {
+                                                                "options": {},
+                                                                "api": {
+                                                                    "url": "/portal/cl-application/switch/<%=app.id%>",
+                                                                    "method": "get",
+                                                                },
+                                                                "messages": {"success":""}
+                                                            },
+                                                            "outputVar": "responseResult",
+                                                            "actionType": "ajax"
+                                                        },
+                                                        {"args": {}, "actionType": "refresh"}
+                                                    ]
+                                                }
+                                            },
+                                        },
+                                        <%}%>
+                                        {"type": "button", "label": "", "className": "ptl-separator"},
+                                        {
+                                            "type": "button",
+                                            "label": "返回列表",
+                                            "actionType": "url",
+                                            "url": "/#/",
+                                            "blank": false
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "columnClassName":"text-center",
+                            "body": []
+                        },
+                        {
+                            "columnClassName":"flex justify-end items-center",
+                            "body": [
+                                {
+                                    "$ref":"messageButton"
+                                },
+                                {
+                                    "type": "button",
+                                    "label": "",
+                                    "icon":"nb-icon nb-icon-bangzhu3",
+                                    "className": "nb-icon-btn ptl-header-help",
+                                    "onEvent": {
+                                        "click": {
+                                            "actions": [
+                                                {
+                                                    "args": {
+                                                        "url": "<%=docURL%>"
+                                                    },
+                                                    "actionType": "url"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                },
+                                // {
+                                //     "type": "avatar",
+                                //     "src": "https://suda.cdn.bcebos.com/images/amis/ai-fake-face.jpg",
+                                //     "size": 28
+                                // },
+                                {
+                                    "$ref": "profileDropdown"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                // asideBefore 页面菜单上前面区域。
+                // asideAfter 页面菜单下前面区域。
+                // footer 页面
+                api: '/cloud/app/app-menu/nav',
+            }
+        )
+    })();
+</script>
+</body>
+</html>

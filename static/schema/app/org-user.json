@@ -1,0 +1,473 @@
+{
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "body": [
+        {
+            "type": "grid",
+            "columns": [
+                {
+                    "body": [
+                        {
+                            "type": "flex",
+                            "className": "h-full nb-card p",
+                            "items": [
+                                {
+                                    "type": "container",
+                                    "body": [
+                                        {
+                                            "type": "grid",
+                                            "columns": [
+                                                {
+                                                    "body": [
+                                                        {
+                                                            "type": "tpl",
+                                                            "tpl": "所属组织",
+                                                            "inline": true,
+                                                            "wrapperComponent": "",
+                                                            "id": "u:74017066e3ba",
+                                                            "style": {
+                                                                "fontFamily": "",
+                                                                "fontSize": 15,
+                                                                "color": "#3a3b3b",
+                                                                "fontWeight": "bold"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "id": "u:904ae077205a",
+                                                    "valign": "middle"
+                                                },
+                                                {
+                                                    "body": [
+                                                        {
+                                                            "type": "button",
+                                                            "label": "分配用户",
+                                                            "onEvent": {
+                                                                "click": {
+                                                                    "actions": [
+                                                                        {
+                                                                            "dialog": {
+                                                                                "type": "dialog",
+                                                                                "title": "选择用户",
+                                                                                "body": [
+                                                                                    {
+                                                                                        "type": "form",
+                                                                                        "id": "u:3d25aa094f57",
+                                                                                        "title": "表单",
+                                                                                        "body": [
+                                                                                            {
+                                                                                                "type": "tpl",
+                                                                                                "id": "u:d742d1c92169",
+                                                                                                "tpl": "当前组织：${name}",
+                                                                                                "inline": true,
+                                                                                                "wrapperComponent": ""
+                                                                                            },
+                                                                                            {
+                                                                                                "type": "picker",
+                                                                                                "label": "",
+                                                                                                "mode": "normal",
+                                                                                                "name": "users",
+                                                                                                "multiple": true,
+                                                                                                "embed": true,
+                                                                                                "joinValues": false,
+                                                                                                "source": {
+                                                                                                    "url": "cloud/app/app-user",
+                                                                                                    "method": "get",
+                                                                                                    "adaptor": "return nbAmis.adaptors.commonList(payload, response)"
+                                                                                                },
+                                                                                                "labelField": "name",
+                                                                                                "valueField": "id",
+                                                                                                "id": "u:e37d2446f7d4",
+                                                                                                "pickerSchema": {
+                                                                                                    "id": "u:09b2863eeb55",
+                                                                                                    "columns": [
+                                                                                                        {
+                                                                                                            "type": "text",
+                                                                                                            "name": "login",
+                                                                                                            "label": "用户名",
+                                                                                                            "id": "u:ea53e21109d6"
+                                                                                                        },
+                                                                                                        {
+                                                                                                            "type": "text",
+                                                                                                            "label": "名称",
+                                                                                                            "name": "name",
+                                                                                                            "id": "u:8a15ffb9581f"
+                                                                                                        },
+                                                                                                        {
+                                                                                                            "type": "date",
+                                                                                                            "label": "更新时间",
+                                                                                                            "format": "YYYY-MM-DD HH:mm",
+                                                                                                            "name": "updatedAt",
+                                                                                                            "id": "u:7a15ffb8732e"
+                                                                                                        }
+                                                                                                    ],
+                                                                                                    "bulkActions": [],
+                                                                                                    "perPageAvailable": [
+                                                                                                        10
+                                                                                                    ],
+                                                                                                    "messages": {},
+                                                                                                    "syncLocation": false,
+                                                                                                    "alwaysShowPagination": true,
+                                                                                                    "headerToolbar": {
+                                                                                                        "wrapWithPanel": false,
+                                                                                                        "type": "form",
+                                                                                                        "className": "text-right",
+                                                                                                        "mode": "inline",
+                                                                                                        "body": [
+                                                                                                            {
+                                                                                                                "type": "input-text",
+                                                                                                                "name": "filter.login.eq",
+                                                                                                                "addOn": {
+                                                                                                                    "type": "submit",
+                                                                                                                    "label": "搜索",
+                                                                                                                    "level": "primary",
+                                                                                                                    "icon": "fa fa-search pull-left",
+                                                                                                                    "id": "u:08bd165a8e6b"
+                                                                                                                },
+                                                                                                                "id": "u:be04cb1b81d6",
+                                                                                                                "size": "md",
+                                                                                                                "placeholder": "输入用户名"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "id": "u:b39b56a3feb3",
+                                                                                                        "canAccessSuperData": false,
+                                                                                                        "target": "u:09b2863eeb55"
+                                                                                                    },
+                                                                                                    "columnsTogglable": true,
+                                                                                                    "autoFillHeight": {
+                                                                                                        "height": 300
+                                                                                                    },
+                                                                                                    "perPageField": "size"
+                                                                                                }
+                                                                                            }
+                                                                                        ],
+                                                                                        "wrapWithPanel": false,
+                                                                                        "api": {
+                                                                                            "url": "cloud/app/app-user/allocate/orgs/add",
+                                                                                            "method": "post",
+                                                                                            "messages": {
+                                                                                                "success": "分配组织成功"
+                                                                                            },
+                                                                                            "data": {
+                                                                                                "userIds": "${ARRAYMAP(users, item => item.id)}",
+                                                                                                "orgIds": "${SPLIT(treeOrgId, ',')}"
+                                                                                            },
+                                                                                            "dataType": "json"
+                                                                                        },
+                                                                                        "initApi": {
+                                                                                            "url": "cloud/app/app-org/${treeOrgId}",
+                                                                                            "dataType": "json"
+                                                                                        },
+                                                                                        "onEvent": {
+                                                                                            "submitSucc": {
+                                                                                                "weight": 0,
+                                                                                                "actions": [
+                                                                                                    {
+                                                                                                        "componentId": "u:4285c2292e45",
+                                                                                                        "args": {
+                                                                                                            "resetPage": true
+                                                                                                        },
+                                                                                                        "actionType": "reload",
+                                                                                                        "dataMergeMode": "merge"
+                                                                                                    }
+                                                                                                ]
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                ],
+                                                                                "showCloseButton": true,
+                                                                                "showErrorMsg": true,
+                                                                                "showLoading": true,
+                                                                                "id": "u:b6e4750dfd0d",
+                                                                                "closeOnEsc": false,
+                                                                                "dataMapSwitch": false,
+                                                                                "size": "md"
+                                                                            },
+                                                                            "actionType": "dialog"
+                                                                        }
+                                                                    ]
+                                                                }
+                                                            },
+                                                            "id": "u:39b8633fe500",
+                                                            "disabledOn": "${!treeOrgId}",
+                                                            "level": "light"
+                                                        }
+                                                    ],
+                                                    "id": "u:f0d687c7279f",
+                                                    "columnClassName": "text-right"
+                                                }
+                                            ],
+                                            "id": "u:d8fa45a7036d"
+                                        }
+                                    ],
+                                    "size": "xs",
+                                    "style": {
+                                        "position": "static",
+                                        "display": "block",
+                                        "flex": "0 0 auto",
+                                        "overflowY": "auto"
+                                    },
+                                    "wrapperBody": false,
+                                    "isFixedHeight": false,
+                                    "isFixedWidth": false,
+                                    "id": "u:54b3287d0a6b"
+                                },
+                                {
+                                    "type": "container",
+                                    "body": [
+                                        {
+                                            "type": "input-tree",
+                                            "id": "u:8eb434d4ea42",
+                                            "label": "",
+                                            "name": "treeOrgId",
+                                            "multiple": false,
+                                            "enableNodePath": false,
+                                            "hideRoot": true,
+                                            "showIcon": true,
+                                            "initiallyOpen": true,
+                                            "labelField": "shortName",
+                                            "valueField": "id",
+                                            "className": "h-full",
+                                            "treeContainerClassName": "h-full m-t-xs",
+                                            "deferApi": {
+                                                "method": "get",
+                                                "url": "cloud/app/app-org?filter[parentId][eq]=${id}",
+                                                "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                                "data": {
+                                                    "sort[0]": "seq,asc",
+                                                    "size": 100
+                                                }
+                                            },
+                                            "source": {
+                                                "method": "get",
+                                                "url": "cloud/app/app-org?filter[parentId][empty]=true",
+                                                "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                                "data": {
+                                                    "sort[0]": "seq,asc"
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "size": "xs",
+                                    "style": {
+                                        "position": "static",
+                                        "display": "block",
+                                        "flex": "1 1 auto",
+                                        "flexGrow": 1,
+                                        "flexBasis": "auto"
+                                    },
+                                    "wrapperBody": false,
+                                    "isFixedHeight": false,
+                                    "isFixedWidth": false,
+                                    "id": "u:42e5358afa08"
+                                }
+                            ],
+                            "style": {
+                                "position": "static",
+                                "flexWrap": "nowrap"
+                            },
+                            "direction": "column",
+                            "justify": "flex-start",
+                            "alignItems": "stretch",
+                            "id": "u:09717810c209",
+                            "isFixedHeight": false,
+                            "isFixedWidth": false
+                        }
+                    ],
+                    "md": 4,
+                    "id": "u:dd24fc787d74",
+                    "columnClassName": ""
+                },
+                {
+                    "md": 8,
+                    "body": [
+                        {
+                            "type": "crud",
+                            "columns": [
+                                {
+                                    "name": "avator",
+                                    "label": "头像",
+                                    "type": "text",
+                                    "id": "u:57a6ea10ae71"
+                                },
+                                {
+                                    "type": "text",
+                                    "label": "用户名",
+                                    "name": "login",
+                                    "id": "u:704620c97cd9",
+                                    "width": 100
+                                },
+                                {
+                                    "type": "text",
+                                    "label": "姓名",
+                                    "name": "name",
+                                    "id": "u:d412c98b1709",
+                                    "width": 90
+                                },
+                                {
+                                    "type": "container",
+                                    "label": "组织",
+                                    "name": "orgs",
+                                    "id": "u:d443c98b3927",
+                                    "inline": true,
+                                    "body": [
+                                        {
+                                            "type": "each",
+                                            "name": "orgs",
+                                            "placeholder": "",
+                                            "items": {
+                                                "type": "tpl",
+                                                "tpl": "<span class='label bg-blue-100 text-blue-800 font-normal p m-l-sm'><%= data.shortName %></span> "
+                                            },
+                                            "id": "u:3f3a5a844efd"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "date",
+                                    "label": "更新时间",
+                                    "id": "u:29305f78f690",
+                                    "name": "updatedAt",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "align": "center",
+                                    "width": 140
+                                }
+                            ],
+                            "syncLocation": false,
+                            "api": {
+                                "method": "get",
+                                "url": "cloud/app/app-user?filter[orgs][id][in]=${treeOrgId}",
+                                "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                                "data": {
+                                    "sort[0]": "createdAt,asc",
+                                    "page": "${page}",
+                                    "size": "${size}"
+                                }
+                            },
+                            "bulkActions": [
+                                {
+                                    "label": "移出当前组织",
+                                    "type": "button",
+                                    "level": "light",
+                                    "id": "u:10a56a593f0e",
+                                    "onEvent": {
+                                        "click": {
+                                            "weight": 0,
+                                            "actions": [
+                                                {
+                                                    "args": {
+                                                        "options": {},
+                                                        "api": {
+                                                            "url": "cloud/app/app-user/allocate/orgs/del",
+                                                            "method": "post",
+                                                            "messages": {
+                                                                "success": "移出组织成功"
+                                                            },
+                                                            "dataType": "json",
+                                                            "data": {
+                                                                "userIds": "${ARRAYMAP(selectedItems, item => item.id)}",
+                                                                "orgIds": "${SPLIT(treeOrgId, ',')}"
+                                                            }
+                                                        }
+                                                    },
+                                                    "outputVar": "responseResult",
+                                                    "actionType": "ajax"
+                                                },
+                                                {
+                                                    "componentId": "u:4285c2292e45",
+                                                    "args": {
+                                                        "resetPage": true
+                                                    },
+                                                    "actionType": "reload",
+                                                    "dataMergeMode": "merge"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "disabledOn": "${!treeOrgId}",
+                                    "confirmText": "确定要移除这些用户吗？"
+                                }
+                            ],
+                            "itemActions": [],
+                            "features": [
+                                "create",
+                                "update",
+                                "delete"
+                            ],
+                            "filterColumnCount": 3,
+                            "headerToolbar": [
+                                {
+                                    "type": "bulk-actions"
+                                }
+                            ],
+                            "id": "u:4285c2292e45",
+                            "perPageAvailable": [
+                                10
+                            ],
+                            "messages": {},
+                            "filter": {
+                                "title": "查询用户",
+                                "body": [
+                                    {
+                                        "type": "grid",
+                                        "id": "u:ed01de1f3e7d",
+                                        "columns": [
+                                            {
+                                                "body": [
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "filter.login.eq",
+                                                        "label": "用户名",
+                                                        "id": "u:08222f4fff27"
+                                                    }
+                                                ],
+                                                "id": "u:7ae16aac9600"
+                                            },
+                                            {
+                                                "body": [
+                                                    {
+                                                        "type": "input-text",
+                                                        "label": "姓名",
+                                                        "name": "filter.name.eq",
+                                                        "id": "u:879196f033fb"
+                                                    }
+                                                ],
+                                                "id": "u:2ba013c24bdc"
+                                            },
+                                            {
+                                                "body": [],
+                                                "id": "u:d74ecc8060b2"
+                                            },
+                                            {
+                                                "body": [],
+                                                "id": "u:7203986db7be"
+                                            }
+                                        ],
+                                        "gap": "lg"
+                                    }
+                                ],
+                                "id": "u:0234900b49e7",
+                                "mode": "horizontal",
+                                "horizontal": {}
+                            },
+                            "alwaysShowPagination": true,
+                            "perPageField": "size",
+                            "autoFillHeight": {
+                                "height": 400
+                            }
+                        }
+                    ],
+                    "id": "u:09ceca18000c"
+                }
+            ],
+            "id": "u:62dff8fbf4b6"
+        }
+    ],
+    "type": "page",
+    "aside": [],
+    "id": "u:36b8c17ecabc"
+}

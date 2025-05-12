@@ -1,0 +1,494 @@
+{
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "title": "待我处理",
+    "body": [
+        {
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "cloud/app/app-process/todo-list",
+                "messages": {},
+                "data": {
+                    "page": "${page}",
+                    "size": "${size}"
+                },
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)"
+            },
+            "columns": [
+                {
+                    "name": "extraInfo.startUserName",
+                    "label": "发起人",
+                    "type": "text",
+                    "id": "u:1d823350a345",
+                    "align": "center",
+                    "width": 70
+                },
+                {
+                    "name": "extraInfo.summary",
+                    "label": "名称",
+                    "type": "tpl",
+                    "id": "u:b9ffb0416cb1",
+                    "tpl": "${extraInfo.summary || extraInfo.definitionName}"
+                },
+                {
+                    "name": "name",
+                    "label": "节点名",
+                    "type": "text",
+                    "id": "u:6b224750a721",
+                    "width": 120
+                },
+                {
+                    "name": "extraInfo.formName",
+                    "label": "表单模型",
+                    "type": "text",
+                    "id": "u:1d823350a234",
+                    "align": "center",
+                    "width": 120
+                },
+                {
+                    "name": "due",
+                    "label": "到期时间",
+                    "type": "date",
+                    "format": "YYYY-MM-DD HH:mm",
+                    "id": "u:6b224750a3264",
+                    "align": "center",
+                    "width": 130
+                },
+                {
+                    "name": "created",
+                    "label": "创建时间",
+                    "type": "date",
+                    "format": "YYYY-MM-DD HH:mm",
+                    "id": "u:6b224750a3264",
+                    "align": "center",
+                    "width": 130
+                },
+                {
+                    "name": "priority",
+                    "label": "优先级",
+                    "type": "mapping",
+                    "align": "center",
+                    "width": 80,
+                    "map": {
+                        "50": {
+                            "type": "tag",
+                            "label": "一般",
+                            "displayMode": "rounded",
+                            "color": "active",
+                            "style": {
+                                "fontSize":"12px"
+                            }
+                        }
+                    }
+                },
+                {
+                    "label": "操作",
+                    "type": "operation",
+                    "id": "u:ed0fba2d6daa",
+                    "align": "center",
+                    "width": 100,
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "label": "认领",
+                            "level": "link",
+                            "className": "text-primary",
+                            "hiddenOn": "${assignee != null}",
+                            "actionType": "ajax",
+                            "api": {
+                                "method": "post",
+                                "url": "cloud/app/app-process/task/$id/claim",
+                                "messages": {
+                                    "success": "认领任务成功"
+                                }
+                            },
+                            "reload": "u:ae16b39085b0"
+                        },
+                        {
+                            "type": "button",
+                            "label": "处理",
+                            "level": "link",
+                            "className": "text-danger",
+                            "actionType": "drawer",
+                            "hiddenOn": "${assignee==null || formModel!=''}",
+                            "drawer": {
+                                "type": "drawer",
+                                "title": "待办详情 - $name",
+                                "width": 500,
+                                "className": "nb-task-info-drawer",
+                                "body": [
+                                    {
+                                        "type": "tabs",
+                                        "tabs": [
+                                            {
+                                                "title": "流程表单",
+                                                "className": "p-0",
+                                                "icon": "nb-icon nb-icon-biaodan",
+                                                "body": [
+                                                    {
+                                                        "type": "service",
+                                                        "className": "nb-task-info-form",
+                                                        "schemaApi": {
+                                                            "url": "cloud/app/app-process-def/schema/render/${processDefinitionId}",
+                                                            "method": "get",
+                                                            "sendOn": "${processDefinition.key}",
+                                                            "data": {
+                                                                "mode": "view",
+                                                                "processInstanceId": "${processInstanceId}",
+                                                                "taskDefinitionKey": "${taskDefinitionKey}"
+                                                            }
+                                                        },
+                                                        "id": "u:275f314fd9b8"
+                                                    }
+                                                ],
+                                                "id": "u:1e7c28469e59"
+                                            },
+                                            {
+                                                "title": "处理意见",
+                                                "className": "p-0",
+                                                "icon": "nb-icon nb-icon-7yijianfankui",
+                                                "body": [
+                                                    {
+                                                        "type": "crud",
+                                                        "mode": "cards",
+                                                        "columnsCount": 1,
+                                                        "placeholder": "没有处理信息",
+                                                        "className": "nb-task-info-tasks",
+                                                        "api": {
+                                                            "url": "cloud/app/app-process/comments?processInstanceId=$processInstanceId",
+                                                            "method": "get",
+                                                            "adaptor": "return nbAmis.adaptors.commonList(payload, response)"
+                                                        },
+                                                        "syncLocation": false,
+                                                        "id": "u:441f598fd1v5",
+                                                        "card": {
+                                                            "type": "card",
+                                                            "header": {
+                                                                "title": "$name",
+                                                                "subTitle": "${createTime | toDate | date:YYYY-MM-DD HH\\:mm\\:ss}",
+                                                                "avatarText": "<span>${assigneeName | substring:0:1}</span><h5>${assigneeName}</h5>"
+                                                            },
+                                                            "body": [
+                                                                {
+                                                                    "type": "tpl",
+                                                                    "tpl": "$comment"
+                                                                }
+                                                            ],
+                                                            "toolbar": [
+                                                                {
+                                                                    "type": "tpl",
+                                                                    "tpl": "驳回",
+                                                                    "className": "label label-danger",
+                                                                    "hiddenOn": "flag == true"
+                                                                },
+                                                                {
+                                                                    "type": "tpl",
+                                                                    "tpl": "同意",
+                                                                    "className": "label label-success",
+                                                                    "hiddenOn": "flag != true"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                ],
+                                                "id": "u:2c9g38269e12"
+                                            }
+                                        ],
+                                        "id": "u:02f873b558e5"
+                                    }
+                                ],
+                                "id": "u:524e5e3437ff",
+                                "actions": [
+                                    {
+                                        "type": "grid",
+                                        "id": "u:20a5dae55af1",
+                                        "columns": [
+                                            {
+                                                "body": [
+                                                    {
+                                                        "type": "button",
+                                                        "id": "u:e76b134ac349",
+                                                        "editorState": "default",
+                                                        "className": "nb-icon-btn",
+                                                        "level": "link",
+                                                        "actionType": "dialog",
+                                                        "icon": "nb-icon nb-icon-yijianfankui",
+                                                        "dialog": {
+                                                            "type": "dialog",
+                                                            "title": "添加处理意见",
+                                                            "body": [
+                                                                {
+                                                                    "type": "form",
+                                                                    "api": {
+                                                                        "url": "cloud/app/app-process/task/$id/comment",
+                                                                        "method": "post",
+                                                                        "data": {
+                                                                            "&": "$$"
+                                                                        },
+                                                                        "messages": {
+                                                                            "success": "提交表单成功"
+                                                                        }
+                                                                    },
+                                                                    "labelWidth": 80,
+                                                                    "body": [
+                                                                        {
+                                                                            "type": "textarea",
+                                                                            "name": "message",
+                                                                            "label": "处理意见：",
+                                                                            "id": "u:7234ff1ea813",
+                                                                            "minRows": 3,
+                                                                            "maxRows": 20,
+                                                                            "required": true,
+                                                                            "showCounter": true,
+                                                                            "maxLength": 500,
+                                                                            "placeholder": "请输入处理意见"
+                                                                        },
+                                                                        {
+                                                                            "type": "input-file",
+                                                                            "label": "附件：",
+                                                                            "autoUpload": true,
+                                                                            "proxy": true,
+                                                                            "uploadType": "fileReceptor",
+                                                                            "name": "file",
+                                                                            "id": "u:33af1109ea34",
+                                                                            "btnLabel": "文件上传",
+                                                                            "multiple": false,
+                                                                            "useChunk": false,
+                                                                            "accept": "",
+                                                                            "drag": false
+                                                                        }
+                                                                    ],
+                                                                    "id": "u:1cbce9542fof"
+                                                                }
+                                                            ],
+                                                            "showCloseButton": true,
+                                                            "showErrorMsg": true,
+                                                            "showLoading": true,
+                                                            "id": "u:059671a0f7db"
+                                                        }
+                                                    }
+                                                ],
+                                                "id": "u:3a7a49a71b7f"
+                                            },
+                                            {
+                                                "body": [
+                                                    {
+                                                        "type": "button",
+                                                        "label": "驳回",
+                                                        "id": "u:e76b134ac349",
+                                                        "editorState": "default",
+                                                        "level": "danger",
+                                                        "actionType": "dialog",
+                                                        "dialog": {
+                                                            "type": "dialog",
+                                                            "title": "驳回表单",
+                                                            "body": [
+                                                                {
+                                                                    "type": "form",
+                                                                    "api": {
+                                                                        "url": "cloud/app/app-process/task/$id/submit",
+                                                                        "method": "post",
+                                                                        "data": {
+                                                                            "&": "$$",
+                                                                            "flag": "false"
+                                                                        },
+                                                                        "messages": {
+                                                                            "success": "提交表单成功"
+                                                                        }
+                                                                    },
+                                                                    "body": [
+                                                                        {
+                                                                            "type": "textarea",
+                                                                            "name": "message",
+                                                                            "label": "驳回意见：",
+                                                                            "id": "u:7234ff1ea813",
+                                                                            "minRows": 3,
+                                                                            "maxRows": 20,
+                                                                            "required": true,
+                                                                            "showCounter": true,
+                                                                            "maxLength": 500,
+                                                                            "placeholder": "请输入驳回意见"
+                                                                        },
+                                                                        {
+                                                                            "type": "input-file",
+                                                                            "label": "附件：",
+                                                                            "autoUpload": true,
+                                                                            "proxy": true,
+                                                                            "uploadType": "fileReceptor",
+                                                                            "name": "attachment",
+                                                                            "id": "u:33af1109ea34",
+                                                                            "btnLabel": "文件上传",
+                                                                            "multiple": false,
+                                                                            "useChunk": false,
+                                                                            "accept": "",
+                                                                            "receiver": "cloud/app/app-file/upload",
+                                                                            "drag": false
+                                                                        }
+                                                                    ],
+                                                                    "onEvent": {
+                                                                        "submitSucc": {
+                                                                            "actions": [
+                                                                                {
+                                                                                    "actionType": "reload",
+                                                                                    "componentId": "u:ae16b39085b0",
+                                                                                    "dataMergeMode": "merge"
+                                                                                },
+                                                                                {
+                                                                                    "componentId": "u:524e5e3437ff",
+                                                                                    "actionType": "closeDrawer"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    "id": "u:1cbce9542fof"
+                                                                }
+                                                            ],
+                                                            "showCloseButton": true,
+                                                            "showErrorMsg": true,
+                                                            "showLoading": true,
+                                                            "id": "u:059671a0f7db"
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "button",
+                                                        "label": "提交",
+                                                        "id": "u:e76b134ac349",
+                                                        "editorState": "default",
+                                                        "level": "primary",
+                                                        "actionType": "dialog",
+                                                        "dialog": {
+                                                            "type": "dialog",
+                                                            "title": "提交表单",
+                                                            "body": [
+                                                                {
+                                                                    "type": "form",
+                                                                    "api": {
+                                                                        "url": "cloud/app/app-process/task/$id/submit",
+                                                                        "method": "post",
+                                                                        "data": {
+                                                                            "&": "$$",
+                                                                            "flag": "true"
+                                                                        },
+                                                                        "messages": {
+                                                                            "success": "提交表单成功"
+                                                                        }
+                                                                    },
+                                                                    "body": [
+                                                                        {
+                                                                            "type": "textarea",
+                                                                            "name": "message",
+                                                                            "label": "提交意见：",
+                                                                            "id": "u:7234ff1ea810",
+                                                                            "minRows": 3,
+                                                                            "maxRows": 20,
+                                                                            "required": true,
+                                                                            "showCounter": true,
+                                                                            "maxLength": 500,
+                                                                            "placeholder": "请输入提交意见"
+                                                                        },
+                                                                        {
+                                                                            "type": "input-file",
+                                                                            "label": "附件：",
+                                                                            "autoUpload": true,
+                                                                            "proxy": true,
+                                                                            "uploadType": "fileReceptor",
+                                                                            "name": "attachment",
+                                                                            "id": "u:33af1109ee26",
+                                                                            "btnLabel": "文件上传",
+                                                                            "multiple": false,
+                                                                            "useChunk": false,
+                                                                            "accept": "",
+                                                                            "receiver": "cloud/app/app-file/upload",
+                                                                            "drag": false
+                                                                        }
+                                                                    ],
+                                                                    "id": "u:3jdce9542cbf",
+                                                                    "onEvent": {
+                                                                        "submitSucc": {
+                                                                            "actions": [
+                                                                                {
+                                                                                    "actionType": "reload",
+                                                                                    "componentId": "u:ae16b39085b0",
+                                                                                    "dataMergeMode": "merge"
+                                                                                },
+                                                                                {
+                                                                                    "componentId": "u:524e5e3437ff",
+                                                                                    "actionType": "closeDrawer"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    }
+                                                                }
+                                                            ],
+                                                            "showCloseButton": true,
+                                                            "showErrorMsg": true,
+                                                            "showLoading": true,
+                                                            "id": "u:059671a0f7db"
+                                                        }
+                                                    }
+                                                ],
+                                                "id": "u:a159965243dc",
+                                                "md": "auto"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "type": "button",
+                            "label": "处理",
+                            "level": "link",
+                            "hiddenOn": "${assignee==null || formModel == ''}",
+                            "className": "text-danger",
+                            "actionType": "link",
+                            "link": "/system/process-detail?processId=${processInstanceId}&taskId=${id}"
+                        },
+                        {
+                            "type": "button",
+                            "label": "流程",
+                            "level": "link",
+                            "className": "text-info",
+                            "actionType": "dialog",
+                            "dialog": {
+                                "type": "dialog",
+                                "title": "查看流程",
+                                "size": "md",
+                                "body": [
+                                    {
+                                        "type": "iframe",
+                                        "src": "${window:location.pathname}bpmn-diagram/index.html?processDefinitionId=${processDefinitionId}"
+                                    }
+                                ],
+                                "actions": []
+                            }
+                        }
+                    ]
+                }
+            ],
+            "bulkActions": [],
+            "itemActions": [],
+            "id": "u:ae16b39085b0",
+            "columnsTogglable": true,
+            "perPageField": "size",
+            "alwaysShowPagination": true,
+            "perPageAvailable": [
+                10
+            ],
+            "affixHeader": false,
+            "messages": {}
+        }
+    ],
+    "type": "page",
+    "id": "u:66e3fe25fc6d",
+    "style": {
+        "boxShadow": " 0px 0px 0px 0px transparent"
+    }
+}

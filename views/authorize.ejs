@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh_CN">
+<%- include("includes/header.ejs") %>
+<body>
+<div id="root" class="nb-app"></div>
+<%- include("includes/script.ejs") %>
+<form action="/oauth/authorize" id="form" method="post" style="display: none">
+    <input name="client_id" type="hidden" value="<%=client_id%>">
+    <input name="client_name" type="hidden" value="<%=client_name%>">
+    <input name="client_logo" type="hidden" value="<%=client_logo%>">
+    <input name="redirect_uri" type="hidden" value="<%=redirect_uri%>">
+    <input name="access_token" type="hidden" value="<%=access_token%>">
+    <input name="refresh_token" type="hidden" value="<%=refresh_token%>">
+    <input name="response_type" type="hidden" value="code">
+    <input name="state" type="hidden" value="<%=oauth_state%>">
+    <input name="scope" type="hidden" value="<%=oauth_scope%>">
+    <input type="submit" value="提交">
+</form>
+<script type="text/javascript">
+    ;(function () {
+        nbAmis.initAmis(
+            '#root',
+            {
+                type: 'app',
+                brandName: '<%=typeof name === "undefined" ? "" : name.toUpperCase()%>',
+                logo: '/images/logo.png',
+                header: {
+                    type: 'tpl',
+                    inline: false,
+                    className: 'w-full',
+                    tpl: '',
+                },
+                // asideBefore 页面菜单上前面区域。
+                // asideAfter 页面菜单下前面区域。
+                // footer 页面
+                // api: '/cloud/app/app-menu/nav',
+                pages:[{
+                    schemaApi:'/cloud/app/app-page/schema/1ae907b4-dde8-4fe3-9fc1-493730b40f03',
+                    url:'/',
+                    isDefaultPage:true,
+                    visible:false,
+                }]
+            }
+        )
+    })();
+</script>
+</body>
+</html>

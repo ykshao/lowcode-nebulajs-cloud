@@ -1,0 +1,793 @@
+{
+    "body": [
+        {
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/portal/cl-model",
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                "data": {
+                    "sort[0]": "name,asc",
+                    "page": "${page}",
+                    "size": "${size}",
+                    "&": "$$"
+                }
+            },
+            "columns": [
+                {
+                    "name": "name",
+                    "label": "名称",
+                    "type": "text",
+                    "id": "u:e614e3d622b5"
+                },
+                {
+                    "name": "comment",
+                    "label": "中文名称",
+                    "type": "text",
+                    "id": "u:8321a05bd287"
+                },
+                {
+                    "type": "text",
+                    "label": "数据库表名",
+                    "name": "tableName",
+                    "id": "u:c94ad1bbb951"
+                },
+                {
+                    "type": "text",
+                    "label": "数据库名",
+                    "id": "u:ddca3c1347dc",
+                    "name": "tableSchema",
+                    "width": 120
+                },
+                {
+                    "type": "tpl",
+                    "name": "propsCount",
+                    "label": "属性",
+                    "width": 70,
+                    "id": "u:440a9763bf0c",
+                    "align": "center",
+                    "tpl": "$propsCount",
+                    "className": "text-center"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "width": 120,
+                    "name": "",
+                    "id": "u:664a05e73f71",
+                    "placeholder": "-",
+                    "align": "center",
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "label": "编辑",
+                            "icon": "nb-icon nb-icon-bianji1",
+                            "actionType": "link",
+                            "link": "/portal/model-edit?id=${id}",
+                            "id": "u:8420ef5b7cd1",
+                            "level": "link",
+                            "block": false
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "icon": "nb-icon nb-icon-shanchu",
+                            "level": "link",
+                            "id": "u:d2342865d31f",
+                            "actionType": "ajax",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "delete",
+                                "url": "/portal/cl-model/${id}",
+                                "messages": {
+                                    "success": "删除成功"
+                                }
+                            }
+                        }
+                    ],
+                    "width": 120
+                }
+            ],
+            "bulkActions": [
+                {
+                    "label": "生成代码",
+                    "type": "button",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "生成代码",
+                                        "body": [
+                                            {
+                                                "type": "form",
+                                                "title": "表单",
+                                                "body": [
+                                                    {
+                                                        "type": "checkboxes",
+                                                        "label": "功能选择",
+                                                        "name": "crud",
+                                                        "multiple": true,
+                                                        "options": [
+                                                            {
+                                                                "label": "列表",
+                                                                "value": "Q",
+                                                                "disabled": true
+                                                            },
+                                                            {
+                                                                "label": "新增",
+                                                                "value": "C"
+                                                            },
+                                                            {
+                                                                "label": "详情",
+                                                                "value": "R"
+                                                            },
+                                                            {
+                                                                "label": "更新",
+                                                                "value": "U"
+                                                            },
+                                                            {
+                                                                "label": "删除",
+                                                                "value": "D"
+                                                            },
+                                                            {
+                                                                "label": "导入",
+                                                                "value": "I"
+                                                            },
+                                                            {
+                                                                "label": "导出",
+                                                                "value": "E"
+                                                            }
+                                                        ],
+                                                        "id": "u:fd9034653b0b",
+                                                        "checkAll": false,
+                                                        "joinValues": true,
+                                                        "disabled": false,
+                                                        "value": "Q,C,U,D,R",
+                                                        "description": "根据模型生成对应功能"
+                                                    },
+                                                    {
+                                                        "type": "switch",
+                                                        "label": "生成接口",
+                                                        "name": "apis",
+                                                        "value": true,
+                                                        "option": "",
+                                                        "optionAtLeft": false,
+                                                        "trueValue": true,
+                                                        "falseValue": false,
+                                                        "description": "根据模型属性生成Restful接口"
+                                                    },
+                                                    {
+                                                        "type": "switch",
+                                                        "label": "生成页面",
+                                                        "name": "views",
+                                                        "value": false,
+                                                        "option": "",
+                                                        "optionAtLeft": false,
+                                                        "trueValue": true,
+                                                        "falseValue": false,
+                                                        "description": "根据模型属性生成CRUD页面"
+                                                    },
+                                                    {
+                                                        "type": "switch",
+                                                        "label": "生成菜单",
+                                                        "name": "menu",
+                                                        "value": false,
+                                                        "option": "",
+                                                        "optionAtLeft": false,
+                                                        "trueValue": true,
+                                                        "falseValue": false,
+                                                        "description": "根据模型名称生成菜单路由，并自动挂载到页面"
+                                                    }
+                                                ],
+                                                "id": "u:c4a862ff1df5",
+                                                "api": {
+                                                    "url": "/portal/cl-application/generate",
+                                                    "method": "post",
+                                                    "messages": {
+                                                        "success": "代码生成成功"
+                                                    },
+                                                    "data": {
+                                                        "&": "$$",
+                                                        "models": "$items"
+                                                    },
+                                                    "dataType": "json",
+                                                    "requestAdaptor": "api.data.names = [];\nfor(var item of api.data.models){\n    api.data.names.push(item.name)\n}\nreturn api"
+                                                },
+                                                "onEvent": {
+                                                    "submitSucc": {
+                                                        "weight": 0,
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "u:1457d5c838bd",
+                                                                "args": {
+                                                                    "resetPage": false
+                                                                },
+                                                                "actionType": "reload",
+                                                                "dataMergeMode": "merge"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "showCloseButton": true,
+                                        "showErrorMsg": true,
+                                        "showLoading": true,
+                                        "id": "u:506ae6259c2e"
+                                    },
+                                    "actionType": "dialog"
+                                }
+                            ]
+                        }
+                    },
+                    "id": "u:89bbfe2bb126"
+                },
+                {
+                    "label": "应用更改",
+                    "type": "button",
+                    "level": "danger",
+                    "confirmText": "应用更改 <b style='color:red'>操作有风险，需要谨慎操作，</b>确定要继续吗？<ul><li>1. 应当避免在生产环境执行，其他环境需避开访问高峰期。</li><li>2. 该操作会锁定当前选中的表调整结构，锁表会造成<b style='color:red'>该表无法访问</b></li><li>3. 该操作可能会<b style='color:red'>导致数据库丢失数据，</b>请提前做好备份。</li>",
+                    "id": "u:06a25cd7a747",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "actionType": "dialog",
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "同步数据库",
+                                        "body": [
+                                            {
+                                                "type": "form",
+                                                "title": "表单",
+                                                "body": [
+                                                    {
+                                                        "type": "button-group-select",
+                                                        "name": "env",
+                                                        "label": "环境",
+                                                        "inline": false,
+                                                        "options": [
+                                                            {
+                                                                "label": "开发环境",
+                                                                "value": "dev"
+                                                            },
+                                                            {
+                                                                "label": "测试环境",
+                                                                "value": "uat"
+                                                            },
+                                                            {
+                                                                "label": "生产环境",
+                                                                "value": "prod"
+                                                            }
+                                                        ],
+                                                        "id": "u:ba68cc69ef7e",
+                                                        "required": true,
+                                                        "multiple": false,
+                                                        "value": "dev"
+                                                    }
+                                                ],
+                                                "id": "u:3445a2a6255c",
+                                                "api": {
+                                                    "url": "/portal/cl-model/sync/to",
+                                                    "method": "post",
+                                                    "messages": {
+                                                        "success": "应用更改成功"
+                                                    },
+                                                    "dataType": "json",
+                                                    "data": {
+                                                        "&": "$$",
+                                                        "models": "$items"
+                                                    },
+                                                    "requestAdaptor": "api.data.names = [];\nfor(var item of api.data.models){\n    api.data.names.push(item.name)\n}\nreturn api"
+                                                },
+                                                "onEvent": {
+                                                    "submitSucc": {
+                                                        "weight": 0,
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "u:1457d5c838bd",
+                                                                "args": {
+                                                                    "resetPage": false
+                                                                },
+                                                                "actionType": "reload",
+                                                                "dataMergeMode": "merge"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "showCloseButton": true,
+                                        "showErrorMsg": false,
+                                        "showLoading": false,
+                                        "id": "u:b2840afd6357",
+                                        "closeOnEsc": false,
+                                        "dataMapSwitch": false
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "itemActions": [],
+            "features": ["filter", "update", "create"],
+            "filterColumnCount": 3,
+            "headerToolbar": [
+                {
+                    "label": "新增模型",
+                    "type": "button",
+                    "actionType": "link",
+                    "level": "primary",
+                    "id": "u:e12af0905426",
+                    "link": "/portal/model-edit"
+                },
+                {
+                    "type": "bulk-actions"
+                },
+                {
+                    "type": "button",
+                    "tpl": "内容",
+                    "label": "从数据库同步",
+                    "align": "right",
+                    "level": "enhance",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "dialog": {
+                                        "data": {
+                                            "currStep": 1
+                                        },
+                                        "type": "dialog",
+                                        "title": "从数据库同步",
+                                        "body": [
+                                            {
+                                                "type": "wizard",
+                                                "id": "u:d3ca23576297",
+                                                "steps": [
+                                                    {
+                                                        "title": "连接数据库",
+                                                        "body": [
+                                                            {
+                                                                "type": "select",
+                                                                "label": "数据库",
+                                                                "name": "middlewareId",
+                                                                "id": "u:1921cc7bb2b2",
+                                                                "size": "lg",
+                                                                "mode": "horizontal",
+                                                                "description": "选择一个数据库中件间，若为空可到中间件管理新增。",
+                                                                "multiple": false,
+                                                                "source": {
+                                                                    "url": "/portal/cl-middleware?filter[type][eq]=mysql",
+                                                                    "method": "get",
+                                                                    "messages": {}
+                                                                },
+                                                                "labelField": "name",
+                                                                "valueField": "id",
+                                                                "required": true,
+                                                                "onEvent": {
+                                                                    "change": {
+                                                                        "weight": 0,
+                                                                        "actions": []
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "type": "input-text",
+                                                                "label": "模型前缀",
+                                                                "name": "prefix",
+                                                                "id": "u:7471245cafc6",
+                                                                "size": "sm",
+                                                                "description": "为本次导入的表配置统一的前缀，一般为小写英数字形式。<br/>如：sys_、cloud_"
+                                                            }
+                                                        ],
+                                                        "id": "u:9cf136bb8844",
+                                                        "mode": "horizontal",
+                                                        "initApi": {
+                                                            "method": "get",
+                                                            "url": "/portal/cl-middleware"
+                                                        },
+                                                        "actions": []
+                                                    },
+                                                    {
+                                                        "title": "选择表",
+                                                        "body": [
+                                                            {
+                                                                "type": "container",
+                                                                "body": [
+                                                                    {
+                                                                        "type": "picker",
+                                                                        "label": "选择表",
+                                                                        "name": "tables",
+                                                                        "id": "u:ddce5873e7b6",
+                                                                        "options": [],
+                                                                        "modalMode": "dialog",
+                                                                        "multiple": true,
+                                                                        "joinValues": false,
+                                                                        "embed": true,
+                                                                        "required": true,
+                                                                        "pickerSchema": {
+                                                                            "mode": "table",
+                                                                            "id": "u:bb667f4ddd19",
+                                                                            "columns": [
+                                                                                {
+                                                                                    "id": "u:ff424574debb",
+                                                                                    "label": "表名",
+                                                                                    "name": "name",
+                                                                                    "type": "text",
+                                                                                    "searchable": true
+                                                                                },
+                                                                                {
+                                                                                    "type": "text",
+                                                                                    "label": "描述",
+                                                                                    "name": "descr",
+                                                                                    "id": "u:92fcdee14573"
+                                                                                }
+                                                                            ],
+                                                                            "bulkActions": [],
+                                                                            "columnsTogglable": false,
+                                                                            "affixHeader": false,
+                                                                            "showFooter": false,
+                                                                            "showHeader": false,
+                                                                            "className": "",
+                                                                            "perPageAvailable": [
+                                                                                10
+                                                                            ],
+                                                                            "messages": {},
+                                                                            "autoFillHeight": {
+                                                                                "height": 200
+                                                                            },
+                                                                            "bodyClassName": "",
+                                                                            "tableClassName": "",
+                                                                            "source": "${items}"
+                                                                        },
+                                                                        "source": {
+                                                                            "url": "/portal/cl-middleware/database/${middlewareId}/tables",
+                                                                            "method": "get",
+                                                                            "messages": {}
+                                                                        },
+                                                                        "mode": "horizontal",
+                                                                        "autoFill": {},
+                                                                        "valueField": "name",
+                                                                        "extractValue": true
+                                                                    }
+                                                                ],
+                                                                "style": {
+                                                                    "position": "static",
+                                                                    "display": "block",
+                                                                    "height": "420px",
+                                                                    "overflowY": "auto"
+                                                                },
+                                                                "id": "u:9f9dc5e2f355",
+                                                                "isFixedHeight": true,
+                                                                "isFixedWidth": false
+                                                            }
+                                                        ],
+                                                        "mode": "horizontal",
+                                                        "id": "u:d3926f6b12f8",
+                                                        "actions": []
+                                                    },
+                                                    {
+                                                        "title": "确认表",
+                                                        "body": [
+                                                            {
+                                                                "type": "table",
+                                                                "source": "$tables",
+                                                                "columns": [
+                                                                    {
+                                                                        "name": "$item",
+                                                                        "label": "表名称"
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ],
+                                                        "mode": "horizontal",
+                                                        "id": "u:d4928f6b57e4",
+                                                        "actions": [],
+                                                        "api": {
+                                                            "method": "post",
+                                                            "url": "/portal/cl-model/sync/from",
+                                                            "data": {
+                                                                "middlewareId": "$middlewareId",
+                                                                "prefix": "$prefix",
+                                                                "tables": "$tables"
+                                                            },
+                                                            "messages": {
+                                                                "success": "同步成功"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "title": "完成",
+                                                        "items": [
+                                                            {
+                                                                "type": "input-text",
+                                                                "name": "var1",
+                                                                "label": "文本"
+                                                            }
+                                                        ],
+                                                        "mode": "normal",
+                                                        "actions": [],
+                                                        "id": "u:7c0e168906db",
+                                                        "body": [
+                                                            {
+                                                                "type": "container",
+                                                                "id": "u:ddcfdeeb3523",
+                                                                "style": {
+                                                                    "fontFamily": "",
+                                                                    "fontSize": 12,
+                                                                    "textAlign": "center",
+                                                                    "position": "static",
+                                                                    "display": "block"
+                                                                },
+                                                                "body": [
+                                                                    {
+                                                                        "type": "tpl",
+                                                                        "tpl": "数据库同步完成",
+                                                                        "inline": true,
+                                                                        "wrapperComponent": "",
+                                                                        "id": "u:b57ede1228e1",
+                                                                        "style": {
+                                                                            "fontFamily": "",
+                                                                            "fontSize": 23
+                                                                        }
+                                                                    }
+                                                                ],
+                                                                "isFixedHeight": false,
+                                                                "isFixedWidth": false
+                                                            },
+                                                            {
+                                                                "type": "container",
+                                                                "body": [
+                                                                    {
+                                                                        "type": "tpl",
+                                                                        "tpl": "已从数据库同步 <code><b>${syncCount||0}</b></code> 个模型。",
+                                                                        "inline": true,
+                                                                        "wrapperComponent": "",
+                                                                        "id": "u:7dc3b42944de",
+                                                                        "style": {
+                                                                            "color": "#9b9b9b",
+                                                                            "fontFamily": "",
+                                                                            "fontSize": 14
+                                                                        }
+                                                                    }
+                                                                ],
+                                                                "style": {
+                                                                    "position": "static",
+                                                                    "display": "block",
+                                                                    "fontFamily": "",
+                                                                    "fontSize": 12,
+                                                                    "textAlign": "center"
+                                                                },
+                                                                "id": "u:bee19aebcb29",
+                                                                "isFixedHeight": false,
+                                                                "isFixedWidth": false,
+                                                                "className": "m-t-xs"
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "mode": "horizontal",
+                                                "className": "p-b-md",
+                                                "name": "syncStep",
+                                                "onEvent": {
+                                                    "stepChange": {
+                                                        "weight": 0,
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "u:6e128fb8ccf1",
+                                                                "actionType": "setValue",
+                                                                "args": {
+                                                                    "value": {
+                                                                        "currStep": "$step"
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "showCloseButton": true,
+                                        "showErrorMsg": true,
+                                        "showLoading": true,
+                                        "id": "u:6e128fb8ccf1",
+                                        "actions": [
+                                            {
+                                                "type": "button",
+                                                "label": "上一步",
+                                                "visibleOn": "${currStep!=1&&currStep!=4}",
+                                                "onEvent": {
+                                                    "click": {
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "u:d3ca23576297",
+                                                                "groupType": "component",
+                                                                "actionType": "prev"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "id": "u:1529c08731d0"
+                                            },
+                                            {
+                                                "type": "button",
+                                                "label": "下一步",
+                                                "visibleOn": "${currStep<3}",
+                                                "onEvent": {
+                                                    "click": {
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "u:d3ca23576297",
+                                                                "groupType": "component",
+                                                                "actionType": "next"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "id": "u:b48b521339c2",
+                                                "level": "enhance"
+                                            },
+                                            {
+                                                "type": "button",
+                                                "label": "开始导入",
+                                                "visibleOn": "${currStep==3}",
+                                                "onEvent": {
+                                                    "click": {
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "u:d3ca23576297",
+                                                                "groupType": "component",
+                                                                "actionType": "next"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "id": "u:59a76c09e84a",
+                                                "level": "primary"
+                                            },
+                                            {
+                                                "type": "button",
+                                                "label": "完成",
+                                                "visibleOn": "${currStep==4}",
+                                                "onEvent": {
+                                                    "click": {
+                                                        "actions": [
+                                                            {
+                                                                "args": {},
+                                                                "actionType": "closeDialog"
+                                                            },
+                                                            {
+                                                                "actionType": "reload",
+                                                                "componentId": "u:1457d5c838bd",
+                                                                "dataMergeMode": "merge"
+                                                            }
+                                                        ]
+                                                    }
+                                                },
+                                                "id": "u:59a76c09e84a",
+                                                "level": "primary"
+                                            }
+                                        ],
+                                        "closeOnEsc": false,
+                                        "dataMapSwitch": false,
+                                        "size": "md",
+                                        "bodyClassName": "m-b-none",
+                                        "className": ""
+                                    },
+                                    "actionType": "dialog"
+                                }
+                            ]
+                        }
+                    },
+                    "id": "u:ab18d03d07d3",
+                    "icon": "nb-icon nb-icon-daoru"
+                }
+            ],
+            "id": "u:1457d5c838bd",
+            "perPageAvailable": [10],
+            "messages": {},
+            "filter": {
+                "title": "查询条件",
+                "body": [
+                    {
+                        "type": "grid",
+                        "columns": [
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "filter.name.eq",
+                                        "label": "模型名称",
+                                        "id": "u:42fbbaadf84c",
+                                        "size": "full"
+                                    }
+                                ],
+                                "id": "u:c1162b71817e"
+                            },
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "label": "中文名称",
+                                        "name": "filter.comment.like",
+                                        "size": "full",
+                                        "id": "u:b8a2f61dfda1"
+                                    }
+                                ],
+                                "id": "u:067f6b226b9c"
+                            },
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "label": "数据库",
+                                        "name": "filter.tableSchema.eq",
+                                        "size": "full",
+                                        "id": "u:fd8d64a28d89"
+                                    }
+                                ],
+                                "id": "u:407b257df080"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:b62aa70ddc49"
+                            }
+                        ],
+                        "gap": "lg",
+                        "id": "u:ca9b03a9c6e6"
+                    }
+                ],
+                "id": "u:0471f8360215",
+                "mode": "horizontal",
+                "actions": [
+                    {
+                        "type": "button",
+                        "label": "搜索",
+                        "level": "primary",
+                        "icon": "nb-icon nb-icon-31sousuo",
+                        "id": "u:ad0dc30b4503",
+                        "actionType": "submit"
+                    }
+                ]
+            },
+            "alwaysShowPagination": true,
+            "itemBadge": {
+                "text": "更改",
+                "mode": "dot",
+                "level": "warning",
+                "position": "top-left",
+                "visibleOn": "!this.isSynced",
+                "offset": [0, 7]
+            },
+            "footerToolbar": [
+                {
+                    "type": "statistics",
+                    "align": "left"
+                },
+                {
+                    "type": "pagination",
+                    "align": "right"
+                }
+            ],
+            "affixHeader": false,
+            "perPageField": "size"
+        }
+    ],
+    "regions": ["body"],
+    "type": "page",
+    "pullRefresh": {
+        "disabled": true
+    },
+    "title": "数据模型",
+    "id": "u:1d1257716872",
+    "asideResizor": false
+}

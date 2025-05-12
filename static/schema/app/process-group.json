@@ -1,0 +1,185 @@
+{
+    "id": "u:539519f60b06",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "body": [
+        {
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "cloud/app/app-process-group",
+                "messages": {},
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                "data": {
+                    "sort[0]": "createdAt,asc",
+                    "page": "${page}",
+                    "size": "${size}"
+                }
+            },
+            "columns": [
+                {
+                    "name": "name",
+                    "label": "名称",
+                    "type": "text",
+                    "id": "u:bcdf6bc44477"
+                },
+                {
+                    "type": "text",
+                    "name": "tag",
+                    "label": "标签",
+                    "id": "u:a731c660fa9b"
+                },
+                {
+                    "type": "text",
+                    "name": "remark",
+                    "label": "备注",
+                    "id": "u:3fe6a07e414e"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "buttons": [
+                        {
+                            "label": "编辑",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "dialog": {
+                                "type": "dialog",
+                                "title": "编辑",
+                                "body": [
+                                    {
+                                        "type": "form",
+                                        "api": {
+                                            "method": "post",
+                                            "url": "cloud/app/app-process-group",
+                                            "messages": {
+                                                "success": "保存流程分组成功"
+                                            },
+                                            "dataType": "json"
+                                        },
+                                        "body": [
+                                            {
+                                                "name": "name",
+                                                "label": "名称",
+                                                "id": "u:bcdf6bc44477",
+                                                "type": "input-text",
+                                                "required": true
+                                            },
+                                            {
+                                                "name": "tag",
+                                                "label": "标签",
+                                                "type": "input-text",
+                                                "id": "u:81c62e612d9c"
+                                            },
+                                            {
+                                                "name": "remark",
+                                                "label": "备注",
+                                                "type": "textarea",
+                                                "id": "u:2fe78803cda3"
+                                            }
+                                        ],
+                                        "id": "u:42c62eab8435"
+                                    }
+                                ],
+                                "id": "u:a630eff5c413"
+                            },
+                            "id": "u:f58d75af716f"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "post",
+                                "url": ""
+                            },
+                            "id": "u:b30372a0beb8"
+                        }
+                    ],
+                    "id": "u:f49e2f3dbc0c"
+                }
+            ],
+            "bulkActions": [],
+            "itemActions": [],
+            "id": "u:226f48a28a93",
+            "features": [
+                "create",
+                "update",
+                "delete",
+                "filter"
+            ],
+            "headerToolbar": [
+                {
+                    "label": "新增流程分组",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "新增流程分组",
+                        "body": [
+                            {
+                                "type": "form",
+                                "api": {
+                                    "method": "post",
+                                    "url": "cloud/app/app-process-group",
+                                    "messages": {
+                                        "success": "新增流程分组成功"
+                                    },
+                                    "dataType": "json"
+                                },
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "name",
+                                        "label": "名称",
+                                        "id": "u:d9f0f7083f9a",
+                                        "required": true
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "tag",
+                                        "label": "标签",
+                                        "id": "u:5d56c78fa77f"
+                                    },
+                                    {
+                                        "type": "textarea",
+                                        "name": "remark",
+                                        "label": "备注",
+                                        "id": "u:60547ae9f433"
+                                    }
+                                ],
+                                "id": "u:030d2b14f201"
+                            }
+                        ],
+                        "id": "u:204d8ba66933"
+                    },
+                    "id": "u:dbcd32cf18ba"
+                },
+                "bulkActions"
+            ],
+            "columnsTogglable": true,
+            "alwaysShowPagination": true,
+            "perPageField": "size",
+            "perPageAvailable": [
+                10
+            ],
+            "autoFillHeight": {
+                "height": 400
+            },
+            "messages": {}
+        }
+    ],
+    "title": "流程分组",
+    "type": "page"
+}

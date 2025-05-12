@@ -1,0 +1,37 @@
+import { NebulaErrors, QueryParser, NebulaKoaContext } from 'nebulajs-core'
+
+export = {
+
+    /**
+     * @swagger
+     *
+     * <%=path %>:
+     *   <%=method%>:
+     *     summary: <%=name%>
+     *     tags:
+     *       - <%=typeof tag === "undefined" ? '' : tag%>
+     *     produces:
+     *       - application/json
+     *     parameters:
+             <%_ for(const param of parameters){ _%>
+     *       - name: <%=param.name%>
+     *         in: <%=param.in%>
+     *         required: <%=param.required%>
+             <%_ } _%>
+     *     responses:
+             <%_ for(const code in responses){ _%>
+     *       <%=code%>:
+     *          description: <%=responses[code].description%>
+             <%_ } _%>
+     *
+     *
+     * @param {NebulaKoaContext} ctx
+     * @param next
+     */
+    'post <%=path %>': async function (ctx, next) {
+        const body = ctx.request.body
+
+        ctx.ok()
+    },
+
+}

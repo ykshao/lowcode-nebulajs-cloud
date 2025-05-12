@@ -1,0 +1,465 @@
+{
+    "regions": ["body"],
+    "body": [
+        {
+            "type": "grid",
+            "columns": [
+                {
+                    "columnClassName": "p-b",
+                    "body": [
+                        {
+                            "type": "input-tree",
+                            "label": "上级菜单",
+                            "name": "treeParentId",
+                            "multiple": false,
+                            "enableNodePath": false,
+                            "hideRoot": true,
+                            "showIcon": true,
+                            "initiallyOpen": true,
+                            "className": "h-full nb-card p flex flex-col",
+                            "treeContainerClassName": "h-full",
+                            "source": {
+                                "method": "get",
+                                "url": "cloud/app/app-menu/tree",
+                                "responseData": {
+                                    "&": "${pages}"
+                                }
+                            },
+                            "joinValues": true,
+                            "labelField": "label",
+                            "valueField": "id",
+                            "id": "u:870178b615ba"
+                        }
+                    ],
+                    "md": 3,
+                    "id": "u:e7ff7a189785"
+                },
+                {
+                    "body": [
+                        {
+                            "type": "crud",
+                            "name": "crud",
+                            "api": {
+                                "method": "get",
+                                "url": "cloud/app/app-menu?filter[pid][in]=${treeParentId}",
+                                "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                                "data": {
+                                    "sort[0]": "pid,asc",
+                                    "sort[1]": "seq,asc",
+                                    "page": "${page}",
+                                    "size": "${size}"
+                                }
+                            },
+                            "columns": [
+                                {
+                                    "name": "label",
+                                    "label": "名称",
+                                    "type": "text",
+                                    "id": "u:9f195bf57480"
+                                },
+                                {
+                                    "type": "text",
+                                    "label": "分组",
+                                    "name": "group",
+                                    "id": "u:eacca947c685",
+                                    "align": "center",
+                                    "width": 80
+                                },
+                                {
+                                    "name": "url",
+                                    "label": "路径",
+                                    "type": "text",
+                                    "placeholder": "-",
+                                    "id": "u:dbf019bcd274"
+                                },
+                                {
+                                    "type": "text",
+                                    "label": "顺序",
+                                    "name": "seq",
+                                    "id": "u:27df18b41225",
+                                    "align": "center",
+                                    "width": 80
+                                },
+                                {
+                                    "type": "date",
+                                    "label": "更新时间",
+                                    "name": "updatedAt",
+                                    "id": "u:6688ae15e9ee",
+                                    "align": "center",
+                                    "width": 100
+                                },
+                                {
+                                    "type": "operation",
+                                    "label": "操作",
+                                    "width": 200,
+                                    "align": "center",
+                                    "buttons": [
+                                        {
+                                            "type": "button",
+                                            "label": "编辑",
+                                            "icon": "nb-icon nb-icon-bianji1",
+                                            "actionType": "dialog",
+                                            "level": "link",
+                                            "dialog": {
+                                                "title": "编辑",
+                                                "body": [
+                                                    {
+                                                        "type": "form",
+                                                        "api": {
+                                                            "method": "post",
+                                                            "url": "cloud/app/app-menu",
+                                                            "messages": {
+                                                                "success": "保存菜单成功"
+                                                            }
+                                                        },
+                                                        "body": [
+                                                            {
+                                                                "type": "input-text",
+                                                                "label": "ID",
+                                                                "name": "id",
+                                                                "size": "lg",
+                                                                "visibleOn": "",
+                                                                "clearValueOnHidden": false,
+                                                                "visible": false
+                                                            },
+                                                            {
+                                                                "name": "label",
+                                                                "label": "名称",
+                                                                "type": "input-text",
+                                                                "size": "lg",
+                                                                "required": true
+                                                            },
+                                                            {
+                                                                "type": "input-text",
+                                                                "label": "图标",
+                                                                "description": "由@fortawesome/fontawesome-free提供",
+                                                                "name": "icon",
+                                                                "size": "lg"
+                                                            },
+                                                            {
+                                                                "type": "tree-select",
+                                                                "label": "父菜单",
+                                                                "name": "pid",
+                                                                "size": "lg",
+                                                                "source": {
+                                                                    "method": "get",
+                                                                    "url": "cloud/app/app-menu/tree",
+                                                                    "data": null,
+                                                                    "responseData": {
+                                                                        "&": "${pages}"
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "type": "input-text",
+                                                                "name": "group",
+                                                                "label": "分组",
+                                                                "size": "lg"
+                                                            },
+                                                            {
+                                                                "type": "input-text",
+                                                                "label": "顺序",
+                                                                "name": "seq",
+                                                                "size": "xs",
+                                                                "validations": {
+                                                                    "isNumeric": true
+                                                                }
+                                                            },
+                                                            {
+                                                                "type": "switch",
+                                                                "label": "可见",
+                                                                "name": "visible",
+                                                                "option": "",
+                                                                "optionAtLeft": false,
+                                                                "trueValue": true,
+                                                                "falseValue": false
+                                                            },
+                                                            {
+                                                                "type": "textarea",
+                                                                "label": "备注",
+                                                                "name": "remark",
+                                                                "size": "lg"
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "type": "dialog"
+                                            },
+                                            "id": "u:0897d1570d15"
+                                        },
+                                        {
+                                            "label": "绑定页面",
+                                            "type": "button",
+                                            "actionType": "dialog",
+                                            "level": "link",
+                                            "dialog": {
+                                                "title": "菜单：${label}",
+                                                "name": "bindDialog",
+                                                "size": "md",
+                                                "body": [
+                                                    {
+                                                        "type": "service",
+                                                        "body": [
+                                                            {
+                                                                "type": "crud",
+                                                                "api": {
+                                                                    "method": "get",
+                                                                    "url": "cloud/app/app-page",
+                                                                    "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                                                                    "responseData": null,
+                                                                    "data": {
+                                                                        "sort[0]": "updatedAt,desc",
+                                                                        "page": "${page}",
+                                                                        "size": "${size}"
+                                                                    }
+                                                                },
+                                                                "columns": [
+                                                                    {
+                                                                        "name": "name",
+                                                                        "label": "名称",
+                                                                        "type": "text",
+                                                                        "placeholder": "-",
+                                                                        "remark": "",
+                                                                        "inline": true,
+                                                                        "tpl": ""
+                                                                    },
+                                                                    {
+                                                                        "type": "text",
+                                                                        "label": "路径",
+                                                                        "name": "url"
+                                                                    },
+                                                                    {
+                                                                        "type": "operation",
+                                                                        "label": "操作",
+                                                                        "buttons": [
+                                                                            {
+                                                                                "label": "绑定",
+                                                                                "type": "button",
+                                                                                "actionType": "ajax",
+                                                                                "level": "default",
+                                                                                "size": "sm",
+                                                                                "api": {
+                                                                                    "method": "post",
+                                                                                    "url": "cloud/app/app-menu/bind",
+                                                                                    "data": {
+                                                                                        "pageId": "${id}",
+                                                                                        "menuId": "${currMenuId}"
+                                                                                    },
+                                                                                    "messages": {
+                                                                                        "success": "绑定成功"
+                                                                                    }
+                                                                                },
+                                                                                "tooltip": "",
+                                                                                "tooltipPlacement": "bottom",
+                                                                                "target": "",
+                                                                                "reload": "crud",
+                                                                                "close": "bindDialog"
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                ],
+                                                                "bulkActions": [],
+                                                                "itemActions": [],
+                                                                "features": [
+                                                                    "view"
+                                                                ],
+                                                                "perPageAvailable": [
+                                                                    10
+                                                                ],
+                                                                "messages": {},
+                                                                "syncLocation": false,
+                                                                "alwaysShowPagination": true,
+                                                                "headerToolbar": [],
+                                                                "perPageField": "size",
+                                                                "perPage": 10,
+                                                                "pageField": "page"
+                                                            }
+                                                        ],
+                                                        "data": {
+                                                            "currMenuId": "${id}"
+                                                        }
+                                                    }
+                                                ],
+                                                "type": "dialog",
+                                                "actions": [],
+                                                "closeOnEsc": false,
+                                                "closeOnOutside": false,
+                                                "showCloseButton": true
+                                            },
+                                            "visibleOn": "!!!this.url",
+                                            "id": "u:03c1078bc6b9"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "解除绑定",
+                                            "actionType": "ajax",
+                                            "level": "link",
+                                            "visibleOn": "!!this.url",
+                                            "api": {
+                                                "method": "post",
+                                                "url": "cloud/app/app-menu/unbind",
+                                                "data": {
+                                                    "menuId": "${id}"
+                                                }
+                                            },
+                                            "confirmText": "真的要解除页面绑定吗？",
+                                            "className": "text-danger",
+                                            "id": "u:4f3aa9b3e97c"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "删除",
+                                            "icon": "nb-icon nb-icon-shanchu",
+                                            "actionType": "ajax",
+                                            "level": "link",
+                                            "className": "text-danger",
+                                            "confirmText": "确定要删除？",
+                                            "api": {
+                                                "method": "delete",
+                                                "url": "cloud/app/app-menu/${id}"
+                                            },
+                                            "id": "u:5bc4e622147b"
+                                        }
+                                    ],
+                                    "id": "u:745d3d964b19"
+                                }
+                            ],
+                            "bulkActions": [],
+                            "itemActions": [],
+                            "features": [
+                                "create",
+                                "delete",
+                                "update",
+                                "filter"
+                            ],
+                            "headerToolbar": [
+                                {
+                                    "label": "新增",
+                                    "type": "button",
+                                    "actionType": "dialog",
+                                    "level": "primary",
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "新增",
+                                        "body": [
+                                            {
+                                                "type": "form",
+                                                "api": {
+                                                    "method": "post",
+                                                    "url": "cloud/app/app-menu",
+                                                    "dataType": "json",
+                                                    "messages": {
+                                                        "success": "保存成功"
+                                                    }
+                                                },
+                                                "body": [
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "label",
+                                                        "label": "名称",
+                                                        "size": "lg",
+                                                        "required": true,
+                                                        "id": "u:f2ff829d3aec"
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "url",
+                                                        "label": "路径",
+                                                        "size": "lg",
+                                                        "id": "u:35e39a802afc"
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "label": "图标",
+                                                        "name": "icon",
+                                                        "size": "lg",
+                                                        "description": "由@fortawesome/fontawesome-free提供",
+                                                        "id": "u:704c9eca2b42"
+                                                    },
+                                                    {
+                                                        "type": "tree-select",
+                                                        "label": "父菜单",
+                                                        "name": "pid",
+                                                        "size": "lg",
+                                                        "source": {
+                                                            "method": "get",
+                                                            "url": "cloud/app/app-menu/tree",
+                                                            "data": null,
+                                                            "responseData": {
+                                                                "&": "${pages}"
+                                                            }
+                                                        },
+                                                        "id": "u:2fc52d57b69c"
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "group",
+                                                        "label": "分组",
+                                                        "size": "lg",
+                                                        "description": "只适用于顶级菜单，左侧菜单树会有组名显示。",
+                                                        "id": "u:9ca55dd25a43"
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "label": "顺序",
+                                                        "name": "seq",
+                                                        "size": "xs",
+                                                        "validations": {
+                                                            "isNumeric": true
+                                                        },
+                                                        "id": "u:8eeeedb8d241"
+                                                    },
+                                                    {
+                                                        "type": "switch",
+                                                        "label": "可见",
+                                                        "name": "visible",
+                                                        "option": "",
+                                                        "optionAtLeft": false,
+                                                        "trueValue": true,
+                                                        "falseValue": false,
+                                                        "id": "u:f01d7084eee8",
+                                                        "value": true
+                                                    },
+                                                    {
+                                                        "type": "textarea",
+                                                        "label": "备注",
+                                                        "name": "remark",
+                                                        "size": "lg",
+                                                        "id": "u:42070e444695"
+                                                    }
+                                                ],
+                                                "id": "u:27bb0aa0a077"
+                                            }
+                                        ],
+                                        "id": "u:1868c48f378e"
+                                    },
+                                    "id": "u:5d4930c087a0"
+                                },
+                                {
+                                    "type": "bulk-actions"
+                                }
+                            ],
+                            "perPageAvailable": [10],
+                            "messages": {},
+                            "syncLocation": false,
+                            "alwaysShowPagination": true,
+                            "perPageField": "size",
+                            "perPage": 10,
+                            "pageField": "page",
+                            "source": "",
+                            "id": "u:ed43186bd4b3"
+                        }
+                    ],
+                    "id": "u:bc42bd22134f"
+                }
+            ],
+            "id": "u:ec60f35aba8d"
+        }
+    ],
+    "type": "page",
+    "title": "菜单管理",
+    "messages": {},
+    "style": {},
+    "subTitle": "展示一些常规的表单，包括验证、提示等等",
+    "toolbar": []
+}

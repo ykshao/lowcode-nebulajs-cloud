@@ -1,0 +1,370 @@
+{
+    "id": "u:621a0e923f17",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": ["body"],
+    "body": [
+        {
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/portal/cl-instance",
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                "data": {
+                    "sort[0]": "updatedAt,desc",
+                    "page": "${page}",
+                    "size": "${size}",
+                    "&": "$$"
+                }
+            },
+            "columns": [
+                {
+                    "name": "name",
+                    "label": "实例名称",
+                    "type": "text",
+                    "id": "u:c60cd18424d4"
+                },
+                {
+                    "type": "text",
+                    "label": "实例类型",
+                    "name": "type",
+                    "id": "u:04ed252e67d2"
+                },
+                {
+                    "type": "text",
+                    "label": "镜像",
+                    "name": "image",
+                    "id": "u:36b05d84aebd"
+                },
+                {
+                    "type": "tpl",
+                    "name": "host",
+                    "label": "主机",
+                    "id": "u:bdbb7db79d3d",
+                    "tpl": "${host}:${split(ports, ',')[0]}"
+                },
+                {
+                    "type": "text",
+                    "label": "环境",
+                    "name": "env",
+                    "align": "center",
+                    "id": "u:775d6de64b79"
+                },
+                {
+                    "type": "container",
+                    "label": "版本",
+                    "name": "version",
+                    "id": "u:224d6de64d93",
+                    "body": [
+                        {
+                            "type": "tag",
+                            "label": "${version}",
+                            "displayMode": "normal",
+                            "color": "processing",
+                            "hiddenOn": "${!version}"
+                        }
+                    ]
+                },
+                {
+                    "type": "status",
+                    "label": "状态",
+                    "name": "status",
+                    "id": "u:667dac86f05e",
+                    "value": 1,
+                    "placeholder": "-",
+                    "align": "center",
+                    "map": {
+                        "0": "nb-icon nb-icon-stop-fill text-danger",
+                        "2": "nb-icon nb-icon-success-fill text-success"
+                    },
+                    "labelMap": {
+                        "0": "已停止",
+                        "2": "运行中"
+                    }
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "width": 150,
+                    "align": "center",
+                    "id": "u:5d74ca4ac5ba",
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "label": "启动",
+                            "actionType": "ajax",
+                            "confirmText": "确定要启动实例吗？",
+                            "api": {
+                                "method": "get",
+                                "url": "/portal/cl-instance/start/${id}",
+                                "messages": {
+                                    "success": "启动成功"
+                                }
+                            },
+                            "reload": "u:c43a48194aab",
+                            "id": "u:affdd1aeafb3",
+                            "hiddenOn": "status=='2'",
+                            "loading": true,
+                            "level": "link",
+                            "size": "sm"
+                        },
+                        {
+                            "type": "button",
+                            "label": "停止",
+                            "actionType": "ajax",
+                            "confirmText": "确定要停止实例吗？",
+                            "api": {
+                                "method": "get",
+                                "url": "/portal/cl-instance/stop/${id}",
+                                "messages": {
+                                    "success": "停止成功"
+                                }
+                            },
+                            "reload": "u:c43a48194aab",
+                            "id": "u:1fbfbaa82f38",
+                            "level": "link",
+                            "hiddenOn": "status=='0'",
+                            "size": "sm"
+                        },
+                        {
+                            "type": "button",
+                            "label": "详情",
+                            "actionType": "link",
+                            "link": "/portal/instance-info?id=${id}",
+                            "level": "link",
+                            "id": "u:8bbf6e133dcf",
+                            "className": "text-gray-400"
+                        },
+                        {
+                            "label": "删除",
+                            "type": "button",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "id": "u:d4835693d45b",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "delete",
+                                "url": "/portal/cl-instance/${id}",
+                                "messages": {
+                                    "success": "删除成功"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+            "bulkActions": [],
+            "itemActions": [],
+            "features": [
+                "filter",
+                "delete"
+            ],
+            "id": "u:c43a48194aab",
+            "headerToolbar": [
+                {
+                    "type": "bulk-actions"
+                },
+                {
+                    "type": "button",
+                    "tpl": "内容",
+                    "label": "创建实例",
+                    "level": "primary",
+                    "onEvent": {
+                        "click": {
+                            "actions": [
+                                {
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "运行应用",
+                                        "body": [
+                                            {
+                                                "type": "form",
+                                                "id": "u:7edb690a72c8",
+                                                "title": "表单",
+                                                "body": [
+                                                    {
+                                                        "label": "配置",
+                                                        "type": "button-group-select",
+                                                        "name": "env",
+                                                        "id": "u:e24100ae631e",
+                                                        "required": true,
+                                                        "multiple": false,
+                                                        "options": [
+                                                            {
+                                                                "label": "开发环境",
+                                                                "value": "dev"
+                                                            },
+                                                            {
+                                                                "label": "测试环境",
+                                                                "value": "uat"
+                                                            },
+                                                            {
+                                                                "label": "生产环境",
+                                                                "value": "prod"
+                                                            }
+                                                        ],
+                                                        "value": "dev",
+                                                        "description": "选择实例运行环境。"
+                                                    },
+
+                                                    {
+                                                        "type": "select",
+                                                        "label": "版本",
+                                                        "name": "version",
+                                                        "id": "u:f853dc32b225",
+                                                        "multiple": false,
+                                                        "size": "sm",
+                                                        "source": {
+                                                            "url": "/portal/cl-image",
+                                                            "method": "get",
+                                                            "data": {
+                                                                "filter.version.ne": "$version",
+                                                                "sort[0]": "createdAt,desc",
+                                                                "size": "100"
+                                                            },
+                                                            "messages": {}
+                                                        },
+                                                        "labelField": "version",
+                                                        "valueField": "version",
+                                                        "description": "选择一个镜像版本。",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "type": "select",
+                                                        "name": "imageType",
+                                                        "label": "包类型",
+                                                        "inline": false,
+                                                        "id": "u:16d193fc9855",
+                                                        "options": [
+                                                            {
+                                                                "label": "调试（Debug）",
+                                                                "value": "debug"
+                                                            },
+                                                            {
+                                                                "label": "发布（Release）",
+                                                                "value": "release"
+                                                            }
+                                                        ],
+                                                        "value": "debug",
+                                                        "description": "选择包类型。\n<ul>\n<li>调试包用node命令启动，仅支持单线程方式。</li>\n<li>发布包由pm2方式启动，pm2集群方式。</li>\n</ul>",
+                                                        "multiple": false,
+                                                        "required": false,
+                                                        "size": "sm"
+                                                    },
+                                                    {
+                                                        "type": "input-tag",
+                                                        "name": "volumeMapping",
+                                                        "label": "目录映射",
+                                                        "placeholder": "请选择标签",
+                                                        "description": "输入要映射的本地目录后回车键结束，支持多个。",
+                                                        "size": "md",
+                                                        "options": [
+                                                            "tmp/"
+                                                        ]
+                                                    }
+                                                ],
+                                                "api": {
+                                                    "url": "/portal/cl-application/run",
+                                                    "method": "post",
+                                                    "messages": {
+                                                        "success": "创建实例成功"
+                                                    },
+                                                    "dataType": "json"
+                                                },
+                                                "canAccessSuperData": false,
+                                                "onEvent": {
+                                                    "submitSucc": {
+                                                        "weight": 0,
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "u:c43a48194aab",
+                                                                "args": {
+                                                                    "resetPage": false
+                                                                },
+                                                                "actionType": "reload",
+                                                                "dataMergeMode": "merge"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "showCloseButton": true,
+                                        "showErrorMsg": false,
+                                        "showLoading": false,
+                                        "id": "u:8354d223332c",
+                                        "closeOnEsc": false,
+                                        "dataMapSwitch": false
+                                    },
+                                    "actionType": "dialog"
+                                }
+                            ]
+                        }
+                    },
+                    "id": "u:b20ef43eb7dc"
+                }
+            ],
+            "perPageAvailable": [
+                10
+            ],
+            "messages": {},
+            "alwaysShowPagination": true,
+            "filterColumnCount": 3,
+            "perPageField": "size",
+            "filter": {
+                "title": "查询条件",
+                "body": [
+                    {
+                        "type": "grid",
+                        "columns": [
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "filter.name.eq",
+                                        "label": "名称",
+                                        "id": "u:7308714b5130",
+                                        "size": "sm"
+                                    }
+                                ],
+                                "id": "u:db5a7c0df66e"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:62d9b5cccc2b"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:7ccff559ea1d"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:a0427127b1cb"
+                            }
+                        ],
+                        "id": "u:a7ed0d2caabc",
+                        "align": "left",
+                        "gap": "lg"
+                    }
+                ],
+                "id": "u:46edcb059983",
+                "actions": [
+                    {
+                        "type": "button",
+                        "label": "搜索",
+                        "level": "primary",
+                        "icon": "nb-icon nb-icon-31sousuo",
+                        "id": "u:ad0dc30b4503",
+                        "actionType": "submit"
+                    }
+                ]
+            }
+        }
+    ],
+    "type": "page",
+    "title": "实例"
+}

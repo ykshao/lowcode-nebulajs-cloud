@@ -1,0 +1,263 @@
+{
+    "id": "u:94a0a26ed5f8",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body",
+        "toolbar",
+        "header"
+    ],
+    "body": [
+        {
+            "type": "container",
+            "body": [
+                {
+                    "type": "tpl",
+                    "tpl": "设置",
+                    "id": "u:496053f68704",
+                    "wrapperComponent": "h2",
+                    "className": "m-t-none"
+                },
+                {
+                    "type": "form",
+                    "title": "表单",
+                    "api": {
+                        "method": "post",
+                        "url": "/portal/cl-application",
+                        "messages": {
+                            "success": "保存设置成功"
+                        },
+                        "dataType": "json",
+                        "data": {
+                            "&": "$$",
+                            "id": "${id}"
+                        }
+                    },
+                    "body": [
+                        {
+                            "type": "grid",
+                            "columns": [
+                                {
+                                    "id": "u:a234a980e6e0",
+                                    "md": 7,
+                                    "body": [
+                                        {
+                                            "type": "input-text",
+                                            "label": "应用编码",
+                                            "name": "code",
+                                            "id": "u:19a9865a0a9f",
+                                            "size": "lg",
+                                            "disabled": true,
+                                            "description": "应用唯一标识，创建应用时生成，无法修改。"
+                                        },
+                                        {
+                                            "label": "应用名称",
+                                            "type": "input-text",
+                                            "name": "name",
+                                            "id": "u:f89e5ecf254b",
+                                            "size": "lg",
+                                            "description": "应用显示名称"
+                                        },
+                                        {
+                                            "type": "input-text",
+                                            "label": "绑定域名",
+                                            "name": "domain",
+                                            "id": "u:68de6443bff0",
+                                            "size": "lg",
+                                            "description": "<ul>\n<li>\n应用的绑定域名，您需要将域名指向本服务器的IP地址。</li>\n<li>如留空则可以通过平台提供代理方式访问</li>\n</ul>"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "id": "u:92f40eb92255",
+                                    "md": 1
+                                },
+                                {
+                                    "body": [
+                                        {
+                                            "type": "input-image",
+                                            "label": "应用LOGO",
+                                            "name": "logo",
+                                            "imageClassName": "r w-full",
+                                            "receiver": {
+                                                "url": "/cloud/app/app-file/upload",
+                                                "method": "post"
+                                            },
+                                            "id": "u:05802dc29f1b",
+                                            "accept": ".jpeg, .jpg, .png, .gif",
+                                            "uploadType": "fileReceptor",
+                                            "proxy": false,
+                                            "multiple": false,
+                                            "hideUploadButton": false,
+                                            "autoUpload": true,
+                                            "fixedSize": false,
+                                            "mode": "normal"
+                                        }
+                                    ],
+                                    "id": "u:47845630dab5",
+                                    "md": 4
+                                }
+                            ],
+                            "id": "u:8f22ef57dbd8"
+                        },
+                        {
+                            "type": "grid",
+                            "columns": [
+                                {
+                                    "body": [
+                                        {
+                                            "type": "textarea",
+                                            "label": "应用描述",
+                                            "name": "remark",
+                                            "id": "u:a00fe97b727f",
+                                            "minRows": 3,
+                                            "maxRows": 20,
+                                            "size": "full",
+                                            "description": "您的应用描述，不超过200字。"
+                                        },
+                                        {
+                                            "type": "button-toolbar",
+                                            "label": "",
+                                            "id": "u:c33202d0f229",
+                                            "buttons": [
+                                                {
+                                                    "type": "submit",
+                                                    "label": "保存设置",
+                                                    "id": "u:815d622e4539",
+                                                    "level": "primary"
+                                                },
+                                                {
+                                                    "type": "button",
+                                                    "label": "删除应用",
+                                                    "id": "u:482d622e4346",
+                                                    "level": "danger",
+                                                    "confirmText": "删除应用将失去您应用相关的所有数据并且无法恢复，确定要继续吗？",
+                                                    "onEvent": {
+                                                        "click": {
+                                                            "actions": [
+                                                                {
+                                                                    "args": {
+                                                                        "options": {},
+                                                                        "api": {
+                                                                            "method": "delete",
+                                                                            "url": "/portal/cl-application"
+                                                                        },
+                                                                        "messages": {"success":"应用删除成功"}
+                                                                    },
+                                                                    "outputVar": "responseResult",
+                                                                    "actionType": "ajax"
+                                                                },
+                                                                {
+                                                                    "args": {
+                                                                        "url": "/",
+                                                                        "blank": false
+                                                                    },
+                                                                    "actionType": "url"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "id": "u:234cc848be9f",
+                                    "md": 10
+                                },
+                                {
+                                    "id": "u:8c954d8278d6"
+                                }
+                            ],
+                            "id": "u:c30199d254ea",
+                            "className": "m-t-lg"
+                        }
+                    ],
+                    "mode": "horizontal",
+                    "id": "u:5857a6b90a36",
+                    "wrapWithPanel": false
+                }
+            ],
+            "id": "u:daa315773663",
+            "style": {
+                "position": "static",
+                "display": "block"
+            },
+            "className": "nb-card m-r m-l m-b-md p-lg",
+            "isFixedHeight": false,
+            "isFixedWidth": false
+        },
+        {
+            "type": "container",
+            "body": [
+                {
+                    "type": "tpl",
+                    "tpl": "集成",
+                    "id": "u:c9f66458e5bd",
+                    "wrapperComponent": "h2",
+                    "className": "m-t-none"
+                },
+                {
+                    "type": "form",
+                    "title": "表单",
+                    "body": [
+                        {
+                            "label": "应用标识",
+                            "type": "input-text",
+                            "name": "clientId",
+                            "id": "u:54df0fa1f7ed",
+                            "disabled": true,
+                            "size": "lg",
+                            "description": "应用标识：clientId，用于客户端访问云端接口鉴权，请妥善保管。"
+                        },
+                        {
+                            "type": "input-text",
+                            "label": "应用密钥",
+                            "name": "clientSecret",
+                            "id": "u:ae5f930bbac2",
+                            "disabled": true,
+                            "size": "lg",
+                            "description": "应用标识：clientSecret，用于客户端访问云端接口鉴权，请妥善保管。"
+                        },
+                        {
+                            "type": "button-toolbar",
+                            "label": "",
+                            "buttons": [
+                                {
+                                    "type": "button",
+                                    "label": "重新生成",
+                                    "onEvent": {
+                                        "click": {
+                                            "actions": []
+                                        }
+                                    },
+                                    "id": "u:731d52ea2cea",
+                                    "level": "primary"
+                                }
+                            ],
+                            "id": "u:df69ab697c33"
+                        }
+                    ],
+                    "mode": "horizontal",
+                    "id": "u:de8bda569b07",
+                    "wrapWithPanel": false
+                }
+            ],
+            "id": "u:382e393349a7",
+            "className": "nb-card m-r m-l m-b-md p-lg",
+            "style": {
+                "position": "static",
+                "display": "block"
+            },
+            "isFixedHeight": false,
+            "isFixedWidth": false
+        }
+    ],
+    "type": "page",
+    "initApi": {
+        "method": "get",
+        "messages": {},
+        "url": "/portal/cl-application/current"
+    }
+}

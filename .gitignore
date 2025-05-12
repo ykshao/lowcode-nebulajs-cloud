@@ -1,0 +1,13 @@
+.idea/
+/node_modules/
+logs/
+tmp/
+.project
+yarn.lock
+yarn-error.log
+dist/
+data/
+*.js.map
+src/**/*.js
+.version
+build/

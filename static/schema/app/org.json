@@ -1,0 +1,386 @@
+{
+    "id": "u:d9f833662628",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "body": [
+        {
+            "type": "grid",
+            "columns": [
+                {
+                    "body": [
+                        {
+                            "type": "flex",
+                            "className": "h-full nb-card p",
+                            "items": [
+                                {
+                                    "type": "container",
+                                    "body": [
+                                        {
+                                            "type": "grid",
+                                            "columns": [
+                                                {
+                                                    "body": [
+                                                        {
+                                                            "type": "tpl",
+                                                            "tpl": "上级组织",
+                                                            "inline": true,
+                                                            "wrapperComponent": "",
+                                                            "id": "u:74017066e3ba",
+                                                            "style": {
+                                                                "fontFamily": "",
+                                                                "fontSize": 15,
+                                                                "color": "#3a3b3b",
+                                                                "fontWeight": "bold"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "id": "u:904ae077205a",
+                                                    "valign": "middle"
+                                                }
+                                            ],
+                                            "id": "u:d8fa45a7036d"
+                                        }
+                                    ],
+                                    "size": "xs",
+                                    "style": {
+                                        "position": "static",
+                                        "display": "block",
+                                        "flex": "0 0 auto",
+                                        "overflowY": "auto"
+                                    },
+                                    "wrapperBody": false,
+                                    "isFixedHeight": false,
+                                    "isFixedWidth": false,
+                                    "id": "u:54b3287d0a6b"
+                                },
+                                {
+                                    "type": "container",
+                                    "body": [
+                                        {
+                                            "type": "input-tree",
+                                            "name": "treeParentId",
+                                            "multiple": false,
+                                            "enableNodePath": false,
+                                            "hideRoot": true,
+                                            "showIcon": true,
+                                            "initiallyOpen": true,
+                                            "className": "h-full",
+                                            "treeContainerClassName": "h-full m-t-xs",
+                                            "deferApi": {
+                                                "method": "get",
+                                                "url": "cloud/app/app-org?filter[parentId][eq]=${id}",
+                                                "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                                "data": {
+                                                    "sort[0]": "seq,asc",
+                                                    "size": 100
+                                                }
+                                            },
+                                            "source": {
+                                                "method": "get",
+                                                "url": "cloud/app/app-org?filter[parentId][empty]=true",
+                                                "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                                "data": {
+                                                    "sort[0]": "seq,asc",
+                                                    "size": 100
+                                                }
+                                            },
+                                            "labelField": "shortName",
+                                            "valueField": "id"
+                                        }
+                                    ],
+                                    "size": "xs",
+                                    "style": {
+                                        "position": "static",
+                                        "display": "block",
+                                        "flex": "1 1 auto",
+                                        "flexGrow": 1,
+                                        "flexBasis": "auto"
+                                    },
+                                    "wrapperBody": false,
+                                    "isFixedHeight": false,
+                                    "isFixedWidth": false,
+                                    "id": "u:42e5358afa08"
+                                }
+                            ],
+                            "style": {
+                                "position": "static",
+                                "flexWrap": "nowrap"
+                            },
+                            "direction": "column",
+                            "justify": "flex-start",
+                            "alignItems": "stretch",
+                            "id": "u:09717810c209",
+                            "isFixedHeight": false,
+                            "isFixedWidth": false
+                        }
+
+                    ],
+                    "md": 4
+                },
+                {
+                    "body": [
+                        {
+                            "type": "crud",
+                            "syncLocation": false,
+                            "api": {
+                                "method": "get",
+                                "url": "cloud/app/app-org?filter[parentId][in]=${treeParentId}",
+                                "messages": {},
+                                "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                                "data": {
+                                    "sort[0]": "parentId,asc",
+                                    "sort[1]": "seq,asc"
+                                }
+                            },
+                            "columns": [
+                                {
+                                    "name": "name",
+                                    "label": "名称",
+                                    "type": "text",
+                                    "id": "u:340074d3cdc3"
+                                },
+                                {
+                                    "name": "shortName",
+                                    "label": "简称",
+                                    "type": "text",
+                                    "id": "u:340074d3cdc3"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "seq",
+                                    "label": "顺序",
+                                    "id": "u:dc2ce02f132e"
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "parentName",
+                                    "label": "上级组织",
+                                    "id": "u:02bc3c8f11c6"
+                                },
+                                {
+                                    "type": "operation",
+                                    "label": "操作",
+                                    "width": 120,
+                                    "align": "center",
+                                    "buttons": [
+                                        {
+                                            "label": "编辑",
+                                            "type": "button",
+                                            "actionType": "dialog",
+                                            "level": "link",
+                                            "icon": "nb-icon nb-icon-bianji1",
+                                            "dialog": {
+                                                "type": "dialog",
+                                                "title": "编辑",
+                                                "body": [
+                                                    {
+                                                        "type": "form",
+                                                        "api": {
+                                                            "method": "post",
+                                                            "url": "cloud/app/app-org",
+                                                            "messages": {
+                                                                "success": "保存组织成功"
+                                                            },
+                                                            "data": {
+                                                                "&": "$$",
+                                                                "id": "${id}"
+                                                            }
+                                                        },
+                                                        "body": [
+                                                            {
+                                                                "name": "name",
+                                                                "label": "名称",
+                                                                "type": "input-text",
+                                                                "id": "u:4ec4f1eaeeda",
+                                                                "required": true
+                                                            },
+                                                            {
+                                                                "name": "shortName",
+                                                                "label": "简称",
+                                                                "type": "input-text",
+                                                                "id": "u:4ec4f1ecff12"
+                                                            },
+
+                                                            {
+                                                                "name": "parentId",
+                                                                "label": "上级组织",
+                                                                "type": "tree-select",
+                                                                "id": "u:d0110da3563f",
+                                                                "clearable": false,
+                                                                "labelField": "shortName",
+                                                                "valueField": "id",
+                                                                "deferApi": {
+                                                                    "method": "get",
+                                                                    "url": "cloud/app/app-org?filter[parentId][eq]=${id}",
+                                                                    "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                                                    "data": {
+                                                                        "sort[0]": "seq,asc",
+                                                                        "size": 100
+                                                                    }
+                                                                },
+                                                                "source": {
+                                                                    "method": "get",
+                                                                    "url": "cloud/app/app-org?filter[parentId][empty]=true",
+                                                                    "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                                                    "data": {
+                                                                        "sort[0]": "seq,asc",
+                                                                        "size": 100
+                                                                    }
+                                                                },
+                                                                "multiple": false,
+                                                                "enableNodePath": false,
+                                                                "showIcon": true,
+                                                                "initiallyOpen": true
+                                                            },
+                                                            {
+                                                                "name": "seq",
+                                                                "label": "顺序",
+                                                                "type": "input-text",
+                                                                "id": "u:15e6abf670f0",
+                                                                "size": "xs"
+                                                            }
+                                                        ],
+                                                        "id": "u:51a92f12cea9"
+                                                    }
+                                                ],
+                                                "id": "u:7b4752e7bfc1"
+                                            },
+                                            "id": "u:7c714b3cfa0b"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "删除",
+                                            "icon": "nb-icon nb-icon-shanchu",
+                                            "actionType": "ajax",
+                                            "level": "link",
+                                            "className": "text-danger",
+                                            "confirmText": "确定要删除？",
+                                            "api": {
+                                                "method": "delete",
+                                                "url": "cloud/app/app-org/${id}",
+                                                "messages": {
+                                                    "success": "删除组织成功"
+                                                }
+                                            },
+                                            "id": "u:572095e822a2"
+                                        }
+                                    ],
+                                    "id": "u:970b9348d5c5"
+                                }
+                            ],
+                            "bulkActions": [],
+                            "itemActions": [],
+                            "id": "u:f16db74f4204",
+                            "features": [
+                                "create",
+                                "filter",
+                                "update",
+                                "delete"
+                            ],
+                            "filterColumnCount": 3,
+                            "headerToolbar": [
+                                {
+                                    "label": "新增",
+                                    "type": "button",
+                                    "actionType": "dialog",
+                                    "level": "primary",
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "新增组织",
+                                        "body": [
+                                            {
+                                                "type": "form",
+                                                "api": {
+                                                    "method": "post",
+                                                    "url": "cloud/app/app-org",
+                                                    "messages": {
+                                                        "success": "新增组织成功"
+                                                    }
+                                                },
+                                                "body": [
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "name",
+                                                        "label": "名称",
+                                                        "id": "u:73ae0e009282",
+                                                        "size": "lg",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "shortName",
+                                                        "label": "简称",
+                                                        "id": "u:49ae0e009131",
+                                                        "size": "lg",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "type": "tree-select",
+                                                        "name": "parentId",
+                                                        "label": "上级组织",
+                                                        "id": "u:649ec8258002",
+                                                        "size": "lg",
+                                                        "clearable": false,
+                                                        "multiple": false,
+                                                        "enableNodePath": false,
+                                                        "showIcon": false,
+                                                        "initiallyOpen": true,
+                                                        "labelField": "shortName",
+                                                        "valueField": "id",
+                                                        "deferApi": {
+                                                            "method": "get",
+                                                            "url": "cloud/app/app-org?filter[parentId][eq]=${id}",
+                                                            "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                                            "data": {
+                                                                "sort[0]": "seq,asc",
+                                                                "size": 100
+                                                            }
+                                                        },
+                                                        "source": {
+                                                            "method": "get",
+                                                            "url": "cloud/app/app-org?filter[parentId][empty]=true",
+                                                            "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                                            "data": {
+                                                                "sort[0]": "seq,asc",
+                                                                "size": 100
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "seq",
+                                                        "label": "顺序",
+                                                        "id": "u:b93255a6858b",
+                                                        "size": "xs"
+                                                    }
+                                                ],
+                                                "id": "u:b45a33144013"
+                                            }
+                                        ],
+                                        "id": "u:1451fb447004",
+                                        "showCloseButton": true,
+                                        "closeOnEsc": false,
+                                        "showErrorMsg": true,
+                                        "showLoading": true,
+                                        "dataMapSwitch": false
+                                    },
+                                    "id": "u:549ba1903bcb"
+                                },
+                                "bulkActions"
+                            ],
+                            "alwaysShowPagination": true,
+                            "perPageField": "size"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "type": "page",
+    "aside": []
+}

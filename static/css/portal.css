@@ -1,0 +1,162 @@
+.ptl-form-item-text {
+  background-color: #f7f7f7;
+  display: inline-block;
+  padding: 5px 7px;
+  height: 32px;
+  border-radius: 5px;
+  color: #444;
+}
+
+.ptl-header-apps i {
+  font-size: 20px;
+}
+
+.ptl-header-help i {
+  font-size: 22px;
+}
+
+.ptl-index-apps {
+  max-width: 1200px;
+  margin: 20px auto;
+}
+.ptl-index-apps .ptl-apps-title {
+  line-height: 32px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #555;
+}
+.ptl-index-apps .cxd-Card .cxd-Card-heading .cxd-Card-title {
+  font-size: 15px;
+  color: #212121;
+}
+.ptl-index-apps .cxd-Card .cxd-Card-heading .cxd-Card-avtar {
+  width: 50px;
+  height: 50px;
+}
+.ptl-index-apps .cxd-Card .cxd-Card-heading .cxd-Card-subTitle {
+  color: #888;
+}
+.ptl-index-apps .cxd-Card .cxd-Card-body {
+  padding-left: 77px;
+}
+.ptl-index-apps .cxd-Card .cxd-Card-body .ptl-app-tags .cxd-Container-body .cxd-TplField {
+  background: #e7edf9;
+  color: #6f67bd;
+  padding: 3px 8px;
+  border-radius: 5px;
+  margin-right: 8px;
+  display: inline-block;
+  font-size: 12px;
+}
+.ptl-index-apps .cxd-Card .cxd-Card-actions .cxd-Card-action {
+  font-size: 14px;
+  font-weight: 500;
+  color: #777;
+  flex: 1;
+  text-align: center;
+  line-height: 2.5rem;
+}
+.ptl-index-apps .cxd-Card .cxd-Card-actions > .text-primary {
+  color: #007bff;
+}
+.ptl-index-apps .cxd-Card .cxd-Card-actions > .text-danger {
+  color: #dc3545;
+}
+
+.ptl-header-index-account .nb-icon-btn {
+  background: transparent !important;
+  border-color: transparent !important;
+  color: #fff !important;
+}
+.ptl-header-index-account .nb-icon-btn:hover {
+  border-color: transparent !important;
+  background-color: transparent !important;
+}
+
+.ptl-config-card {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 9px 0px #e7e7e7;
+  border: 0;
+}
+.ptl-config-card .cxd-Card-title {
+  font-size: 22px;
+  text-transform: uppercase;
+  color: #313131;
+}
+.ptl-config-card .cxd-Card-body .cxd-Card-field {
+  padding: 5px 0;
+}
+.ptl-config-card .cxd-Card-body .cxd-Card-field .cxd-Card-fieldLabel {
+  width: 85px;
+}
+.ptl-config-card .cxd-Card-body .cxd-Card-field .cxd-Card-fieldValue {
+  color: #585858;
+  font-weight: 500;
+}
+.ptl-config-card .cxd-Card-body .cxd-Card-field .cxd-Card-fieldValue .cxd-Form-static {
+  padding: 0;
+}
+.ptl-config-card .cxd-Card-action span {
+  font-size: 13px;
+  color: #1934ca;
+}
+.ptl-config-card .cxd-Card-action i {
+  font-size: 14px;
+  color: #1934ca;
+}
+.ptl-config-card .cxd-Card-action.text-danger i {
+  color: #dc3545;
+}
+.ptl-config-card .cxd-Card-action.text-danger span {
+  color: #dc3545;
+}
+
+.ptl-instance-info-card {
+  height: 450px;
+}
+.ptl-instance-info-card .cxd-Form {
+  margin-top: 15px;
+}
+.ptl-instance-info-card .cxd-Form .cxd-Form-item {
+  margin-bottom: 10px;
+}
+.ptl-instance-info-card .cxd-Form .cxd-Form-item .cxd-Form-label {
+  width: 5rem;
+}
+.ptl-instance-info-card .cxd-Form .cxd-Form-item .cxd-Form-value {
+  color: #777;
+}
+.ptl-instance-info-card .cxd-Form .cxd-Button {
+  margin-bottom: 10px;
+}
+
+.ptl-instance-operation-card .cxd-Card-avtar {
+  width: 3rem;
+}
+.ptl-instance-operation-card .cxd-Card-body {
+  padding: 0;
+}
+.ptl-instance-operation-card-actions .cxd-Container {
+  width: 100%;
+}
+.ptl-instance-operation-card-actions .cxd-Container .cxd-Container-body {
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  border-top: 1px solid #f7f8fa;
+}
+.ptl-instance-operation-card-actions .cxd-Container .cxd-Container-body .cxd-Button {
+  flex: 1;
+  padding: 0;
+}
+.ptl-instance-operation-card-actions .cxd-Container .cxd-Container-body .cxd-Button:first-of-type {
+  border-right: 1px solid #f7f8fa;
+}
+.ptl-instance-operation-card-actions .cxd-Container .cxd-Container-body .cxd-Button:last-of-type {
+  border-left: 1px solid #f7f8fa;
+}
+
+.ptl-instance-log-card .cxd-Log-body {
+  font-size: 13px;
+}

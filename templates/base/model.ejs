@@ -1,0 +1,161 @@
+<%_
+function getTsType(type){
+    if(type.startsWith('DATE')){
+        return 'Date'
+    }else if(type.startsWith('BOOLEAN')){
+        return 'boolean'
+    }else if(type.startsWith('INTEGER') || type.startsWith('BIGINT')){
+        return 'number'
+    }else if(type.startsWith('DOUBLE') || type.startsWith('FLOAT') || type.startsWith('DECIMAL')){
+        return 'number'
+    }
+    return 'string'
+}
+const autoGenProps = [
+    {name: createdByField, comment: '创建人', tag: 'createdBy', type:'STRING(50)'},
+    {name: updatedByField, comment: '更新人', tag: 'updatedBy', type:'STRING(50)'},
+    dataAccess === 'DEPT' ? {name: `${createdByField}Dept`, comment: '创建部门', type:'STRING(50)'} : null,
+    dataAccess === 'COMPANY' ? {name: `${createdByField}Comp`, comment: '创建公司', type:'STRING(50)'} : null
+].filter(p => p)
+const ignoreProps = ['id', createdAtField, updatedAtField, ...autoGenProps.map(p => p.name)];
+
+if(withProcess && processStatusField && !props.find(p=>p.name === processStatusField)){
+    autoGenProps.push({
+        name: 'status', comment: '流程状态', type:'STRING(2)', defaultValue: 'ProcessStatus.SAVED',
+    })
+}
+_%>
+
+import {
+    Sequelize,
+    DataTypes,
+    InferAttributes,
+    InferCreationAttributes,
+    ForeignKey,
+    HasManyGetAssociationsMixin,
+} from 'sequelize'
+import { BaseModel } from 'nebulajs-core'
+<%_for(let i=0; i<refs.length; i++){_%>
+<%_if(refs[i].alias){_%>
+import { <%=refs[i].dest%> } from './<%=refs[i].dest%>'
+<%_}_%>
+<%_}_%>
+import { ProcessStatus } from '../config/constants'
+
+
+/**
+ * <%=comment%>
+ * <%if(remark){%>@description <%=remark%><%}%>
+ */
+export class <%=name%> extends BaseModel<
+    InferAttributes<<%=name%>>,
+    InferCreationAttributes<<%=name%>>
+> {
+    declare id: string
+    <%_ for(let i=0; i<props.length; i++){
+    if(ignoreProps.includes(props[i].name)){
+        continue;
+    }_%>
+    declare <%=props[i].name%>: <%=getTsType(props[i].type)%>
+    <%_}_%>
+    <%_ for(let i=0; i<autoGenProps.length; i++){ _%>
+    declare <%=autoGenProps[i].name%>: <%=getTsType(autoGenProps[i].type)%>
+    <%_}_%>
+
+    <%_for(let i=0; i<refs.length; i++){_%>
+    <%_if(refs[i].alias){_%>
+    <%_if(refs[i].ref === 'belongsTo'){_%>
+    declare <%=refs[i].alias%>Id: ForeignKey<string>
+    declare <%=refs[i].alias%>: ForeignKey<<%=refs[i].dest%>>
+    <%_}else if(refs[i].ref === 'hasMany'){_%>
+    declare <%=refs[i].alias%>: ForeignKey<<%=refs[i].dest%>[]>
+    declare get<%=fn_camelize(refs[i].alias, true)%>: HasManyGetAssociationsMixin<<%=refs[i].dest%>>
+    <%_}_%>
+    <%_}_%>
+    <%_}_%>
+
+    /**
+     * 初始化模型属性
+     */
+    static initAttributes = (sequelize) =>
+        this.init(
+            {
+                id: {
+                    type: DataTypes.UUID,
+                    comment: 'ID',
+                    primaryKey: true,
+                    defaultValue: DataTypes.UUIDV4,
+                },
+            <%_ for(let i=0; i<props.length; i++){
+                if(ignoreProps.includes(props[i].name)){
+                    continue;
+                }
+                let propDataType = props[i].type
+                // 处理String，Decimal等长度
+                if(props[i].len){
+                    propDataType = `${props[i].type}(${props[i].len})`
+                }
+            _%>
+                <%=props[i].name%>: {
+                    type: DataTypes.<%=propDataType%>,
+                    comment: '<%=props[i].comment%>',
+                    allowNull: <%=props[i].nullable%>,
+                    <%_if(props[i].fieldName){_%>
+                    field: '<%=props[i].fieldName%>',
+                    <%_}_%>
+                    <%_if(props[i].isPk){_%>
+                    primaryKey: true,
+                    defaultValue: DataTypes.UUIDV4,
+                    <%_}_%>
+                    <%_if(processStatusField === props[i].name){_%>
+                    defaultValue: ProcessStatus.SAVED,
+                    <%_}_%>
+                },
+            <%_}_%>
+            <%_ for(let i=0; i<autoGenProps.length; i++){ _%>
+                <%=autoGenProps[i].name%>: {
+                    type: DataTypes.<%=autoGenProps[i].type%>,
+                    comment: '<%=autoGenProps[i].comment%>',
+                    <%_if(autoGenProps[i].defaultValue){_%>
+                    defaultValue: <%=autoGenProps[i].defaultValue%>
+                    <%_}_%>
+                },
+            <%_}_%>
+
+            },
+            {
+                tableName: '<%=tableName%>',
+                underscored: true,
+                comment: '<%=comment%>',
+                sequelize,
+                paranoid: <%=isSoftDelete%>,
+                createdAt: '<%=createdAtField%>',
+                updatedAt: '<%=updatedAtField%>',
+                <%_if(isSoftDelete){_%>
+                deletedAt: '<%=deletedAtField%>'
+                <%_}_%>
+            }
+        )
+
+    /**
+     * 初始化模型关系
+     */
+    static initAssociations() {
+        <%_for(let i=0; i<refs.length; i++){_%>
+        <%_if(refs[i].alias){_%>
+        <%_if(refs[i].ref === 'belongsTo'){_%>
+        <%=name%>.belongsTo(<%=refs[i].dest%>, {
+            as: '<%=refs[i].alias%>'
+        })
+        <%_}else if(refs[i].ref === 'hasMany'){_%>
+        <%=name%>.hasMany(<%=refs[i].dest%>, {
+            as: '<%=refs[i].alias%>',
+            foreignKey: '<%=refs[i].destProp%>',
+            onDelete: '<%=refs[i].onDelete%>',
+            onUpdate: '<%=refs[i].onUpdate%>',
+        })
+        <%_}_%>
+        <%_}_%>
+        <%_}_%>
+    }
+}

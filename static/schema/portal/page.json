@@ -1,0 +1,432 @@
+{
+    "id": "u:6340dbe9f5f6",
+    "regions": ["body"],
+    "body": [
+        {
+            "type": "crud",
+            "id": "u:a7d7213abfb1",
+            "affixHeader": false,
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/portal/cl-page",
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                "data": {
+                    "sort[0]": "isSystem,desc",
+                    "sort[1]": "isInternal,desc",
+                    "sort[2]": "name,asc",
+                    "page": "${page}",
+                    "size": "${size}",
+                    "&": "$$"
+                },
+                "messages": {}
+            },
+            "columns": [
+                {
+                    "name": "name",
+                    "label": "名称",
+                    "type": "text",
+                    "id": "u:513896d7bc97",
+                    "width": 160
+                },
+                {
+                    "name": "url",
+                    "label": "路径",
+                    "type": "text",
+                    "id": "u:48c928f1222f"
+                },
+                {
+                    "type": "text",
+                    "label": "菜单",
+                    "name": "menu.label",
+                    "id": "u:37e2efb93fc9"
+                },
+                {
+                    "type": "text",
+                    "label": "版本",
+                    "name": "version",
+                    "id": "u:98e2efb46ah9",
+                    "width": 140
+                },
+                {
+                    "type": "date",
+                    "name": "updatedAt",
+                    "label": "更新时间",
+                    "placeholder": "-",
+                    "width": 140,
+                    "format": "YYYY-MM-DD HH:mm",
+                    "id": "u:b4c264d5dd71"
+                },
+                {
+                    "type": "text",
+                    "name": "remark",
+                    "label": "备注",
+                    "id": "u:9e01f463cfcf"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "align": "center",
+                    "width": 240,
+                    "buttons": [
+
+                        {
+                            "label": "编辑",
+                            "type": "button",
+                            "icon": "nb-icon nb-icon-bianji1",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "dialog": {
+                                "title": "编辑",
+                                "body": [
+                                    {
+                                        "type": "form",
+                                        "api": {
+                                            "method": "put",
+                                            "url": "/portal/cl-page",
+                                            "dataType": "json",
+                                            "messages": {
+                                                "success": "修改页面成功"
+                                            }
+                                        },
+                                        "body": [
+                                            {
+                                                "name": "id",
+                                                "label": "ID",
+                                                "type": "input-text",
+                                                "size": "lg",
+                                                "visibleOn": "",
+                                                "clearValueOnHidden": false,
+                                                "visible": false
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "label": "名称",
+                                                "name": "name",
+                                                "size": "lg",
+                                                "required": true
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "label": "请求路径",
+                                                "name": "url",
+                                                "size": "lg",
+                                                "required": true,
+                                                "description": "页面路由路径，当路由命中该路径时，启用当前页面，一般由'/'开头。"
+                                            },
+                                            {
+                                                "type": "tree-select",
+                                                "name": "menuId",
+                                                "label": "所属菜单",
+                                                "size": "lg",
+                                                "description": "所属菜单会决定本页面的左侧菜单高亮状态，也会影响到面包屑。",
+                                                "source": {
+                                                    "method": "get",
+                                                    "url": "/portal/cl-menu/tree",
+                                                    "data": null,
+                                                    "responseData": {
+                                                        "&": "${pages}"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "type": "textarea",
+                                                "label": "备注",
+                                                "name": "remark",
+                                                "size": "lg"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "type": "dialog"
+                            },
+                            "hiddenOn": "this.isInternal",
+                            "size": "md",
+                            "id": "u:f777450c4566"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "icon": "nb-icon nb-icon-shanchu",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "delete",
+                                "url": "/portal/cl-page/${id}",
+                                "data": null,
+                                "messages": {
+                                    "success": "页面删除成功"
+                                }
+                            },
+                            "hiddenOn": "this.isInternal",
+                            "size": "md",
+                            "id": "u:6bd376d91bb4"
+                        },
+                        {
+                            "label": "同步表单",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "hiddenOn": "this.isInternal",
+                            "size": "md",
+                            "id": "u:f664450c3288",
+                            "dialog": {
+                                "title": "同步表单",
+                                "type": "dialog",
+                                "body": [
+                                    {
+                                        "type": "form",
+                                        "title": "表单",
+                                        "body": [
+                                            {
+                                                "type": "select",
+                                                "name": "sourceFormType",
+                                                "label": "源表单",
+                                                "id": "u:e1a800f6318d",
+                                                "value": "create",
+                                                "required": true,
+                                                "options": [
+                                                    {
+                                                        "label": "新增表单-POST",
+                                                        "value": "create"
+                                                    },
+                                                    {
+                                                        "label": "更新表单-PUT",
+                                                        "value": "update"
+                                                    }
+                                                ],
+                                                "size": "sm"
+                                            },
+                                            {
+                                                "type": "switch",
+                                                "label": "同步新增表单",
+                                                "name": "syncCreate",
+                                                "disabledOn": "${sourceFormType == 'create'}",
+                                                "value": false,
+                                                "option": "",
+                                                "optionAtLeft": false,
+                                                "trueValue": true,
+                                                "falseValue": false,
+                                                "description": "根据选择的表单，同步表单属性及布局到新增表单"
+                                            },
+                                            {
+                                                "type": "switch",
+                                                "label": "同步编辑表单",
+                                                "name": "syncUpdate",
+                                                "value": false,
+                                                "disabledOn": "${sourceFormType == 'update'}",
+                                                "option": "",
+                                                "optionAtLeft": false,
+                                                "trueValue": true,
+                                                "falseValue": false,
+                                                "description": "根据选择的表单，同步表单属性及布局到编辑表单"
+                                            },
+                                            {
+                                                "type": "switch",
+                                                "label": "同步查看表单",
+                                                "name": "syncDetail",
+                                                "value": false,
+                                                "option": "",
+                                                "optionAtLeft": false,
+                                                "trueValue": true,
+                                                "falseValue": false,
+                                                "description": "根据选择的表单，同步表单属性及布局到查看表单"
+                                            }
+                                        ],
+                                        "api": {
+                                            "url": "/portal/cl-page/sync-forms",
+                                            "method": "post",
+                                            "messages": {
+                                                "success": "页面表单同步成功"
+                                            },
+                                            "data": {
+                                                "&": "$$",
+                                                "id": "$id"
+                                            },
+                                            "dataType": "json"
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "type": "button",
+                            "label": "设计",
+                            "level": "link",
+                            "visibleOn": "this.isInternal === false",
+                            "size": "md",
+                            "id": "u:f7faa85cf058",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "args": {
+                                                "options": {},
+                                                "api": {
+                                                    "url": "/portal/cl-page/lock/${id}",
+                                                    "method": "get"
+                                                },
+                                                "messages": {"success":""}
+                                            },
+                                            "outputVar": "ajaxResp",
+                                            "actionType": "ajax"
+                                        },
+                                        {
+                                            "args": {
+                                                "url": "/amis-editor/#/edit/page/${id}",
+                                                "blank": true
+                                            },
+                                            "actionType": "url"
+                                        }
+                                    ]
+                                }
+                            }
+
+                        }
+                    ],
+                    "id": "u:157f1e1ab8c5"
+                }
+            ],
+            "bulkActions": [],
+            "itemActions": [],
+            "features": ["create", "delete", "update", "filter"],
+            "headerToolbar": [
+                {
+                    "label": "新增页面",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "新增页面",
+                        "body": [
+                            {
+                                "type": "form",
+                                "api": {
+                                    "method": "post",
+                                    "url": "/portal/cl-page",
+                                    "dataType": "json",
+                                    "messages": {
+                                        "success": "新增页面成功"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "name",
+                                        "label": "名称",
+                                        "size": "lg",
+                                        "required": true
+                                    },
+                                    {
+                                        "type": "tree-select",
+                                        "label": "所属菜单",
+                                        "name": "menuId",
+                                        "size": "lg",
+                                        "description": "所属菜单会决定本页面的左侧菜单高亮状态，也会影响到面包屑。",
+                                        "source": {
+                                            "method": "get",
+                                            "url": "/portal/cl-menu/tree",
+                                            "data": null,
+                                            "responseData": {
+                                                "&": "${pages}"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "url",
+                                        "label": "路径",
+                                        "size": "lg",
+                                        "description": "页面路由路径，当路由命中该路径时，启用当前页面，一般由'/'开头。",
+                                        "required": true
+                                    },
+                                    {
+                                        "type": "textarea",
+                                        "label": "备注",
+                                        "name": "remark",
+                                        "size": "lg",
+                                        "description": ""
+                                    }
+                                ]
+                            }
+                        ],
+                        "showCloseButton": true,
+                        "closeOnEsc": false,
+                        "closeOnOutside": false
+                    },
+                    "id": "u:60c021ce3523"
+                }
+            ],
+            "perPageAvailable": [10],
+            "messages": {},
+            "perPage": 10,
+            "perPageField": "size",
+            "pageField": "page",
+            "columnsTogglable": true,
+            "alwaysShowPagination": true,
+            "filter": {
+                "title": "查询条件",
+                "body": [
+                    {
+                        "type": "grid",
+                        "columns": [
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "filter.name.like",
+                                        "label": "页面名称",
+                                        "id": "u:a7f7e8e9c8c5"
+                                    }
+                                ],
+                                "id": "u:db5a7c0df66e"
+                            },
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "label": "页面路径",
+                                        "name": "filter.url.eq",
+                                        "id": "u:4e7c66f8fcaf"
+                                    }
+                                ],
+                                "id": "u:62d9b5cccc2b"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:7ccff559ea1d"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:a0427127b1cb"
+                            }
+                        ],
+                        "id": "u:a7ed0d2caabc",
+                        "align": "left",
+                        "gap": "lg"
+                    }
+                ],
+                "mode": "horizontal",
+                "id": "u:0fdd639afa33",
+                "actions": [
+                    {
+                        "type": "button",
+                        "label": "搜索",
+                        "level": "primary",
+                        "icon": "nb-icon nb-icon-31sousuo",
+                        "id": "u:ad0dc30b4503",
+                        "actionType": "submit"
+                    }
+                ]
+            }
+        }
+    ],
+    "title": "页面管理",
+    "type": "page",
+    "messages": {},
+    "style": {},
+    "subTitle": "展示应用的页面列表，可以新增、删除、自定义页面等操作"
+}

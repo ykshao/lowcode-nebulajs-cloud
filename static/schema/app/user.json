@@ -1,0 +1,713 @@
+{
+    "id": "u:e6122aec35be",
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "body": [
+        {
+            "type": "crud",
+            "columns": [
+                {
+                    "name": "avator",
+                    "label": "头像",
+                    "type": "text",
+                    "id": "u:57a6ea10ae71"
+                },
+                {
+                    "type": "text",
+                    "label": "用户名",
+                    "name": "login",
+                    "id": "u:704620c97cd9"
+                },
+                {
+                    "type": "text",
+                    "label": "姓名",
+                    "name": "name",
+                    "id": "u:d412c98b1709"
+                },
+                {
+                    "type": "container",
+                    "label": "角色",
+                    "name": "roles",
+                    "id": "u:d443c98b3927",
+                    "inline": true,
+                    "body": [
+                        {
+                            "type": "each",
+                            "name": "roles",
+                            "placeholder": "",
+                            "items": {
+                                "type": "tpl",
+                                "tpl": "<span class='label bg-blue-100 text-blue-800 font-normal p m-l-sm'><%= data.name %></span> "
+                            },
+                            "id": "u:3f3a5a844efd"
+                        }
+                    ]
+                },
+                {
+                    "type": "date",
+                    "label": "更新时间",
+                    "id": "u:29305f78f690",
+                    "name": "updatedAt",
+                    "format": "YYYY-MM-DD HH:mm",
+                    "align": "center"
+                },
+                {
+                    "type": "date",
+                    "name": "lastLoginDate",
+                    "label": "上次登录时间",
+                    "id": "u:77fc3ac1a554",
+                    "format": "YYYY-MM-DD HH:mm"
+                },
+                {
+                    "type": "text",
+                    "label": "上次登录IP",
+                    "id": "u:19017e7a79af",
+                    "name": "lastLoginIp"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "width": 200,
+                    "id": "u:68e56ebc7b1b",
+                    "align": "center",
+                    "buttons": [
+                        {
+                            "label": "编辑",
+                            "icon": "nb-icon nb-icon-bianji1",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "dialog": {
+                                "type": "dialog",
+                                "title": "编辑用户",
+                                "body": [
+                                    {
+                                        "type": "form",
+                                        "api": {
+                                            "method": "post",
+                                            "url": "cloud/app/app-user",
+                                            "messages": {
+                                                "success": "保存用户成功"
+                                            },
+                                            "dataType": "json",
+                                            "data": {
+                                                "&": "$$",
+                                                "id": "$id"
+                                            }
+                                        },
+                                        "body": [
+                                            {
+                                                "name": "login",
+                                                "label": "用户名",
+                                                "type": "input-text",
+                                                "id": "u:2d67ce5ce578",
+                                                "required": true,
+                                                "readOnly": false,
+                                                "disabled": true,
+                                                "size": "md"
+                                            },
+                                            {
+                                                "label": "姓名",
+                                                "name": "name",
+                                                "type": "input-text",
+                                                "id": "u:d2f41fc9cd2a",
+                                                "size": "md"
+                                            },
+                                            {
+                                                "type": "tree-select",
+                                                "label": "所属部门",
+                                                "size": "lg",
+                                                "name": "deptId",
+                                                "multiple": false,
+                                                "enableNodePath": false,
+                                                "hideRoot": true,
+                                                "showIcon": true,
+                                                "initiallyOpen": true,
+                                                "deferApi": {
+                                                    "method": "get",
+                                                    "url": "cloud/app/app-org?filter[parentId][eq]=${id}",
+                                                    "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                                    "data": {
+                                                        "sort[0]": "seq,asc",
+                                                        "size": 100
+                                                    }
+                                                },
+                                                "source": {
+                                                    "method": "get",
+                                                    "url": "cloud/app/app-org?filter[parentId][eq]=${companyId}",
+                                                    "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                                    "data": {
+                                                        "sort[0]": "seq,asc",
+                                                        "size": 100
+                                                    }
+                                                },
+                                                "labelField": "shortName",
+                                                "valueField": "id"
+                                            },
+                                            {
+                                                "type": "hidden",
+                                                "name": "companyName",
+                                                "id": "u:ccf492742gd1"
+                                            },
+                                            {
+                                                "type": "hidden",
+                                                "name": "deptName",
+                                                "id": "u:aaf4723948fk9"
+                                            }
+                                        ],
+                                        "id": "u:ccf940524de3"
+                                    }
+                                ],
+                                "id": "u:b938cf4594ec"
+                            },
+                            "id": "u:46de99657541"
+                        },
+                        {
+                            "type": "button",
+                            "label": "重置密码",
+                            "icon": "nb-icon",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要重置用户密码？",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "args": {
+                                                "options": {
+                                                },
+                                                "api": {
+                                                    "method": "post",
+                                                    "url": "cloud/app/app-user/reset-password",
+                                                    "dataType": "json",
+                                                    "data": {
+                                                        "login": "$login"
+                                                    },
+                                                    "messages": {
+                                                        "success": "重置用户密码成功"
+                                                    }
+                                                }
+                                            },
+                                            "outputVar": "responseResult",
+                                            "actionType": "ajax"
+                                        },
+                                        {
+                                            "dialog": {
+                                                "type": "dialog",
+                                                "title": "重要提示",
+                                                "body": [
+                                                    {
+                                                        "type": "tpl",
+                                                        "tpl": "<h4 style=\"margin:0;color:#ff003a;text-align:center;font-size:18px;\">密码已重置完成，请尽快修改。</h4>"
+                                                    },
+                                                    {
+                                                        "type": "form",
+                                                        "wrapWithPanel": false,
+                                                        "labelWidth": 50,
+                                                        "body": [
+                                                            {
+                                                                "type": "button-toolbar",
+                                                                "label": "密码",
+                                                                "buttons": [
+                                                                    {
+                                                                        "type": "tpl",
+                                                                        "id": "u:5ud9f19af1o9",
+                                                                        "tpl": "<p style=\"margin:0\">\n  <span class=\"ptl-form-item-text w-full\">\n    ${newPassword}\n  </span>\n</p>",
+                                                                        "inline": true,
+                                                                        "wrapperComponent": "",
+                                                                        "className": "m-t-xs m-l-xs flex-1"
+                                                                    },
+                                                                    {
+                                                                        "type": "button",
+                                                                        "label": "复制",
+                                                                        "actionType": "copy",
+                                                                        "content": "${newPassword}",
+                                                                        "id": "u:4j6b3cbf9ef",
+                                                                        "className": "m-l m-t-sm"
+                                                                    }
+                                                                ],
+                                                                "id": "u:0ea5f631dfa3",
+                                                                "className": "text-left",
+                                                                "inputClassName": "flex"
+                                                            }
+                                                        ],
+                                                        "mode": "horizontal",
+                                                        "className": "m-t-lg"
+                                                    }
+
+                                                ],
+                                                "actions": [],
+                                                "showCloseButton": true,
+                                                "showErrorMsg": false,
+                                                "showLoading": true,
+                                                "id": "u:6653ddc6e05a"
+                                            },
+                                            "actionType": "dialog"
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:a63ddc0a833a"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "icon": "nb-icon nb-icon-shanchu",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "delete",
+                                "url": "cloud/app/app-user/${id}",
+                                "messages": {
+                                    "success": "删除用户成功"
+                                }
+                            },
+                            "id": "u:a63ddc0a833a"
+                        }
+                    ]
+                }
+            ],
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "cloud/app/app-user",
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                "data": {
+                    "sort[0]": "createdAt,asc",
+                    "page": "${page}",
+                    "size": "${size}",
+                    "filter.login.eq": "${filter.login.eq}",
+                    "filter.name.eq": "${filter.name.eq}"
+                }
+            },
+            "bulkActions": [
+                {
+                    "label": "分配角色",
+                    "type": "button",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "选择角色",
+                                        "body": [
+                                            {
+                                                "type": "form",
+                                                "title": "表单",
+                                                "body": [
+                                                    {
+                                                        "type": "picker",
+                                                        "id": "u:e4c5b62d8c14",
+                                                        "mode": "normal",
+                                                        "label": "",
+                                                        "name": "roles",
+                                                        "modalMode": "dialog",
+                                                        "multiple": true,
+                                                        "embed": true,
+                                                        "joinValues": false,
+                                                        "pickerSchema": {
+                                                            "id": "u:09b2863eeb55",
+                                                            "columns": [
+                                                                {
+                                                                    "type": "text",
+                                                                    "name": "code",
+                                                                    "label": "编码",
+                                                                    "id": "u:ea53e21109d6"
+                                                                },
+                                                                {
+                                                                    "type": "text",
+                                                                    "label": "名称",
+                                                                    "name": "name",
+                                                                    "id": "u:8a15ffb9581f"
+                                                                },
+                                                                {
+                                                                    "type": "date",
+                                                                    "label": "更新时间",
+                                                                    "format": "YYYY-MM-DD HH:mm",
+                                                                    "name": "updatedAt",
+                                                                    "id": "u:7a15ffb8732e"
+                                                                }
+                                                            ],
+                                                            "bulkActions": [],
+                                                            "perPageAvailable": [
+                                                                10
+                                                            ],
+                                                            "messages": {},
+                                                            "syncLocation": false,
+                                                            "alwaysShowPagination": true,
+                                                            "headerToolbar": {
+                                                                "wrapWithPanel": false,
+                                                                "type": "form",
+                                                                "className": "text-right",
+                                                                "mode": "inline",
+                                                                "body": [
+                                                                    {
+                                                                        "type": "input-text",
+                                                                        "name": "roleCode",
+                                                                        "addOn": {
+                                                                            "type": "submit",
+                                                                            "label": "搜索",
+                                                                            "level": "primary",
+                                                                            "icon": "fa fa-search pull-left",
+                                                                            "id": "u:08bd165a8e6b"
+                                                                        },
+                                                                        "id": "u:be04cb1b81d6",
+                                                                        "size": "md",
+                                                                        "placeholder": "输入角色编码"
+                                                                    }
+                                                                ],
+                                                                "id": "u:b39b56a3feb3",
+                                                                "canAccessSuperData": false,
+                                                                "target": "u:09b2863eeb55"
+                                                            },
+                                                            "columnsTogglable": true,
+                                                            "autoFillHeight": {
+                                                                "height": 300
+                                                            },
+                                                            "perPageField": "size"
+                                                        },
+                                                        "source": {
+                                                            "url": "cloud/app/app-role?filter[code][eq]=${roleCode}",
+                                                            "method": "get",
+                                                            "adaptor": "return nbAmis.adaptors.commonList(payload, response)"
+                                                        },
+                                                        "labelField": "name",
+                                                        "valueField": "id"
+                                                    }
+                                                ],
+                                                "wrapWithPanel": false,
+                                                "api": {
+                                                    "url": "cloud/app/app-user/allocate/roles",
+                                                    "method": "post",
+                                                    "messages": {
+                                                        "success": "分配角色成功"
+                                                    },
+                                                    "dataType": "json",
+                                                    "data": {
+                                                        "userIds": "${SPLIT(ids, ',')}",
+                                                        "roleIds": "${ARRAYMAP(roles, item => item.id)}"
+                                                    }
+                                                },
+                                                "id": "u:4d36dc514680",
+                                                "onEvent": {
+                                                    "submitSucc": {
+                                                        "actions": [
+                                                            {
+                                                                "actionType": "reload",
+                                                                "componentId": "u:4285c2292e45",
+                                                                "dataMergeMode": "merge"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "showCloseButton": true,
+                                        "showErrorMsg": false,
+                                        "showLoading": true,
+                                        "id": "u:de8149176a88",
+                                        "closeOnEsc": false,
+                                        "dataMapSwitch": false,
+                                        "size": "md"
+                                    },
+                                    "actionType": "dialog"
+                                }
+                            ]
+                        }
+                    },
+                    "id": "u:69be91894217"
+                }
+            ],
+            "itemActions": [],
+            "features": [
+                "create",
+                "update",
+                "delete"
+            ],
+            "filterColumnCount": 3,
+            "headerToolbar": [
+                {
+                    "label": "新增用户",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "新增用户",
+                        "body": [
+                            {
+                                "type": "form",
+                                "api": {
+                                    "method": "post",
+                                    "url": "cloud/app/app-user",
+                                    "adaptor": "",
+                                    "messages": {
+                                        "success": "新增用户成功"
+                                    },
+                                    "dataType": "json"
+                                },
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "login",
+                                        "label": "用户名",
+                                        "id": "u:4c0d6374b076",
+                                        "required": true,
+                                        "size": "md",
+                                        "description": "由英文、数字、下划线、中划线组成。 不少于5位",
+                                        "validations": {
+                                            "minLength": 5,
+                                            "matchRegexp": "^[a-zA-Z0-9\\-_]+$"
+                                        },
+                                        "validationErrors": {
+                                            "matchRegexp": "由英文、数字、下划线、中划线组成"
+                                        }
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "name",
+                                        "label": "姓名",
+                                        "id": "u:f9212d249428",
+                                        "size": "md",
+                                        "description": "用户姓名"
+                                    },
+                                    {
+                                        "type": "tree-select",
+                                        "label": "所属部门",
+                                        "size": "lg",
+                                        "name": "deptId",
+                                        "multiple": false,
+                                        "enableNodePath": false,
+                                        "hideRoot": true,
+                                        "showIcon": true,
+                                        "initiallyOpen": true,
+                                        "deferApi": {
+                                            "method": "get",
+                                            "url": "cloud/app/app-org?filter[parentId][eq]=${id}",
+                                            "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                            "data": {
+                                                "sort[0]": "seq,asc",
+                                                "size": 100
+                                            }
+                                        },
+                                        "source": {
+                                            "method": "get",
+                                            "url": "cloud/app/app-org?filter[parentId][eq]=${companyId}",
+                                            "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                            "data": {
+                                                "sort[0]": "seq,asc",
+                                                "size": 100
+                                            }
+                                        },
+                                        "labelField": "shortName",
+                                        "valueField": "id"
+                                    },
+                                    {
+                                        "type": "textarea",
+                                        "label": "备注",
+                                        "name": "remark",
+                                        "size": "lg",
+                                        "description": ""
+                                    },
+                                    {
+                                        "type": "hidden",
+                                        "name": "companyName",
+                                        "id": "u:a5g45dee8t23"
+                                    },
+                                    {
+                                        "type": "hidden",
+                                        "name": "deptName",
+                                        "id": "u:a8u34dee6g49"
+                                    }
+                                ],
+                                "id": "u:a4b94dee4f03"
+                            }
+                        ],
+                        "id": "u:72f1d73f20fc",
+                        "showCloseButton": true,
+                        "closeOnEsc": false,
+                        "showErrorMsg": true,
+                        "showLoading": false,
+                        "dataMapSwitch": false
+                    },
+                    "id": "u:72943c6f689c"
+                },
+                {
+                    "type": "bulk-actions"
+                },
+                {
+                    "type": "button",
+                    "tpl": "内容",
+                    "id": "u:f61daa006881",
+                    "label": "Excel导入",
+                    "align": "right",
+                    "level": "enhance",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "Excel导入",
+                                        "body": [
+                                            {
+                                                "type": "wizard",
+                                                "id": "u:3b7ce318b5d8",
+                                                "steps": [
+                                                    {
+                                                        "title": "选择文件",
+                                                        "body": [
+                                                            {
+                                                                "type": "input-excel",
+                                                                "label": "选择Excel",
+                                                                "name": "excel",
+                                                                "id": "u:a5a70d91ca3d"
+                                                            }
+                                                        ],
+                                                        "id": "u:591d8d943970",
+                                                        "mode": "normal"
+                                                    },
+                                                    {
+                                                        "title": "数据映射",
+                                                        "data": {},
+                                                        "body": [
+                                                            {
+                                                                "type": "input-table",
+                                                                "name": "columnMap",
+                                                                "label": "数据映射",
+                                                                "columns": [
+                                                                    {
+                                                                        "label": "字段",
+                                                                        "name": "fieldName",
+                                                                        "quickEdit": false,
+                                                                        "type": "text",
+                                                                        "id": "u:717ec09900e5",
+                                                                        "placeholder": "-"
+                                                                    },
+                                                                    {
+                                                                        "label": "说明",
+                                                                        "name": "comment",
+                                                                        "quickEdit": false,
+                                                                        "type": "text",
+                                                                        "id": "u:929ec05511e5",
+                                                                        "placeholder": "-"
+                                                                    },
+                                                                    {
+                                                                        "label": "Excel列",
+                                                                        "name": "excelCol",
+                                                                        "quickEdit": false,
+                                                                        "type": "select",
+                                                                        "source": "${excel | first | objectToArray:value:name}",
+                                                                        "labelField": "name",
+                                                                        "valueField": "name",
+                                                                        "multiple": false,
+                                                                        "clearable": true,
+                                                                        "showInvalidMatch": true,
+                                                                        "id": "u:50d0024b51c3",
+                                                                        "placeholder": "-"
+                                                                    }
+                                                                ],
+                                                                "strictMode": true,
+                                                                "id": "u:3abf29f5a112"
+                                                            }
+                                                        ],
+                                                        "mode": "normal",
+                                                        "id": "u:efbe8d681739",
+                                                        "initApi": {
+                                                            "method": "get",
+                                                            "url": "cloud/app/app-user/struct",
+                                                            "data": null,
+                                                            "adaptor": "return {\n    columnMap:payload.data\n}",
+                                                            "dataType": "json"
+                                                        }
+                                                    }
+                                                ],
+                                                "mode": "horizontal",
+                                                "api": "cloud/app-user/imp"
+                                            }
+                                        ],
+                                        "showCloseButton": true,
+                                        "showErrorMsg": false,
+                                        "showLoading": true,
+                                        "id": "u:2d6ca88f984e",
+                                        "closeOnEsc": false,
+                                        "dataMapSwitch": false,
+                                        "size": "md",
+                                        "actions": []
+                                    },
+                                    "actionType": "dialog"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "id": "u:4285c2292e45",
+            "perPageAvailable": [
+                10
+            ],
+            "messages": {},
+            "filter": {
+                "title": "查询条件",
+                "body": [
+                    {
+                        "type": "grid",
+                        "id": "u:ed01de1f3e7d",
+                        "columns": [
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "filter.login.eq",
+                                        "label": "用户名",
+                                        "id": "u:08222f4fff27"
+                                    }
+                                ],
+                                "id": "u:7ae16aac9600"
+                            },
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "label": "姓名",
+                                        "name": "filter.name.eq",
+                                        "id": "u:879196f033fb"
+                                    }
+                                ],
+                                "id": "u:2ba013c24bdc"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:d74ecc8060b2"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:7203986db7be"
+                            }
+                        ],
+                        "gap": "lg"
+                    }
+                ],
+                "id": "u:0234900b49e7",
+                "mode": "horizontal",
+                "horizontal": {}
+            },
+            "alwaysShowPagination": true,
+            "perPageField": "size",
+            "autoFillHeight": {
+                "height": 400
+            }
+        }
+    ],
+    "type": "page",
+    "title": "用户管理"
+}

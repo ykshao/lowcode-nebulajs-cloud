@@ -1,0 +1,203 @@
+{
+    "id": "u:cefe891e29ba",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": ["body"],
+    "body": [
+        {
+            "type": "crud",
+            "mode": "cards",
+            "className": "ptl-index-apps",
+            "columnsCount": 4,
+            "placeholder": "没有处理信息",
+            "syncLocation": false,
+            "alwaysShowPagination": true,
+            "id": "u:441f598fd1v6",
+            "api": {
+                "url": "/portal/cl-application",
+                "method": "get",
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)"
+            },
+            "card": {
+                "className": "nb-card",
+                "type": "card",
+                "header": {
+                    "title": "$name",
+                    "subTitle": "$code",
+                    "avatar": "${logo||'/images/icons/app-default.png'}"
+                },
+                "toolbar": [
+                    {
+                        "type": "tpl",
+                        "tpl": "正常",
+                        "className": "label label-success"
+                    }
+                ],
+                "body": [
+                    {
+                        "type": "container",
+                        "className": "ptl-app-tags",
+                        "body": [
+                            {
+                                "type": "tpl",
+                                "tpl": "$serverName"
+                            }
+                        ]
+                    }
+                ],
+                "actions": [
+                    {
+                        "type": "button",
+                        "label": "进入",
+                        "onEvent": {
+                            "click": {
+                                "actions": [
+                                    {
+                                        "args": {
+                                            "options": {
+                                                "silent": false
+                                            },
+                                            "api": {
+                                                "method": "get",
+                                                "url": "/portal/cl-application/switch/${id}"
+                                            },
+                                            "messages": {
+                                                "success": ""
+                                            }
+                                        },
+                                        "outputVar": "responseResult",
+                                        "actionType": "ajax"
+                                    },
+                                    {
+                                        "args": {
+                                            "url": "/console#/portal/model",
+                                            "blank": false
+                                        },
+                                        "actionType": "url"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "affixHeader": false,
+            "headerToolbar": [
+                {
+                    "type": "bulk-actions"
+                },
+                {
+                    "type": "tpl",
+                    "tpl": "应用列表",
+                    "className": "ptl-apps-title",
+                    "align": "left"
+                },
+                {
+                    "type": "button",
+                    "tpl": "内容",
+                    "label": "创建应用",
+                    "align": "right",
+                    "level": "primary",
+                    "icon": "",
+                    "onEvent": {
+                        "click": {
+                            "actions": [
+                                {
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "创建应用",
+                                        "body": [
+                                            {
+                                                "type": "form",
+                                                "title": "表单",
+                                                "body": [
+                                                    {
+                                                        "label": "应用名称",
+                                                        "type": "input-text",
+                                                        "name": "name",
+                                                        "id": "u:cfa97fe838c9",
+                                                        "description": "应用中文名称",
+                                                        "required": true,
+                                                        "validations": {
+                                                            "maxLength": 50
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "code",
+                                                        "label": "应用编码",
+                                                        "id": "u:9b489bb8e623",
+                                                        "description": "应用英文编码，通常由英文数字中划线组成。编码在创建应用后无法进行修改。",
+                                                        "required": true,
+                                                        "validations": {
+                                                            "minLength": 5,
+                                                            "maxLength": 30,
+                                                            "matchRegexp": "^[a-zA-Z0-9\\-]+$"
+                                                        },
+                                                        "validationErrors": {
+                                                            "matchRegexp": "由英文、数字、中划线组成"
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "button-group-select",
+                                                        "label": "机房",
+                                                        "name": "serverId",
+                                                        "id": "u:d396540f4e0b",
+                                                        "value": "default",
+                                                        "multiple": false,
+                                                        "source": {
+                                                            "url": "/portal/cl-application/servers",
+                                                            "method": "get",
+                                                            "messages": {},
+                                                            "dataType": "json"
+                                                        },
+                                                        "labelField": "name",
+                                                        "valueField": "code",
+                                                        "inline": false
+                                                    }
+                                                ],
+                                                "api": {
+                                                    "method": "post",
+                                                    "url": "/portal/cl-application",
+                                                    "messages": {
+                                                        "success": "创建应用成功"
+                                                    }
+                                                },
+                                                "id": "u:194eb69ea91a",
+                                                "onEvent": {
+                                                    "submitSucc": {
+                                                        "actions": [
+                                                            {
+                                                                "actionType": "reload",
+                                                                "componentId": "u:441f598fd1v6",
+                                                                "dataMergeMode": "merge"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "showCloseButton": true,
+                                        "showErrorMsg": true,
+                                        "showLoading": false,
+                                        "id": "u:1559acef9926",
+                                        "closeOnEsc": false,
+                                        "dataMapSwitch": false
+                                    },
+                                    "actionType": "dialog"
+                                }
+                            ],
+                            "weight": 0
+                        }
+                    },
+                    "id": "u:71a02f714e0e"
+                }
+            ]
+        }
+    ],
+    "type": "page",
+    "toolbar": [],
+    "className": ""
+}

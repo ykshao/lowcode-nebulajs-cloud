@@ -1,0 +1,569 @@
+{
+    "id": "u:7164b4b64650",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": ["body"],
+    "body": [
+        {
+            "type": "flex",
+            "id": "u:c65c9a14d1ae",
+            "style": {
+                "position": "static",
+                "flexWrap": "nowrap"
+            },
+            "className": "",
+            "isFixedHeight": false,
+            "isFixedWidth": false,
+            "items": [
+                {
+                    "type": "container",
+                    "body": [
+                        {
+                            "type": "container",
+                            "body": [
+                                {
+                                    "type": "tpl",
+                                    "tpl": "代码仓库",
+                                    "inline": true,
+                                    "wrapperComponent": "",
+                                    "id": "u:35ceafc8fc24",
+                                    "style": {
+                                        "fontFamily": "",
+                                        "fontSize": 15,
+                                        "fontWeight": "bold"
+                                    }
+                                },
+                                {
+                                    "type": "form",
+                                    "title": "表单",
+                                    "body": [
+                                        {
+                                            "type": "static",
+                                            "label": "地址",
+                                            "id": "u:09096ab8c552",
+                                            "tpl": "<p style=\"margin:0\"><span class=\"ptl-form-item-text\">${appInfo.gitUrl}</span></p>",
+                                            "style": {
+                                                "backgroundColor": ""
+                                            },
+                                            "wrapperComponent": ""
+                                        },
+                                        {
+                                            "type": "static",
+                                            "label": "分支",
+                                            "id": "u:d11b95a53d33",
+                                            "tpl": "<p style=\"margin:0\"><span class=\"ptl-form-item-text\">${appInfo.gitBranch}</span></p>",
+                                            "wrapperComponent": ""
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "设置",
+                                            "onEvent": {
+                                                "click": {
+                                                    "actions": [
+                                                        {
+                                                            "dialog": {
+                                                                "type": "dialog",
+                                                                "title": "设置仓库",
+                                                                "body": [
+                                                                    {
+                                                                        "type": "form",
+                                                                        "title": "表单",
+                                                                        "labelWidth": 50,
+                                                                        "api": {
+                                                                            "method": "post",
+                                                                            "url": "/portal/cl-application/info?git=true",
+                                                                            "messages":{
+                                                                                "success": "保存成功"
+                                                                            }
+                                                                        },
+                                                                        "body": [
+                                                                            {
+                                                                                "label": "地址",
+                                                                                "type": "input-text",
+                                                                                "name": "gitUrl",
+                                                                                "id": "u:ab5d1c7527cb",
+                                                                                "required": true,
+                                                                                "description": "应用代码的Git地址"
+                                                                            },
+                                                                            {
+                                                                                "type": "input-text",
+                                                                                "label": "用户名",
+                                                                                "name": "gitUsername",
+                                                                                "id": "u:3f5gfe03942c",
+                                                                                "size": "sm",
+                                                                                "required": true,
+                                                                                "description": "应用代码的Git用户名"
+                                                                            },
+                                                                            {
+                                                                                "type": "input-password",
+                                                                                "label": "密码",
+                                                                                "name": "gitPassword",
+                                                                                "id": "u:8d9vfe03384f",
+                                                                                "size": "sm",
+                                                                                "required": true,
+                                                                                "description": "应用代码的Git密码"
+                                                                            },
+                                                                            {
+                                                                                "type": "input-text",
+                                                                                "label": "分支",
+                                                                                "name": "gitBranch",
+                                                                                "id": "u:2c5cfe03107c",
+                                                                                "size": "sm",
+                                                                                "required": true,
+                                                                                "value": "master",
+                                                                                "description": "应用代码的Git分支"
+                                                                            }
+                                                                        ],
+                                                                        "id": "u:3ed5d8bf059d"
+                                                                    }
+                                                                ],
+                                                                "showCloseButton": true,
+                                                                "showErrorMsg": false,
+                                                                "showLoading": true,
+                                                                "id": "u:f74220687edb",
+                                                                "closeOnEsc": false,
+                                                                "dataMapSwitch": false,
+                                                                "data": {
+                                                                    "gitUrl": "${appInfo.gitUrl}",
+                                                                    "gitBranch": "${appInfo.gitBranch}",
+                                                                    "gitUsername": "${appInfo.gitUsername}",
+                                                                    "gitPassword": "${appInfo.gitPassword}"
+                                                                }
+                                                            },
+                                                            "actionType": "dialog"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "id": "u:5737fc00758e",
+                                            "className": "m-r-sm",
+                                            "level": "enhance"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "拉取代码",
+                                            "actionType": "ajax",
+                                            "api": {
+                                                "url": "/portal/cl-application/pull",
+                                                "method": "post",
+                                                "messages": {
+                                                    "success": "拉取应用代码成功"
+                                                }
+                                            },
+                                            "id": "u:ff5e638428ce",
+                                            "className": "m-r-sm",
+                                            "level": "enhance",
+                                            "reload": "u:7164b4b64650"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "推送代码",
+                                            "actionType": "ajax",
+                                            "api": {
+                                                "url": "/portal/cl-application/push",
+                                                "method": "post",
+                                                "messages": {
+                                                    "success": "推送应用代码成功"
+                                                }
+                                            },
+                                            "id": "u:ee67638449ud",
+                                            "level": "primary",
+                                            "reload": "u:7164b4b64650",
+                                            "className": "m-r-sm"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "更新程序模板",
+                                            "actionType": "ajax",
+                                            "confirmText": "<div style='line-height:1.7em;letter-spacing:0.05em'>即将使用Nebula中最新的程序模板<b style='color:red'>重新生成应用</b>，该操作会导致<b style='color:red'>本地代码被覆盖</b>，请确认本地代码已经提交到仓库。</div>",
+                                            "api": {
+                                                "method": "post",
+                                                "url": "/portal/cl-application/recreate?appId=${appInfo.appId}",
+                                                "messages": {
+                                                    "success": "升级应用程序模板成功"
+                                                }
+                                            },
+                                            "level": "danger"
+                                        }
+                                    ],
+                                    "id": "u:30a3bfa0cc0c",
+                                    "wrapWithPanel": false,
+                                    "className": "m-t-sm"
+                                }
+                            ],
+                            "style": {
+                                "position": "static",
+                                "display": "block"
+                            },
+                            "className": "nb-card p",
+                            "id": "u:e19483586c4d",
+                            "isFixedHeight": false,
+                            "isFixedWidth": false,
+                            "bodyClassName": "p-xs"
+                        },
+                        {
+                            "type": "container",
+                            "id": "u:51789452ac0e",
+                            "style": {
+                                "position": "static",
+                                "display": "block"
+                            },
+                            "body": [
+                                {
+                                    "type": "tpl",
+                                    "tpl": "最近提交",
+                                    "inline": true,
+                                    "wrapperComponent": "",
+                                    "id": "u:07b3b5325125",
+                                    "style": {
+                                        "fontFamily": "",
+                                        "fontSize": 15,
+                                        "fontWeight": "bold"
+                                    }
+                                },
+                                {
+                                    "type": "crud",
+                                    "id": "u:944324859600",
+                                    "syncLocation": false,
+                                    "source": "${commitList}",
+                                    "bulkActions": [],
+                                    "itemActions": [],
+                                    "perPageAvailable": [10],
+                                    "messages": {},
+                                    "mode": "table",
+                                    "title": "",
+                                    "columns": [
+                                        {
+                                            "name": "author",
+                                            "label": "用户",
+                                            "type": "text",
+                                            "id": "u:c2ba4b8aa557",
+                                            "width": 65
+                                        },
+                                        {
+                                            "name": "message",
+                                            "label": "内容",
+                                            "type": "tpl",
+                                            "id": "u:dbc16c7e4584",
+                                            "width": 200,
+                                            "tpl": "<div style='word-break: break-all;'>${message}</div>"
+                                        },
+                                        {
+                                            "type": "text",
+                                            "label": "时间",
+                                            "name": "timestamp",
+                                            "id": "u:8acb2fedb680"
+                                        }
+                                    ],
+                                    "className": "m-t-sm",
+                                    "bodyClassName": "",
+                                    "tableClassName": ""
+                                }
+                            ],
+                            "isFixedHeight": false,
+                            "isFixedWidth": false,
+                            "className": "m-t-md nb-card p",
+                            "bodyClassName": "p-xs"
+                        }
+                    ],
+                    "size": "xs",
+                    "style": {
+                        "position": "static",
+                        "display": "block",
+                        "flex": "0 0 150px",
+                        "flexBasis": "450px"
+                    },
+                    "wrapperBody": false,
+                    "isFixedHeight": false,
+                    "isFixedWidth": false,
+                    "id": "u:d29dc4ba856c",
+                    "className": "m-r-sm"
+                },
+                {
+                    "type": "container",
+                    "body": [
+                        {
+                            "type": "container",
+                            "body": [
+                                {
+                                    "type": "container",
+                                    "body": [
+                                        {
+                                            "type": "image",
+                                            "id": "u:d1904363c322",
+                                            "src": "/images/code/vscode.png",
+                                            "imageMode": "thumb",
+                                            "width": 340,
+                                            "height": "",
+                                            "className": "",
+                                            "imageClassName": "",
+                                            "innerClassName": "no-border"
+                                        },
+                                        {
+                                            "type": "tpl",
+                                            "tpl": "<ul>\n  <li>1.开发容器采用VSCODE在线版，与桌面版本功能基本相同，暂不支持安装插件。</li>\n  <li>2.开发容器中的node程序采用nodemon方式启动，支持更改代码后自动重启程序。</li>\n  <li>3.开发容器中修改代码后，请及时提交到代码仓库，以免改动丢失。</li>\n  <li>4.开发容器启动后会生成一个开发实例。如果该实例被停止或删除，则编辑器无法使用。</li>\n</ul>",
+                                            "inline": false,
+                                            "wrapperComponent": "",
+                                            "id": "u:c147969f1f38",
+                                            "style": {
+                                                "fontFamily": "",
+                                                "fontSize": 14,
+                                                "textAlign": "left",
+                                                "color": "#9b9b9b"
+                                            },
+                                            "className": "m-t-lg"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "启动编辑器",
+                                            "level": "primary",
+                                            "actionType": "ajax",
+                                            "api": {
+                                                "url": "/portal/cl-application/develop",
+                                                "method": "post",
+                                                "messages": {
+                                                    "success": "启动开发容器成功"
+                                                },
+                                                "dataType": "json"
+                                            },
+                                            "className": "m-t-md m-b-md",
+                                            "visibleOn": "!instance.status || instance.status == '0'",
+                                            "id": "u:2e780404c8bd",
+                                            "reload": "u:7164b4b64650"
+                                        },
+                                        {
+                                            "type": "button",
+                                            "label": "停止编辑器",
+                                            "actionType": "ajax",
+                                            "api": {
+                                                "url": "/portal/cl-instance/stop/${instance.id}",
+                                                "method": "get",
+                                                "messages": {
+                                                    "success": "停止开发容器成功"
+                                                }
+                                            },
+                                            "id": "u:a3401e7cf980",
+                                            "level": "warning",
+                                            "visibleOn": "instance.status && instance.status != '0'",
+                                            "className": "m-t-md m-b-md",
+                                            "reload": "u:7164b4b64650"
+                                        },
+                                        {
+                                            "type": "container",
+                                            "body": [
+                                                {
+                                                    "type": "form",
+                                                    "title": "表单",
+                                                    "body": [
+                                                        {
+                                                            "type": "button-toolbar",
+                                                            "label": "开发密码",
+                                                            "buttons": [
+                                                                {
+                                                                    "type": "tpl",
+                                                                    "id": "u:5ud9f19af1o9",
+                                                                    "tpl": "<p style=\"margin:0\">\n  <span class=\"ptl-form-item-text w-full\">\n    ${appInfo.vsCodePassword}\n  </span>\n</p>",
+                                                                    "inline": true,
+                                                                    "wrapperComponent": "",
+                                                                    "className": "m-t-xs m-l-xs flex-1"
+                                                                },
+                                                                {
+                                                                    "type": "button",
+                                                                    "label": "复制",
+                                                                    "visibleOn": "appInfo.vsCodePassword",
+                                                                    "actionType": "copy",
+                                                                    "content": "${appInfo.vsCodePassword}",
+                                                                    "id": "u:4j6b3cbf9ef",
+                                                                    "className": "m-l m-t-sm"
+                                                                }
+                                                            ],
+                                                            "id": "u:0ea5f631dfa3",
+                                                            "className": "text-left",
+                                                            "inputClassName": "flex"
+                                                        },
+                                                        {
+                                                            "type": "button-toolbar",
+                                                            "label": "开发地址",
+                                                            "buttons": [
+                                                                {
+                                                                    "type": "tpl",
+                                                                    "id": "u:4ea9f19af9d8",
+                                                                    "tpl": "<p style=\"margin:0\">\n  <span class=\"ptl-form-item-text w-full\">\n    ${devURL}\n  </span>\n</p>",
+                                                                    "inline": true,
+                                                                    "wrapperComponent": "",
+                                                                    "className": "m-t-xs m-l-xs flex-1"
+                                                                },
+                                                                {
+                                                                    "type": "button",
+                                                                    "label": "打开",
+                                                                    "visibleOn": "devURL",
+                                                                    "onEvent": {
+                                                                        "click": {
+                                                                            "actions": [
+                                                                                {
+                                                                                    "args": {
+                                                                                        "url": "${devURL}"
+                                                                                    },
+                                                                                    "actionType": "url"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    "id": "u:9a49b3cbb0de",
+                                                                    "className": "m-l m-t-sm"
+                                                                }
+                                                            ],
+                                                            "id": "u:0ea5f631dfa3",
+                                                            "className": "text-left",
+                                                            "inputClassName": "flex"
+                                                        },
+                                                        {
+                                                            "type": "button-toolbar",
+                                                            "label": "应用地址",
+                                                            "buttons": [
+                                                                {
+                                                                    "type": "tpl",
+                                                                    "id": "u:8e346d21f176",
+                                                                    "tpl": "<p style=\"margin:0\">\n  <span class=\"ptl-form-item-text w-full\">\n    ${appURL}\n  </span>\n</p>",
+                                                                    "inline": true,
+                                                                    "wrapperComponent": "",
+                                                                    "className": "m-t-xs m-l-xs flex-1"
+                                                                },
+                                                                {
+                                                                    "type": "button",
+                                                                    "id": "u:892de805a36e",
+                                                                    "label": "打开",
+                                                                    "visibleOn": "appURL",
+                                                                    "onEvent": {
+                                                                        "click": {
+                                                                            "actions": [
+                                                                                {
+                                                                                    "args": {
+                                                                                        "url": "${appURL}"
+                                                                                    },
+                                                                                    "actionType": "url"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    "className": "m-l m-t-sm"
+                                                                }
+                                                            ],
+                                                            "id": "u:ab9c243fcb83",
+                                                            "className": "text-left",
+                                                            "inputClassName": "flex"
+                                                        },
+                                                        {
+                                                            "type": "button-toolbar",
+                                                            "label": "文档地址",
+                                                            "buttons": [
+                                                                {
+                                                                    "type": "tpl",
+                                                                    "tpl": "<p style=\"margin:0\">\n  <span class=\"ptl-form-item-text w-full\">\n    ${docURL}\n  </span>\n</p>",
+                                                                    "inline": true,
+                                                                    "wrapperComponent": "",
+                                                                    "id": "u:0bcd62370c40",
+                                                                    "className": "m-t-xs m-l-xs flex-1"
+                                                                },
+                                                                {
+                                                                    "type": "button",
+                                                                    "label": "打开",
+                                                                    "visibleOn": "docURL",
+                                                                    "onEvent": {
+                                                                        "click": {
+                                                                            "actions": [
+                                                                                {
+                                                                                    "args": {
+                                                                                        "url": "${docURL}"
+                                                                                    },
+                                                                                    "actionType": "url"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    },
+                                                                    "id": "u:e87387289c35"
+                                                                }
+                                                            ],
+                                                            "id": "u:613adf52a0d9",
+                                                            "className": "text-left",
+                                                            "inputClassName": "flex"
+                                                        }
+                                                    ],
+                                                    "id": "u:bb38c8004e9e",
+                                                    "wrapWithPanel": false,
+                                                    "mode": "horizontal",
+                                                    "className": "m-t-lg"
+                                                }
+                                            ],
+                                            "style": {
+                                                "position": "static",
+                                                "display": "block"
+                                            },
+                                            "id": "u:a5e1fcbf3398"
+                                        }
+                                    ],
+                                    "style": {
+                                        "position": "static",
+                                        "display": "block",
+                                        "flex": "0 0 auto",
+                                        "fontFamily": "",
+                                        "fontSize": 12,
+                                        "textAlign": "center"
+                                    },
+                                    "id": "u:012d61c8cb48",
+                                    "isFixedWidth": false
+                                }
+                            ],
+                            "style": {
+                                "position": "static",
+                                "display": "flex",
+                                "flexDirection": "column",
+                                "flexWrap": "nowrap",
+                                "justifyContent": "center",
+                                "alignItems": "center",
+                                "flex": "1 1 auto",
+                                "overflowY": "auto",
+                                "flexGrow": 1,
+                                "flexBasis": "auto"
+                            },
+                            "id": "u:4d89a64aadc3",
+                            "isFixedHeight": false,
+                            "isFixedWidth": false,
+                            "className": "nb-card p"
+                        }
+                    ],
+                    "size": "xs",
+                    "style": {
+                        "position": "static",
+                        "display": "flex",
+                        "flex": "1 1 auto",
+                        "flexGrow": 1,
+                        "flexBasis": "auto",
+                        "flexDirection": "column",
+                        "flexWrap": "nowrap",
+                        "justifyContent": "center",
+                        "alignItems": "stretch"
+                    },
+                    "wrapperBody": false,
+                    "isFixedHeight": false,
+                    "isFixedWidth": false,
+                    "id": "u:aa274a2f3b1c"
+                }
+            ],
+            "direction": "row",
+            "justify": "flex-start",
+            "alignItems": "stretch"
+        }
+    ],
+    "title": "代码",
+    "type": "page",
+    "initApi": {
+        "method": "get",
+        "messages": {},
+        "url": "/portal/cl-application/develop"
+    },
+    "className": "",
+    "bodyClassName": ""
+}

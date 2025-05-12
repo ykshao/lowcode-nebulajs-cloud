@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  nebulajs-cloud:
+    # container_name: nebula
+    image: nebulajs-cloud:latest
+    environment:
+      - NODE_ENV=dev
+      - NEBULA_DATA_PATH=/usr/local/nebula/data
+    restart: unless-stopped
+    volumes:
+      - ./logs:/usr/local/nebula/logs
+      - ./data:/usr/local/nebula/data
+    ports:
+      - 3000:3000

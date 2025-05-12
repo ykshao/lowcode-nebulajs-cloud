@@ -1,0 +1,125 @@
+{
+    "body": [
+        {
+            "type": "container",
+            "id": "u:2de7c97d30ed",
+            "body": [
+                {
+                    "type": "container",
+                    "body": [
+                        {
+                            "type": "tpl",
+                            "tpl": "授权登录",
+                            "inline": false,
+                            "wrapperComponent": "",
+                            "id": "u:d04c47d8dd0e",
+                            "style": {
+                                "fontFamily": "",
+                                "fontSize": 19
+                            },
+                            "className": "m-b-lg"
+                        },
+                        {
+                            "type": "avatar",
+                            "showtype": "image",
+                            "icon": "${window:document.forms[0].client_logo.value || ''}",
+                            "fit": "cover",
+                            "style": {
+                                "width": 90,
+                                "height": 90,
+                                "borderRadius": 10
+                            },
+                            "id": "u:bc6fdc86b4a6",
+                            "className": "m-t-md"
+                        },
+                        {
+                            "type": "tpl",
+                            "tpl": "${window:document.forms[0].client_name.value || '未知应用'}",
+                            "inline": false,
+                            "wrapperComponent": "",
+                            "id": "u:4931d078793d",
+                            "className": "text-center m-t-xs m-b-lg",
+                            "style": {
+                                "fontFamily": "",
+                                "fontSize": 23,
+                                "fontWeight": "bold"
+                            }
+                        },
+                        {
+                            "type": "tpl",
+                            "tpl": "申请获取您的个人信息",
+                            "inline": false,
+                            "wrapperComponent": "",
+                            "id": "u:36791c0baf85",
+                            "className": "m-t-lg",
+                            "style": {
+                                "color": "#777777",
+                                "fontFamily": "",
+                                "fontSize": 14
+                            }
+                        },
+                        {
+                            "type": "button",
+                            "label": "授权登录",
+                            "onEvent": {
+                                "click": {
+                                    "actions": [
+                                        {
+                                            "script": "/* 自定义JS使用说明：\n  * 1.动作执行函数doAction，可以执行所有类型的动作\n  * 2.通过上下文对象context可以获取当前组件实例，例如context.props可以获取该组件相关属性\n  * 3.事件对象event，在doAction之后执行event.stopPropagation = true;可以阻止后续动作执行\n*/\n// const myMsg = '我是自定义JS';\n// doAction({\n//   actionType: 'toast',\n//   args: {\n//     msg: myMsg\n//   }\n// });\ndocument.forms[0].submit()\n",
+                                            "actionType": "custom"
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:b64a4c44f5ea",
+                            "level": "primary",
+                            "block": true,
+                            "size": "md",
+                            "className": "m-t-lg"
+                        }
+                    ],
+                    "style": {
+                        "position": "static",
+                        "display": "block",
+                        "flex": "0 0 150px",
+                        "flexBasis": "320px",
+                        "overflowX": "auto",
+                        "overflowY": "auto",
+                        "backgroundColor": "rgba(255, 255, 255, 1)",
+                        "borderTopLeftRadius": 10,
+                        "borderTopRightRadius": 10,
+                        "borderBottomLeftRadius": 10,
+                        "borderBottomRightRadius": 10
+                    },
+                    "id": "u:a1f9f87058eb",
+                    "isFixedHeight": false,
+                    "className": "p-r-lg p-l-lg p-b-lg p-t",
+                    "bodyClassName": "h-full text-center"
+                }
+            ],
+            "style": {
+                "position": "static",
+                "display": "flex",
+                "flexDirection": "row",
+                "flexWrap": "nowrap",
+                "justifyContent": "center",
+                "alignItems": "stretch"
+            },
+            "isFixedHeight": false,
+            "isFixedWidth": false,
+            "className": "h-full",
+            "bodyClassName": "h-full flex items-center justify-center"
+        }
+    ],
+    "regions": ["body", "toolbar"],
+    "type": "page",
+    "pullRefresh": {
+        "disabled": true
+    },
+    "id": "u:49afb1a29b88",
+    "asideResizor": false,
+    "bodyClassName": "m-none p-none",
+    "style": {
+        "backgroundImage": "linear-gradient(180deg, #0d1465, #3a3737)"
+    }
+}

@@ -1,0 +1,415 @@
+<%_
+const baseProps = props
+    .filter(p=>!SystemProps.includes(p.name))
+_%>
+import { Op } from 'sequelize';
+import { NebulaBizError, NebulaErrors, QueryParser, NebulaKoaContext } from 'nebulajs-core'
+import { Constants, ProcessStatus } from '../../config/constants'
+import { CommonErrors } from '../../config/errors'
+import { <%=name%> } from '../../models/<%=name%>'
+export = {
+
+    /**
+     * @swagger
+     * definitions:
+     *   <%=name%>:
+     *     properties:
+           <%_for(let prop of props){_%>
+     *       <%=prop.name%>:
+     *         type: <%=fn_getSwaggerType(prop.type)%>
+     *         description: <%=prop.comment%>
+           <%_}_%>
+     *
+     *   Res<%=name%>:
+     *     properties:
+     *       code:
+     *         type: integer
+     *         description: 返回码（0：正常）
+     *       msg:
+     *         type: string
+     *         description: 返回消息
+     *       data:
+     *         $ref: '#/definitions/<%=name%>'
+     *
+     */
+
+    <%_if(crud.indexOf('C')>=0){_%>
+    /**
+     * @swagger
+     *
+     * /<%=fn_decamelize(name) %>:
+     *   post:
+     *     summary: 新增或更新<%=comment%>
+     *     tags:
+     *       - <%=comment%>
+     *     produces:
+     *       - application/json
+     *     parameters:
+     *       - name: <%=name%>
+     *         in: body
+     *         required: true
+     *         schema:
+     *           $ref: '#/definitions/<%=name%>'
+     *     responses:
+     *       200:
+     *         description: ok
+     *         schema:
+     *           $ref: '#/definitions/Res<%=name%>'
+     *
+     * @param {NebulaKoaContext} ctx
+     * @param next
+     */
+    'post /<%=fn_decamelize(name) %>': async function (ctx, next) {
+        let model: <%=name%> | null = null
+        const body = ctx.request.body
+        const systemProps = [
+            <%-SystemProps.map(p=>`\'${p}\'`).join(', ') + '\n'-%>
+        ]
+
+        // 去除系统属性
+        systemProps.forEach(k => delete body[k])
+
+        if(body.id){
+            // 更新
+            model = await <%=name%>.getByPk(body.id)
+            if(!model){
+                return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
+            }
+            model.set(body)
+            model = await model.save()
+        }else{
+            // 新增
+            <%_if(dataAccess === 'COMPANY' || dataAccess === 'DEPT'){_%>
+            const { login } = ctx.state.user
+            const currUser = await nebula.sdk.user.getUserByLogin(login)
+            <%_}_%>
+            <%_if(dataAccess === 'COMPANY'){_%>
+            const userCompanies = currUser.orgs.filter(com=>com.isComp)
+            if(userCompanies.length === 0){
+                // 用户需要关联公司
+                throw new NebulaBizError(CommonErrors.NoUserCompanies)
+            }
+            body.<%=`${createdByField}Comp`%> = userCompanies[0].id
+            <%_}_%>
+            <%_if(dataAccess === 'DEPT'){_%>
+            if(!currUser.deptId){
+                // 用户需要关联部门
+                throw new NebulaBizError(CommonErrors.NoUserDepartments)
+            }
+            body.<%=`${createdByField}Dept`%> = currUser.deptId
+            <%_}_%>
+            <%_if(withProcess && processStatusField){_%>
+            body.<%=processStatusField%> = ProcessStatus.SAVED
+            <%_}_%>
+            model = await <%=name%>.create(body)
+        }
+
+        ctx.ok(model.dataValues)
+    },
+    <%_}_%>
+
+    <%_if(crud.indexOf('U')>=0){_%>
+    /**
+     * @swagger
+     *
+     * /<%=fn_decamelize(name) %>:
+     *   put:
+     *     summary: 更新<%=comment%>
+     *     tags:
+     *       - <%=comment%>
+     *     produces:
+     *       - application/json
+     *     parameters:
+     *       - name: <%=name%>
+     *         in: body
+     *         required: true
+     *         schema:
+     *           $ref: '#/definitions/<%=name%>'
+     *     responses:
+     *       200:
+     *         description: ok
+     *         schema:
+     *           $ref: '#/definitions/Res<%=name%>'
+     *
+     * @param {NebulaKoaContext} ctx
+     * @param next
+     */
+    'put /<%=fn_decamelize(name) %>': async function (ctx, next) {
+        // 验证ID
+        ctx.checkRequired('id')
+
+        const id = ctx.getParam('id')
+        const body = ctx.request.body
+        let model = await <%=name%>.getByPk(id)
+        if(!model){
+            return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
+        }
+
+        // 去除系统属性
+        const systemProps = [
+            <%-SystemProps.map(p=>`\'${p}\'`).join(', ') + '\n'-%>
+        ]
+        systemProps.forEach(k => delete body[k])
+
+        // 保存
+        model.set(body)
+        model = await model.save()
+        ctx.ok(model.dataValues)
+    },
+    <%_}_%>
+
+    <%_if(crud.indexOf('Q')>=0){_%>
+    /**
+     * @swagger
+     *
+     * /<%=fn_decamelize(name) %>:
+     *   get:
+     *     summary: 分页查询<%=comment%>
+     *     tags:
+     *       - <%=comment%>
+     *     parameters:
+     *       - name: page
+     *         in: query
+     *         required: false
+     *         description: 页码，从1开始
+     *       - name: size
+     *         in: query
+     *         required: false
+     *         description: 每页数据量
+     *       - name: filter
+     *         in: query
+     *         required: false
+     *         description: 过滤条件。支持两种格式：1.扁平格式 filter[字段][...外键字段][查询条件]=值；2.JSON格式（需要encodeURI） filter={"字段":{"外键字段":{"查询条件":"值"}}}
+     *         example: filter[instance][app][name][eq]=asd 或 filter=encodeURI('{"instance":{"app":{"name":{"eq":"asd"}}}}')
+     *       - name: include
+     *         in: query
+     *         required: false
+     *         description: 关联外键。支持两种格式：1.扁平格式 include[外键字段][...外键字段]；2.JSON格式（需要encodeURI） include={"字段":{"外键字段":""}}}
+     *         example: include[instance][app] 或 include=encodeURI('{"instance":{"app":""}}')
+     *       - name: sort
+     *         in: query
+     *         required: false
+     *         description: 排序。支持两种格式：1.扁平格式 sort[0][字段1]=asc&sort[0][字段2]=desc；2.JSON格式（需要encodeURI） sort=[{"字段1":"asc"},{"字段2":"asc"}]
+     *         example: sort[0][port]=desc&sort[1][name]=asc 或 sort=encodeURI('[{"name":"asc"}]')
+     *     responses:
+     *       200:
+     *         description: ok
+     *         schema:
+     *           type: array
+     *           items:
+     *             $ref: '#/definitions/<%=name%>'
+     *
+     *
+     * @param {NebulaKoaContext} ctx
+     * @param next
+     */
+    'get /<%=fn_decamelize(name) %>': async function (ctx, next) {
+        const { where, include, order, page = 1, size = 20 } = QueryParser.parseFilter(ctx.request.query, <%=name%>)
+        const offset = (page-1) * size
+
+        <%_if(dataAccess === 'COMPANY' || dataAccess === 'DEPT' || dataAccess === 'OWNER'){_%>
+        // 数据权限过滤（<%=dataAccess%>）
+        const { login } = ctx.state.user
+        const currUser = await nebula.sdk.user.getUserByLogin(login)
+        <%_}_%>
+        <%_if(dataAccess === 'OWNER'){_%>
+        where[Op.or] = [
+            currUser.isAdmin ? {id: {[Op.not]: null}} : null,
+            { <%=createdByField%>: {[Op.eq]: login}}
+        ]
+        <%_}_%>
+        <%_if(dataAccess === 'DEPT'){_%>
+        where[Op.or] = [
+            // 管理员无法查看 currUser.isAdmin ? {id: {[Op.not]: null}} : null,
+            { createdBy: {[Op.eq]: login}},
+            {
+                [Op.and]: [
+                    {<%=createdByField%>Dept: {[Op.not]: null}},
+                    {<%=createdByField%>Dept: {[Op.eq]: currUser.deptId}}
+                ]
+            }
+        ]
+        <%_}_%>
+        <%_if(dataAccess === 'COMPANY'){_%>
+        const companyIds = currUser.orgs.filter(com=>com.isComp).map(com=>com.id)
+        where[Op.or] = [
+            // 管理员无法查看 currUser.isAdmin ? {id: {[Op.not]: null}} : null,
+            { createdBy: {[Op.eq]: login}},
+            {
+                [Op.and]: [
+                    {<%=createdByField%>Comp: {[Op.not]: null}},
+                    {<%=createdByField%>Comp: {[Op.in]: companyIds}}
+                ]
+            }
+        ]
+        <%_}_%>
+
+        const { count, rows } = await <%=name%>.findAndCountAll({
+            where,
+            order,
+            offset: offset < 0 ? 0 : offset,
+            limit: size,
+            include
+        })
+        ctx.ok(rows)
+        ctx.set('X-Total-Count', count)
+    },
+    <%_}_%>
+
+    <%_if(crud.indexOf('D')>=0){_%>
+    /**
+     * @swagger
+     *
+     * /<%=fn_decamelize(name) %>/{id}:
+     *   delete:
+     *     summary: 删除<%=comment%>
+     *     tags:
+     *       - <%=comment%>
+     *     parameters:
+     *       - name: <%=name%>
+     *         in: path
+     *         required: true
+     *     responses:
+     *       200:
+     *         description: ok
+     *
+     *
+     * @param {NebulaKoaContext} ctx
+     * @param next
+     */
+    'delete /<%=fn_decamelize(name) %>/:id': async function (ctx, next) {
+        ctx.checkRequired('id')
+        const model = await <%=name%>.getByPk(ctx.params.id)
+        if(!model){
+            return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
+        }
+        await model.destroy()
+        ctx.ok()
+    },
+    <%_}_%>
+
+    <%_if(crud.indexOf('I')>=0){_%>
+    'get /<%=fn_decamelize(name) %>/struct': async function (ctx, next) {
+        const attrs = Object.keys(<%=name%>.rawAttributes)
+        .map(
+            (key) => <%=name%>.rawAttributes[key]
+        )
+        .map((attr) => {
+            delete attr['_modelAttribute']
+            return { ...attr, excelCol: attr['fieldName'] }
+        })
+        ctx.ok(attrs)
+    },
+
+    'post /<%=fn_decamelize(name) %>/imp': async function (ctx, next) {
+        const { excel = [], columnMap = [] } = ctx.request.body
+        nebula.logger.info('开始导入')
+        for (let i = 0; i < excel.length; i++) {
+            const data = {}
+            for (const colMap of columnMap) {
+                const { fieldName, excelCol } = colMap
+                if (excelCol) {
+                    data[fieldName] = excel[i][excelCol]
+                }
+            }
+            await <%=name%>.upsert(data as <%=name%>)
+            nebula.logger.info('正在导入 第 %s/%s 行', i + 1, excel.length)
+        }
+        nebula.logger.info('导入完成')
+        ctx.ok()
+    },
+    <%_}_%>
+
+    <%_if(crud.indexOf('R')>=0){_%>
+    /**
+     * @swagger
+     *
+     * /<%=fn_decamelize(name) %>/{id}:
+     *   get:
+     *     summary: 查询一个<%=comment%>
+     *     tags:
+     *       - <%=comment%>
+     *     parameters:
+     *       - name: id
+     *         in: path
+     *         required: true
+     *     responses:
+     *       200:
+     *         description: ok
+     *         schema:
+     *           $ref: '#/definitions/Res<%=name%>'
+     *
+     *
+     * @param {NebulaKoaContext} ctx
+     * @param next
+     */
+    'get /<%=fn_decamelize(name) %>/:id': async function (ctx, next) {
+        ctx.checkRequired('id')
+        const id = ctx.getParam('id')
+        const model = await <%=name%>.getByPk(id)
+        if(!model){
+            return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
+        }
+        ctx.ok(model.dataValues)
+    },
+    <%_}_%>
+
+    <%_if(withProcess && processStatusField){_%>
+    'post /<%=fn_decamelize(name) %>/:id/submit': async function (ctx, next) {
+        const id = ctx.getParam('id')
+        const variables = ctx.getParam('variables')
+        const { login } = ctx.state.user
+        const transaction = await nebula.sequelize.transaction()
+        let model = await <%=name%>.getByPk(id)
+        if(!model){
+            return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
+        }
+        try {
+            model.set({
+                <%=processStatusField%>: ProcessStatus.SUBMITTED
+            })
+            model = await model.save({ transaction })
+
+            // 开始流程
+            await nebula.sdk.process.startProcess({
+                model: '<%=name%>',
+                businessKey: model.dataValues.id,
+                startUserId: login,
+                variables: variables || model.dataValues
+            })
+
+            await transaction.commit()
+        } catch (e) {
+            await transaction.rollback()
+            throw e
+        }
+        ctx.ok(model)
+    },
+    'post /<%=fn_decamelize(name) %>/:id/pullback': async function (ctx, next) {
+        const id = ctx.getParam('id')
+        const { login } = ctx.state.user
+        const transaction = await nebula.sequelize.transaction()
+        let model = await <%=name%>.getByPk(id)
+        if(!model){
+            return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
+        }
+        try {
+            model.set({
+                <%=processStatusField%>: ProcessStatus.SAVED
+            })
+            model = await model.save({ transaction })
+
+            // 取消流程
+            await nebula.sdk.process.cancelProcess({
+                model: '<%=name%>',
+                businessKey: model.dataValues.id,
+            })
+            await transaction.commit()
+        } catch (e) {
+            await transaction.rollback()
+            throw e
+        }
+        ctx.ok(model)
+    }
+    <%_}_%>
+}

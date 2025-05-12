@@ -1,0 +1,413 @@
+{
+    "body": [
+        {
+            "type": "crud",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/portal/cl-api",
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                "data": {
+                    "&": "$$",
+                    "sort[0]": "updatedAt,desc",
+                    "sort[1]": "path,asc"
+                },
+                "messages": {},
+                "requestAdaptor": "console.log(api)\n\nreturn api"
+            },
+            "affixHeader": false,
+            "columns": [
+                {
+                    "type": "text",
+                    "label": "标签",
+                    "name": "tag",
+                    "width": 160,
+                    "id": "u:7ec80db60e99"
+                },
+                {
+                    "name": "name",
+                    "label": "名称",
+                    "type": "text",
+                    "id": "u:1e9679ecd064",
+                    "placeholder": "-",
+                    "popOver": false,
+                    "width": 200
+                },
+                {
+                    "name": "path",
+                    "label": "路径",
+                    "type": "text",
+                    "id": "u:eb2f8a1dc02f",
+                    "width": 350
+                },
+                {
+                    "type": "static-mapping",
+                    "label": "方法",
+                    "align": "center",
+                    "width": 90,
+                    "name": "method",
+                    "id": "u:e1a800f6318d",
+                    "map": {
+                        "get": "<span class='nb-tag success'>${method | upperCase}</span>",
+                        "post": "<span class='nb-tag primary'>${method | upperCase}</span>",
+                        "put": "<span class='nb-tag warn'>${method | upperCase}</span>",
+                        "delete": "<span class='nb-tag danger'>${method | upperCase}</span>"
+                    },
+                    "body": [
+                        {
+                            "type": "tag",
+                            "label": "${UPPER(method)}",
+                            "displayMode": "normal",
+                            "color": "processing",
+                            "visibleOn": "method == 'get'"
+                        },
+                        {
+                            "type": "tag",
+                            "label": "${UPPER(method)}",
+                            "displayMode": "normal",
+                            "color": "warning",
+                            "visibleOn": "method == 'post'"
+                        },
+                        {
+                            "type": "tag",
+                            "label": "${UPPER(method)}",
+                            "displayMode": "normal",
+                            "color": "success",
+                            "visibleOn": "method == 'put'"
+                        },
+                        {
+                            "type": "tag",
+                            "label": "${UPPER(method)}",
+                            "displayMode": "normal",
+                            "color": "error",
+                            "visibleOn": "method == 'delete'"
+                        }
+                    ]
+                },
+
+                {
+                    "type": "text",
+                    "name": "description",
+                    "label": "描述",
+                    "id": "u:14b8d829c919"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "width": 120,
+                    "align": "center",
+                    "id": "u:757cdfa3efbc",
+                    "buttons": [
+                        {
+                            "label": "编辑",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "icon": "nb-icon nb-icon-bianji1",
+                            "dialog": {
+                                "type": "dialog",
+                                "title": "编辑",
+                                "body": [
+                                    {
+                                        "type": "form",
+                                        "api": {
+                                            "method": "post",
+                                            "url": "/portal/cl-api",
+                                            "messages": {
+                                                "success": "接口保存成功"
+                                            },
+                                            "dataType": "json",
+                                            "data": {
+                                                "&": "$$",
+                                                "id": "${id}"
+                                            }
+                                        },
+                                        "body": [
+                                            {
+                                                "name": "name",
+                                                "label": "名称",
+                                                "id": "u:1e9679ecd064",
+                                                "type": "input-text",
+                                                "required": true,
+                                                "size": "md"
+                                            },
+                                            {
+                                                "name": "path",
+                                                "label": "路径",
+                                                "id": "u:eb2f8a1dc02f",
+                                                "type": "input-text",
+                                                "required": true,
+                                                "size": "md",
+                                                "prefix": "/api"
+                                            },
+                                            {
+                                                "name": "method",
+                                                "label": "方法",
+                                                "id": "u:e1a800f6318d",
+                                                "type": "select",
+                                                "required": true,
+                                                "options": [
+                                                    {
+                                                        "label": "GET",
+                                                        "value": "get"
+                                                    },
+                                                    {
+                                                        "label": "POST",
+                                                        "value": "post"
+                                                    },
+                                                    {
+                                                        "label": "PUT",
+                                                        "value": "put"
+                                                    },
+                                                    {
+                                                        "label": "DELETE",
+                                                        "value": "delete"
+                                                    }
+                                                ],
+                                                "size": "sm"
+                                            },
+                                            {
+                                                "label": "标签",
+                                                "name": "tag",
+                                                "id": "u:7ec80db60e99",
+                                                "type": "input-text",
+                                                "size": "md"
+                                            },
+                                            {
+                                                "label": "描述",
+                                                "name": "description",
+                                                "id": "u:14b8d829c919",
+                                                "type": "textarea",
+                                                "size": "md"
+                                            }
+                                        ],
+                                        "id": "u:d44f4d79d8f0"
+                                    }
+                                ],
+                                "id": "u:4c82683fa218"
+                            },
+                            "id": "u:cfc2246c9a34",
+                            "hiddenOn": "!isCustom"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "icon": "nb-icon nb-icon-shanchu",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "delete",
+                                "url": "/portal/cl-api/$id",
+                                "messages": {
+                                    "success": "删除接口成功"
+                                }
+                            },
+                            "id": "u:e542b55ce6fa",
+                            "hiddenOn": "!isCustom"
+                        }
+                    ]
+                }
+            ],
+            "bulkActions": [],
+            "itemActions": [],
+            "features": ["update", "delete", "create", "filter"],
+            "filterColumnCount": 3,
+            "headerToolbar": [
+                {
+                    "label": "新增接口",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "新增接口",
+                        "body": [
+                            {
+                                "type": "form",
+                                "api": {
+                                    "method": "post",
+                                    "url": "/portal/cl-api",
+                                    "messages": {
+                                        "success": "新增接口成功"
+                                    },
+                                    "data": {
+                                        "&": "$$"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "name",
+                                        "label": "名称",
+                                        "size": "md",
+                                        "id": "u:517ef749fd2d",
+                                        "required": true
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "path",
+                                        "label": "路径",
+                                        "size": "md",
+                                        "id": "u:69befb533eba",
+                                        "required": true,
+                                        "prefix": "/api",
+                                        "description": "接口URL路径，以\"/\"开头"
+                                    },
+                                    {
+                                        "type": "select",
+                                        "name": "method",
+                                        "label": "方法",
+                                        "size": "sm",
+                                        "options": [
+                                            {
+                                                "label": "GET",
+                                                "value": "get"
+                                            },
+                                            {
+                                                "label": "POST",
+                                                "value": "post"
+                                            },
+                                            {
+                                                "label": "PUT",
+                                                "value": "put"
+                                            },
+                                            {
+                                                "label": "DELETE",
+                                                "value": "delete"
+                                            }
+                                        ],
+                                        "id": "u:dd295aa275e1",
+                                        "multiple": false,
+                                        "required": true
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "tag",
+                                        "label": "标签",
+                                        "size": "md",
+                                        "id": "u:2a3e57aabaad"
+                                    },
+                                    {
+                                        "type": "textarea",
+                                        "name": "description",
+                                        "label": "描述",
+                                        "size": "md",
+                                        "id": "u:f8def9038577"
+                                    }
+                                ],
+                                "id": "u:8d08a247e8cf"
+                            }
+                        ],
+                        "id": "u:0bf6b061aab5"
+                    },
+                    "id": "u:9f2a311bac6f"
+                },
+                "bulkActions"
+            ],
+            "id": "u:8bfd7c9b8cbb",
+            "perPageAvailable": [10],
+            "messages": {},
+            "filter": {
+                "title": "查询条件",
+                "body": [
+                    {
+                        "type": "grid",
+                        "columns": [
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "filter.name.like",
+                                        "label": "接口名称",
+                                        "id": "u:9603e439cbfa",
+                                        "size": "full"
+                                    }
+                                ],
+                                "id": "u:8dfcd0b10496"
+                            },
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "label": "接口路径",
+                                        "name": "filter.path.eq",
+                                        "id": "u:6075b4107684"
+                                    }
+                                ],
+                                "id": "u:794b9d5ccb55"
+                            },
+                            {
+                                "body": [
+                                    {
+                                        "type": "select",
+                                        "label": "请求方式",
+                                        "name": "filter.method.eq",
+                                        "clearable": true,
+                                        "options": [
+                                            {
+                                                "label": "GET",
+                                                "value": "get"
+                                            },
+                                            {
+                                                "label": "POST",
+                                                "value": "post"
+                                            },
+                                            {
+                                                "label": "PUT",
+                                                "value": "put"
+                                            },
+                                            {
+                                                "label": "DELETE",
+                                                "value": "delete"
+                                            }
+                                        ],
+                                        "id": "u:585a126b7bce"
+                                    }
+                                ],
+                                "id": "u:c4f83d8bf87f"
+                            },
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "label": "标签",
+                                        "name": "filter.tag.like",
+                                        "size": "full",
+                                        "id": "u:dg8d35c28d72"
+                                    }
+                                ],
+                                "id": "u:c4f83d8bf87f"
+                            }
+                        ],
+                        "id": "u:943a6eae686c",
+                        "gap": "lg"
+                    }
+                ],
+                "id": "u:c1ce3e27c33e",
+                "mode": "horizontal",
+                "horizontal": {},
+                "actions": [
+                    {
+                        "type": "button",
+                        "label": "搜索",
+                        "level": "primary",
+                        "icon": "nb-icon nb-icon-31sousuo",
+                        "id": "u:ad0dc30b4503",
+                        "actionType": "submit"
+                    }
+                ]
+            },
+            "alwaysShowPagination": true,
+            "perPageField": "size"
+        }
+    ],
+    "regions": ["body"],
+    "type": "page",
+    "pullRefresh": {
+        "disabled": true
+    },
+    "id": "u:d490de44a14f",
+    "asideResizor": false
+}

@@ -1,0 +1,335 @@
+{
+    "id": "u:89eb9365c9fa",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "body": [
+        {
+            "type": "crud",
+            "id": "u:6a8643a7e558",
+            "columns": [
+                {
+                    "type": "tpl",
+                    "id": "u:473e12c6090f",
+                    "label": "流程名称",
+                    "name": "name",
+                    "tpl": "<div class=\"nb-process-def-logo\" style=\"background:${logo.background}\"><i class=\"${logo.icon}\"></i></div> ${name}",
+                    "className": "",
+                    "placeholder": "-",
+                    "innerClassName": "nb-process-def-title"
+                },
+                {
+                    "id": "u:473e12c6090f",
+                    "name": "group.name",
+                    "label": "分组",
+                    "width": 120,
+                    "type": "text"
+                },
+                {
+                    "id": "u:345e12c6011f",
+                    "name": "formModel",
+                    "label": "关联模型",
+                    "type": "container",
+                    "body": [
+                        {"type": "tpl","tpl": "$formName - $formModel"},
+                        {
+                            "type": "button",
+                            "icon": "nb-icon el-icon-refresh",
+                            "hiddenOn": "${!formModel}",
+                            "level": "link",
+                            "tooltip": "同步模型表单",
+                            "confirmText": "该操作会读取Nebula本地页面定义，并覆盖当前的流程表单，确定要继续吗？",
+                            "actionType": "ajax",
+                            "api": {
+                                "method": "post",
+                                "url": "cloud/app/app-process-def/schema/sync/${id}",
+                                "messages": {
+                                    "success": "同步模型表单成功"
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "id": "u:548e78c6421e",
+                    "name": "envs",
+                    "label": "运行环境",
+                    "type": "text",
+                    "width": 90,
+                    "align": "center"
+                },
+                {
+                    "id": "u:583e12c6383f",
+                    "name": "version",
+                    "label": "版本号",
+                    "type": "text",
+                    "width": 90,
+                    "align": "center"
+                },
+                {
+                    "type": "date",
+                    "name": "updatedAt",
+                    "label": "更新时间",
+                    "id": "u:4e43751409d7",
+                    "format": "YYYY-MM-DD HH:mm",
+                    "width": 140,
+                    "align": "center"
+                },
+                {
+                    "label": "操作",
+                    "type": "operation",
+                    "id": "u:ed0fba2d6daa",
+                    "align": "center",
+                    "width": 120,
+                    "buttons": [
+                        {
+                            "label": "编辑",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "dialog": {
+                                "title": "编辑",
+                                "body": {
+                                    "type": "form",
+                                    "api": {
+                                        "method": "post",
+                                        "url": "cloud/app/app-process-def",
+                                        "dataType": "json",
+                                        "data": {
+                                            "&": "$$",
+                                            "id": "${id}"
+                                        },
+                                        "messages": {
+                                            "success": "保存流程定义成功"
+                                        }
+                                    },
+                                    "body": [
+                                        {
+                                            "type": "input-text",
+                                            "name": "name",
+                                            "label": "流程名称",
+                                            "required": true
+                                        },
+                                        {
+                                            "type": "select",
+                                            "name": "groupId",
+                                            "label": "流程分组",
+                                            "source": {
+                                                "url": "cloud/app/app-process-group",
+                                                "method": "get",
+                                                "data": {
+                                                    "sort[0]": "tag,asc",
+                                                    "sort[1]": "seq,asc",
+                                                    "size": 100
+                                                },
+                                                "messages": {}
+                                            },
+                                            "labelField": "name",
+                                            "valueField": "id"
+                                        },
+                                        {
+                                            "type": "select",
+                                            "name": "formModel",
+                                            "label": "绑定模型",
+                                            "labelField": "comment",
+                                            "valueField": "name",
+                                            "menuTpl": "${comment} (${name})",
+                                            "source": {
+                                                "url": "cloud/app/app-process-def/models",
+                                                "method": "get",
+                                                "messages": {},
+                                                "data": {
+                                                    "sort[0]": "name,asc"
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "name": "envs",
+                                            "type": "button-group-select",
+                                            "label": "运行环境",
+                                            "required": true,
+                                            "size": "md",
+                                            "options": [
+                                                {
+                                                    "label": "开发环境",
+                                                    "value": "dev"
+                                                },
+                                                {
+                                                    "label": "测试环境",
+                                                    "value": "uat"
+                                                },
+                                                {
+                                                    "label": "生产环境",
+                                                    "value": "prod"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "type": "textarea",
+                                            "name": "remark",
+                                            "label": "备注"
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:5e3f3acaeeb6"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "delete",
+                                "url": "cloud/app/app-process-def/${id}",
+                                "messages": {
+                                    "success": "删除流程定义成功"
+                                }
+                            },
+                            "id": "u:891b6a5e8eeb"
+                        },
+                        {
+                            "type": "button",
+                            "label": "设计",
+                            "actionType": "url",
+                            "url": "${ENDSWITH(window:location.pathname,'/')?MID(window:location.pathname,0,LEN(window:location.pathname)-1):''}/process-editor/#/admin/design/${id}",
+                            "blank": true,
+                            "level": "link",
+                            "id": "u:156b6a5e8cgg"
+                        }
+                    ]
+                }
+            ],
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "cloud/app/app-process-def",
+                "messages": {},
+                "adaptor": "for(const item of payload.data){\n  item.logo = JSON.parse(item.icon || '{}')\n}\nreturn nbAmis.adaptors.commonList(payload, response)",
+                "data": {
+                    "sort[0]": "updatedAt,desc",
+                    "page": "${page}",
+                    "size": "${size}"
+                }
+            },
+            "bulkActions": [],
+            "itemActions": [],
+            "features": [
+                "create",
+                "filter",
+                "update",
+                "delete"
+            ],
+            "filterColumnCount": 3,
+            "headerToolbar": [
+                {
+                    "label": "新增流程定义",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "dialog": {
+                        "title": "新增流程定义",
+                        "body": {
+                            "type": "form",
+                            "api": {
+                                "method": "post",
+                                "url": "cloud/app/app-process-def",
+                                "dataType": "json",
+                                "messages": {
+                                    "success": "新增流程定义成功"
+                                }
+                            },
+                            "body": [
+                                {
+                                    "type": "input-text",
+                                    "name": "name",
+                                    "label": "流程名称",
+                                    "required": true
+                                },
+                                {
+                                    "type": "select",
+                                    "name": "groupId",
+                                    "label": "流程分组",
+                                    "source": {
+                                        "url": "cloud/app/app-process-group",
+                                        "method": "get",
+                                        "data": {
+                                            "sort[0]": "tag,asc",
+                                            "sort[1]": "seq,asc",
+                                            "size": 100
+                                        },
+                                        "messages": {}
+                                    },
+                                    "labelField": "name",
+                                    "valueField": "id"
+                                },
+                                {
+                                    "type": "select",
+                                    "name": "formModel",
+                                    "label": "绑定模型",
+                                    "labelField": "comment",
+                                    "valueField": "name",
+                                    "menuTpl": "${comment} (${name})",
+                                    "source": {
+                                        "url": "cloud/app/app-process-def/models",
+                                        "method": "get",
+                                        "messages": {},
+                                        "data": {
+                                            "sort[0]": "name,asc"
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "envs",
+                                    "type": "button-group-select",
+                                    "label": "运行环境",
+                                    "required": true,
+                                    "size": "md",
+                                    "options": [
+                                        {
+                                            "label": "开发环境",
+                                            "value": "dev"
+                                        },
+                                        {
+                                            "label": "测试环境",
+                                            "value": "uat"
+                                        },
+                                        {
+                                            "label": "生产环境",
+                                            "value": "prod"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "textarea",
+                                    "name": "remark",
+                                    "label": "备注"
+                                }
+                            ]
+                        }
+                    },
+                    "id": "u:14afb9f19c4c"
+                },
+                "bulkActions"
+            ],
+            "columnsTogglable": true,
+            "perPageField": "size",
+            "perPageAvailable": [
+                10
+            ],
+            "messages": {},
+            "alwaysShowPagination": true
+        }
+    ],
+    "type": "page",
+    "title": "流程定义",
+    "style": {
+        "boxShadow": " 0px 0px 0px 0px transparent"
+    }
+}

@@ -1,0 +1,301 @@
+{
+    "type": "page",
+    "body": [
+        {
+            "type": "crud",
+            "columns": [
+                {
+                    "type": "text",
+                    "label": "编码",
+                    "name": "code"
+                },
+                {
+                    "type": "text",
+                    "label": "值",
+                    "name": "value"
+                },
+                {
+                    "name": "label",
+                    "label": "显示",
+                    "type": "text"
+                },
+                {
+                    "type": "text",
+                    "label": "顺序",
+                    "name": "seq"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "width": 120,
+                    "buttons": [
+                        {
+                            "label": "编辑",
+                            "icon": "nb-icon nb-icon-bianji1",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "dialog": {
+                                "title": "编辑",
+                                "body": [
+                                    {
+                                        "type": "form",
+                                        "labelWidth": 85,
+                                        "api": {
+                                            "method": "post",
+                                            "url": "cloud/app/app-dict",
+                                            "dataType": "json",
+                                            "data": {
+                                                "&": "$$",
+                                                "id": "${id}"
+                                            },
+                                            "messages": {
+                                                "success": "新增字典成功"
+                                            }
+                                        },
+                                        "body": [
+                                            {
+                                                "name": "id",
+                                                "label": "ID",
+                                                "type": "input-text",
+                                                "visibleOn": "",
+                                                "clearValueOnHidden": false,
+                                                "visible": false
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "name": "code",
+                                                "label": "编码",
+                                                "autoComplete": {
+                                                    "method": "get",
+                                                    "url": "cloud/app/app-dict/search/term?word=$term",
+                                                    "data": {
+                                                        "word": "$code"
+                                                    }
+                                                },
+                                                "size": "md",
+                                                "validations": {
+                                                    "matchRegexp": "^[A-Z_]+$"
+                                                },
+                                                "validationErrors": {
+                                                    "matchRegexp": "编码由大写字母、下划线组成"
+                                                },
+                                                "required": true,
+                                                "description": "字典编码，通常为英文和数字"
+                                            },
+                                            {
+                                                "label": "值",
+                                                "name": "value",
+                                                "type": "input-text",
+                                                "required": true,
+                                                "size": "md"
+                                            },
+                                            {
+                                                "label": "显示",
+                                                "name": "label",
+                                                "type": "input-text",
+                                                "validations": {},
+                                                "required": true,
+                                                "size": "md"
+                                            },
+                                            {
+                                                "label": "顺序",
+                                                "name": "seq",
+                                                "type": "input-text",
+                                                "validations": {
+                                                    "isInt": true
+                                                },
+                                                "mode": "",
+                                                "size": "xs"
+                                            },
+                                            {
+                                                "type": "textarea",
+                                                "name": "remark",
+                                                "label": "备注",
+                                                "size": "lg"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "type": "dialog"
+                            }
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "icon": "nb-icon nb-icon-shanchu",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "delete",
+                                "url": "cloud/app/app-dict/$id",
+                                "messages": {
+                                    "success": "删除字典成功"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "cloud/app/app-dict",
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                "data": {
+                    "sort[0]": "code,asc",
+                    "sort[1]": "seq,asc",
+                    "page": "${page}",
+                    "size": "${size}",
+                    "&": "$$"
+                }
+            },
+            "bulkActions": [],
+            "itemActions": [],
+            "features": [
+                "create",
+                "update",
+                "delete",
+                "filter"
+            ],
+            "filterColumnCount": 3,
+            "filter": {
+                "title": "查询条件",
+                "body": [
+                    {
+                        "type": "grid",
+                        "columns": [
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "filter.code.eq",
+                                        "label": "字典编码",
+                                        "id": "u:a7f7e8e9c8c5",
+                                        "size": "sm"
+                                    }
+                                ],
+                                "id": "u:db5a7c0df66e"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:62d9b5cccc2b"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:7ccff559ea1d"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:a0427127b1cb"
+                            }
+                        ],
+                        "id": "u:a7ed0d2caabc",
+                        "align": "left",
+                        "gap": "lg"
+                    }
+                ],
+                "id": "u:a291910620df",
+                "actions": [
+                    {
+                        "type": "button",
+                        "label": "搜索",
+                        "level": "primary",
+                        "icon": "nb-icon nb-icon-31sousuo",
+                        "id": "u:ad0dc30b4503",
+                        "actionType": "submit"
+                    }
+                ]
+            },
+            "headerToolbar": [
+                {
+                    "label": "新增字典",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "新增字典",
+                        "body": [
+                            {
+                                "type": "form",
+                                "labelWidth": 85,
+                                "api": {
+                                    "method": "post",
+                                    "url": "cloud/app/app-dict",
+                                    "dataType": "json",
+                                    "messages": {
+                                        "success": "新增字典成功"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "code",
+                                        "label": "编码",
+                                        "autoComplete": {
+                                            "method": "get",
+                                            "url": "cloud/app/app-dict/search/term?word=$term"
+                                        },
+                                        "size": "md",
+                                        "validations": {
+                                            "matchRegexp": "^[A-Z_]+$"
+                                        },
+                                        "validationErrors": {
+                                            "matchRegexp": "编码由大写字母、下划线组成"
+                                        },
+                                        "required": true,
+                                        "description": "字典编码，通常为英文和数字"
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "label",
+                                        "label": "显示",
+                                        "size": "md"
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "value",
+                                        "label": "值",
+                                        "size": "md"
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "seq",
+                                        "label": "顺序",
+                                        "size": "xs",
+                                        "validations": {
+                                            "isInt": true
+                                        }
+                                    },
+                                    {
+                                        "type": "textarea",
+                                        "name": "remark",
+                                        "label": "备注",
+                                        "size": "lg"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                },
+                "bulkActions"
+            ],
+            "id": "u:b2d482ece9sh",
+            "perPageAvailable": [
+                10
+            ],
+            "messages": {},
+            "alwaysShowPagination": true,
+            "perPageField": "size",
+            "columnsTogglable": true
+        }
+    ],
+    "regions": ["body"],
+    "messages": {},
+    "style": {},
+    "title": "字典管理",
+    "subTitle": "定义一些常用的静态数据"
+}

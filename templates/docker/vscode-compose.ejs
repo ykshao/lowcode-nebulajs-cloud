@@ -1,0 +1,24 @@
+version: "3"
+services:
+    <%=name%>:
+        # container_name: code-server
+        image: codercom/code-server
+        ports:
+            - <%=ports[0]%>:3000
+            - <%=ports[1]%>:8080
+        expose:
+            - "3000"
+        volumes:
+            - "./:/root"
+            - "<%=envVars.NEBULA_NODE_HOME%>:/opt/nodejs"
+        # entrypoint: /root/entrypoint.sh
+        user: "0:0" # Root user
+        environment:
+            PASSWORD: "<%=extra.vsCodePassword%>"
+            PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/nodejs/bin"
+            NODE_ENV: "<%=env%>"
+            SERVICE_URL: "<%=extra.serviceURL%>"
+            WS_SERVICE_URL: "<%=extra.wsServiceURL%>"
+            ENTRYPOINTD: "/root/entrypoint.d"
+            TZ: "Asia/Shanghai"
+        restart: always

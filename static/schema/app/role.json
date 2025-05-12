@@ -1,0 +1,306 @@
+{
+    "id": "u:5c6a3fc6edb9",
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "body": [
+        {
+            "type": "crud",
+            "columns": [
+                {
+                    "name": "code",
+                    "label": "编码",
+                    "type": "text",
+                    "id": "u:5160cb8c8bd5"
+                },
+                {
+                    "type": "text",
+                    "label": "名称",
+                    "name": "name",
+                    "id": "u:744cc88dcef7"
+                },
+                {
+                    "type": "date",
+                    "align": "center",
+                    "label": "更新时间",
+                    "name": "updatedAt",
+                    "id": "u:29305f78f690",
+                    "format": "YYYY-MM-DD HH:mm"
+                },
+                {
+                    "type": "text",
+                    "label": "描述",
+                    "name": "remark",
+                    "id": "u:534aa44dcef9"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "id": "u:6319c14ebdfd",
+                    "align": "center",
+                    "buttons": [
+                        {
+                            "label": "编辑",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "dialog": {
+                                "title": "编辑",
+                                "body": {
+                                    "type": "form",
+                                    "api": {
+                                        "method": "post",
+                                        "url": "cloud/app/app-role",
+                                        "data": {
+                                            "&": "$$",
+                                            "id": "${id}"
+                                        },
+                                        "messages": {
+                                            "success": "角色保存成功"
+                                        },
+                                        "dataType": "json"
+                                    },
+                                    "body": [
+                                        {
+                                            "name": "code",
+                                            "label": "编码",
+                                            "id": "u:5160cb8c8bd5",
+                                            "type": "input-text",
+                                            "required": true,
+                                            "validations": {
+                                                "matchRegexp": "^[A-Z_]+$"
+                                            },
+                                            "description": "角色编码由大写字母、下划线组成。如：ROLE_TEST",
+                                            "validationErrors": {
+                                                "matchRegexp": "角色编码由大写字母、下划线组成"
+                                            }
+                                        },
+                                        {
+                                            "name": "name",
+                                            "label": "名称",
+                                            "id": "u:744cc88dcef7",
+                                            "type": "input-text"
+                                        },
+                                        {
+                                            "type": "textarea",
+                                            "label": "备注",
+                                            "name": "remark",
+                                            "id": "u:06280db9c295"
+                                        }
+                                    ]
+                                }
+                            },
+                            "id": "u:5cb4cb4008c2",
+                            "hiddenOn": "${code=='ROLE_ADMIN'}"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "delete",
+                                "url": "cloud/app/app-role/$id",
+                                "messages": {
+                                    "success": "角色删除成功"
+                                }
+                            },
+                            "id": "u:fc9072b623ab",
+                            "hiddenOn": "${code=='ROLE_ADMIN'}"
+                        }
+                    ]
+                }
+            ],
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "cloud/app/app-role",
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                "data": {
+                    "sort[0]": "createdAt,asc",
+                    "page": "${page}",
+                    "size": "${size}"
+                },
+                "messages": {}
+            },
+            "bulkActions": [
+                {
+                    "label": "分配菜单",
+                    "type": "button",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "选择菜单",
+                                        "body": [
+                                            {
+                                                "type": "form",
+                                                "title": "表单",
+                                                "mode": "normal",
+                                                "body": [
+                                                    {
+                                                        "type": "input-tree",
+                                                        "name": "menus",
+                                                        "multiple": true,
+                                                        "enableNodePath": false,
+                                                        "hideRoot": true,
+                                                        "showIcon": true,
+                                                        "initiallyOpen": true,
+                                                        "cascade": true,
+                                                        "className": "h-full",
+                                                        "treeContainerClassName": "h-full",
+                                                        "source": {
+                                                            "method": "get",
+                                                            "url": "cloud/app/app-menu/tree",
+                                                            "responseData": {
+                                                                "&": "${pages}"
+                                                            }
+                                                        },
+                                                        "joinValues": false,
+                                                        "labelField": "label",
+                                                        "valueField": "id",
+                                                        "id": "u:870178b615ba"
+                                                    }
+                                                ],
+                                                "wrapWithPanel": false,
+                                                "api": {
+                                                    "url": "cloud/app/app-role/allocate/menus",
+                                                    "method": "post",
+                                                    "messages": {
+                                                        "success": "分配菜单成功"
+                                                    },
+                                                    "dataType": "json",
+                                                    "data": {
+                                                        "menuIds": "${ARRAYMAP(menus, item => item.id)}",
+                                                        "roleIds": "${SPLIT(ids, ',')}"
+                                                    }
+                                                },
+                                                "id": "u:4d36dc514680",
+                                                "onEvent": {
+                                                    "submitSucc": {
+                                                        "actions": [
+                                                            {
+                                                                "actionType": "reload",
+                                                                "componentId": "u:b1d463ece8bc",
+                                                                "dataMergeMode": "merge"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "showCloseButton": true,
+                                        "showErrorMsg": false,
+                                        "showLoading": true,
+                                        "id": "u:de8149176a88",
+                                        "closeOnEsc": false,
+                                        "dataMapSwitch": false,
+                                        "size": "md"
+                                    },
+                                    "actionType": "dialog"
+                                }
+                            ]
+                        }
+                    },
+                    "id": "u:69be91894217"
+                }
+            ],
+            "itemActions": [],
+            "features": [
+                "create",
+                "update",
+                "delete",
+                "filter"
+            ],
+            "filterColumnCount": 3,
+            "headerToolbar": [
+                {
+                    "label": "新增角色",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "新增角色",
+                        "body": [
+                            {
+                                "type": "form",
+                                "api": {
+                                    "method": "post",
+                                    "url": "cloud/app/app-role",
+                                    "adaptor": "",
+                                    "data": {
+                                        "&": "$$"
+                                    },
+                                    "messages": {
+                                        "success": "角色保存成功"
+                                    },
+                                    "dataType": "json"
+                                },
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "code",
+                                        "label": "编码",
+                                        "id": "u:7512bccf22ff",
+                                        "required": true,
+                                        "validations": {
+                                            "matchRegexp": "^[A-Z_]+$"
+                                        },
+                                        "description": "角色编码由大写字母、下划线组成。如：ROLE_TEST",
+                                        "validationErrors": {
+                                            "matchRegexp": "角色编码由大写字母、下划线组成"
+                                        }
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "name",
+                                        "label": "名称",
+                                        "required": true,
+                                        "id": "u:780bace1919e"
+                                    },
+                                    {
+                                        "type": "textarea",
+                                        "label": "备注",
+                                        "name": "remark",
+                                        "id": "u:d5c25062d8ad"
+                                    }
+                                ],
+                                "id": "u:9a05ea5bf92e"
+                            }
+                        ],
+                        "id": "u:c9a5a4822d2e",
+                        "showCloseButton": true,
+                        "closeOnEsc": false,
+                        "showErrorMsg": false,
+                        "showLoading": true,
+                        "dataMapSwitch": false
+                    },
+                    "id": "u:192522e0352f"
+                },
+                "bulkActions"
+            ],
+            "id": "u:b1d463ece8bc",
+            "perPageAvailable": [
+                10
+            ],
+            "messages": {},
+            "alwaysShowPagination": true,
+            "perPageField": "size",
+            "columnsTogglable": true,
+            "autoFillHeight": {
+                "height": 400
+            }
+        }
+    ],
+    "type": "page",
+    "asideResizor": false
+}

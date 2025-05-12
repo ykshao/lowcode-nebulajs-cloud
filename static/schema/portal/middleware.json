@@ -1,0 +1,615 @@
+{
+    "id": "u:fc892d895b93",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": ["body"],
+    "body": [
+        {
+            "type": "crud",
+
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/portal/cl-middleware"
+            },
+            "columns": [
+                {
+                    "name": "name",
+                    "label": "名称",
+                    "type": "text",
+                    "id": "u:9e10199a5e64"
+                },
+                {
+                    "type": "container",
+                    "label": "类型",
+                    "name": "type",
+                    "id": "u:5bda961f5c9f",
+                    "width": 100,
+                    "className": "text-center",
+                    "body": [
+                        {
+                            "type": "tpl",
+                            "visibleOn": "${type=='mysql'}",
+                            "tpl": "<span class='nb-tag success'>MySQL</span>"
+                        },
+                        {
+                            "type": "tpl",
+                            "visibleOn": "${type=='redis'}",
+                            "tpl": "<span class='nb-tag danger'>Redis</span>"
+                        },
+                        {
+                            "type": "tpl",
+                            "visibleOn": "${type=='mongodb'}",
+                            "tpl": "<span class='nb-tag primary'>MongoDB</span>"
+                        }
+                    ]
+                },
+                {
+                    "type": "text",
+                    "label": "主机",
+                    "width": 160,
+                    "name": "tpl",
+                    "id": "u:d40022ec0f25",
+                    "tpl":"$hostPort.host:$hostPort.port"
+                },
+                {
+                    "type": "text",
+                    "name": "schema",
+                    "label": "数据库",
+                    "width": 120,
+                    "id": "u:559556d3ced0"
+                },
+                {
+                    "type": "text",
+                    "label": "用户名",
+                    "width": 140,
+                    "name": "username",
+                    "id": "u:43c3ab1408f4"
+                },
+                {
+                    "type": "text",
+                    "label": "密码",
+                    "width": 200,
+                    "name": "password",
+                    "id": "u:2a1136defb38"
+                },
+                {
+                    "type": "mapping",
+                    "label": "外部",
+                    "name": "isExternal",
+                    "id": "u:4t1573sdfk21",
+                    "map": {
+                        "true": "是",
+                        "false": "否"
+                    },
+                    "width": 80,
+                    "className": "text-center"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "width": 120,
+                    "align": "center",
+                    "id": "u:8266b15ca058",
+                    "buttons": [
+                        {
+                            "label": "编辑",
+                            "icon": "nb-icon nb-icon-bianji1",
+                            "type": "button",
+                            "actionType": "dialog",
+                            "level": "link",
+                            "dialog": {
+                                "type": "dialog",
+                                "title": "编辑",
+                                "body": [
+                                    {
+                                        "type": "form",
+                                        "api": {
+                                            "method": "put",
+                                            "url": "/portal/cl-middleware",
+                                            "messages": {
+                                                "success": "保存中间件成功"
+                                            },
+                                            "dataType": "json",
+                                            "data": {
+                                                "&": "$$",
+                                                "id": "${id}"
+                                            }
+                                        },
+                                        "body": [
+                                            {
+                                                "type": "input-text",
+                                                "name": "name",
+                                                "label": "名称",
+                                                "id": "u:86063e7ca8b2",
+                                                "size": "md",
+                                                "required": true
+                                            },
+                                            {
+                                                "type": "button-group-select",
+                                                "name": "isExternal",
+                                                "inline": false,
+                                                "options": [
+                                                    {
+                                                        "label": "外部",
+                                                        "value": "true"
+                                                    },
+                                                    {
+                                                        "label": "内部",
+                                                        "value": "false"
+                                                    }
+                                                ],
+                                                "id": "u:97b4336f601a",
+                                                "multiple": false,
+                                                "label": "外部中间件",
+                                                "description": "是否外部中间件。",
+                                                "disabled": true,
+                                                "value": "${isExternal}"
+                                            },
+                                            {
+                                                "type": "combo",
+                                                "label": "主机端口",
+                                                "name": "hostPort",
+                                                "multiple": false,
+                                                "items": [
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "host",
+                                                        "placeholder": "主机",
+                                                        "id": "u:f5e6ed2c9f61",
+                                                        "size": "sm",
+                                                        "className": "",
+                                                        "inputClassName": ""
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "name": "port",
+                                                        "placeholder": "端口号",
+                                                        "id": "u:0827301bba81",
+                                                        "size": "full",
+                                                        "validations": {
+                                                            "maxLength": 5
+                                                        }
+                                                    }
+                                                ],
+                                                "id": "u:3eedc067c12f",
+                                                "multiLine": false,
+                                                "subFormMode": "inline",
+                                                "messages": {},
+                                                "size": "md",
+                                                "tabsMode": false,
+                                                "tabsStyle": "inline",
+                                                "className": "",
+                                                "inputClassName": "",
+                                                "staticClassName": "",
+                                                "disabledOn": "isExternal==false",
+                                                "required": true
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "name": "username",
+                                                "label": "用户名",
+                                                "id": "u:d8f7f82f4a95",
+                                                "size": "md",
+                                                "disabledOn": "isExternal==false"
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "name": "password",
+                                                "label": "密码",
+                                                "id": "u:e28486670509",
+                                                "size": "md",
+                                                "disabledOn": "isExternal==false"
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "name": "schema",
+                                                "label": "数据库",
+                                                "id": "u:4dd6cb68df51",
+                                                "size": "md",
+                                                "description": "数据库名称，缓存填数据库序号如：0",
+                                                "disabledOn": "isExternal==false"
+                                            }
+                                        ],
+                                        "id": "u:8cbf696d6024"
+                                    }
+                                ],
+                                "id": "u:eab81ca6b535",
+                                "actions": [
+                                    {
+                                        "type": "button",
+                                        "label": "测试连接",
+                                        "onEvent": {
+                                            "click": {
+                                                "actions": [
+                                                    {
+                                                        "args": {
+                                                            "options": {
+                                                                "silent": false
+                                                            },
+                                                            "api": {
+                                                                "method": "post",
+                                                                "url": "/portal/cl-middleware/test",
+                                                                "dataType": "json",
+                                                                "messages": {
+                                                                    "success": "连接成功"
+                                                                },
+                                                                "data": {
+                                                                    "&": "$$",
+                                                                    "type": "${type}"
+                                                                }
+                                                            }
+                                                        },
+                                                        "outputVar": "responseResult",
+                                                        "actionType": "ajax"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "id": "u:b89d85f3c24b",
+                                        "level": "warning",
+                                        "hiddenOn": "isExternal==false"
+                                    },
+                                    {
+                                        "type": "button",
+                                        "label": "取消",
+                                        "onEvent": {
+                                            "click": {
+                                                "actions": [
+                                                    {
+                                                        "actionType": "closeDialog"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "id": "u:db04abf42a54"
+                                    },
+                                    {
+                                        "type": "button",
+                                        "label": "确认",
+                                        "onEvent": {
+                                            "click": {
+                                                "actions": [
+                                                    {
+                                                        "componentId": "u:8cbf696d6024",
+                                                        "actionType": "submit"
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        "id": "u:4c6d03c62f0b",
+                                        "level": "primary"
+                                    }
+                                ]
+                            },
+                            "id": "u:e534fc776fd7"
+                        },
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "icon": "nb-icon nb-icon-shanchu",
+                            "actionType": "ajax",
+                            "level": "link",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "api": {
+                                "method": "delete",
+                                "url": "/portal/cl-middleware/${id}",
+                                "messages": {
+                                    "success": "删除成功"
+                                }
+                            },
+                            "id": "u:9b6ea498e99b"
+                        }
+                    ]
+                }
+            ],
+            "bulkActions": [],
+            "itemActions": [],
+            "features": ["create", "update", "delete"],
+            "id": "u:cf3ad5258fd1",
+            "headerToolbar": [
+                {
+                    "label": "新增",
+                    "type": "button",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "dialog": {
+                        "type": "dialog",
+                        "title": "新增中间件",
+                        "body": [
+                            {
+                                "type": "form",
+                                "api": {
+                                    "method": "post",
+                                    "url": "/portal/cl-middleware",
+                                    "messages": {
+                                        "success": "新增中间件成功"
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "name",
+                                        "label": "名称",
+                                        "id": "u:86063e7ca8b2",
+                                        "size": "md",
+                                        "required": true
+                                    },
+                                    {
+                                        "type": "button-group-select",
+                                        "name": "type",
+                                        "inline": false,
+                                        "options": [
+                                            {
+                                                "label": "MySQL",
+                                                "value": "mysql"
+                                            },
+                                            {
+                                                "label": "MongoDB",
+                                                "value": "mongodb"
+                                            },
+                                            {
+                                                "label": "Redis",
+                                                "value": "redis"
+                                            }
+                                        ],
+                                        "id": "u:f15eaa355f81",
+                                        "multiple": false,
+                                        "label": "类型",
+                                        "description": "中间件类型：数据库，缓存等。",
+                                        "value": "mysql"
+                                    },
+                                    {
+                                        "type": "button-group-select",
+                                        "name": "isExternal",
+                                        "inline": false,
+                                        "options": [
+                                            {
+                                                "label": "外部",
+                                                "value": "true"
+                                            },
+                                            {
+                                                "label": "内部",
+                                                "value": "false"
+                                            }
+                                        ],
+                                        "id": "u:220e8b84373d",
+                                        "multiple": false,
+                                        "label": "外部中间件",
+                                        "description": "是否外部中间件。",
+                                        "value": "true"
+                                    },
+                                    {
+                                        "type": "combo",
+                                        "label": "主机端口",
+                                        "name": "hostPort",
+                                        "multiple": false,
+                                        "items": [
+                                            {
+                                                "type": "input-text",
+                                                "name": "host",
+                                                "placeholder": "主机",
+                                                "id": "u:f5e6ed2c9f69",
+                                                "size": "sm",
+                                                "className": "",
+                                                "inputClassName": ""
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "name": "port",
+                                                "placeholder": "端口号",
+                                                "id": "u:0827301bba87",
+                                                "size": "full",
+                                                "validations": {
+                                                    "maxLength": 5
+                                                }
+                                            }
+                                        ],
+                                        "id": "u:3eedc067c00e",
+                                        "multiLine": false,
+                                        "subFormMode": "inline",
+                                        "messages": {},
+                                        "size": "md",
+                                        "tabsMode": false,
+                                        "tabsStyle": "inline",
+                                        "className": "",
+                                        "inputClassName": "",
+                                        "staticClassName": "",
+                                        "visibleOn": "isExternal=='true'",
+                                        "required": true
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "username",
+                                        "label": "用户名",
+                                        "id": "u:d8f7f82f4a95",
+                                        "size": "md",
+                                        "disabledOn": "type=='redis'",
+                                        "className": "m-t-lg",
+                                        "visibleOn": "isExternal=='true'"
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "password",
+                                        "label": "密码",
+                                        "id": "u:e28486670509",
+                                        "size": "md",
+                                        "disabled": false,
+                                        "visibleOn": "isExternal=='true'"
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "schema",
+                                        "label": "数据库名",
+                                        "id": "u:4dd6cb68df51",
+                                        "size": "md",
+                                        "description": "数据库名称，缓存填数据库序号。如：0",
+                                        "disabled": false,
+                                        "required": true
+                                    }
+                                ],
+                                "id": "u:8cbf696d6024",
+                                "name": "middlewareForm"
+                            }
+                        ],
+                        "id": "u:c3891288f0bb",
+                        "showCloseButton": true,
+                        "closeOnEsc": false,
+                        "showErrorMsg": true,
+                        "showLoading": true,
+                        "dataMapSwitch": false,
+                        "dataMap": null,
+                        "data": null,
+                        "actions": [
+                            {
+                                "type": "button",
+                                "label": "测试连接",
+                                "onEvent": {
+                                    "click": {
+                                        "actions": [
+                                            {
+                                                "args": {
+                                                    "options": {
+                                                        "silent": false
+                                                    },
+                                                    "api": {
+                                                        "method": "post",
+                                                        "url": "/portal/cl-middleware/test",
+                                                        "dataType": "json",
+                                                        "messages": {
+                                                            "success": "连接成功"
+                                                        },
+                                                        "data": {
+                                                            "&": "$$"
+                                                        }
+                                                    }
+                                                },
+                                                "outputVar": "responseResult",
+                                                "actionType": "ajax"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "id": "u:676b0a1bea7e",
+                                "level": "warning",
+                                "hiddenOn": "isExternal!='true'"
+                            },
+                            {
+                                "type": "button",
+                                "label": "取消",
+                                "onEvent": {
+                                    "click": {
+                                        "actions": [
+                                            {
+                                                "actionType": "closeDialog"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "id": "u:cf9cdb5853d2"
+                            },
+                            {
+                                "type": "button",
+                                "label": "确认",
+                                "onEvent": {
+                                    "click": {
+                                        "actions": [
+                                            {
+                                                "componentId": "u:8cbf696d6024",
+                                                "actionType": "submit"
+                                            }
+                                        ]
+                                    }
+                                },
+                                "id": "u:a54ee83dc58a",
+                                "level": "primary"
+                            }
+                        ]
+                    },
+                    "id": "u:7373ef40837f"
+                },
+                "bulkActions"
+            ],
+            "perPageAvailable": [10],
+            "messages": {},
+            "alwaysShowPagination": true,
+            "filter": {
+                "title": "查询条件",
+                "body": [
+                    {
+                        "type": "grid",
+                        "columns": [
+                            {
+                                "body": [
+                                    {
+                                        "type": "input-text",
+                                        "name": "filter.name.eq",
+                                        "label": "名称",
+                                        "id": "u:7308714b5130",
+                                        "size": "sm"
+                                    }
+                                ],
+                                "id": "u:db5a7c0df66e"
+                            },
+                            {
+                                "body": [
+                                    {
+                                        "type": "select",
+                                        "clearable": true,
+                                        "name": "filter.type.eq",
+                                        "options": [
+                                            {
+                                                "label": "MySQL",
+                                                "value": "mysql"
+                                            },
+                                            {
+                                                "label": "MongoDB",
+                                                "value": "mongodb"
+                                            },
+                                            {
+                                                "label": "Redis",
+                                                "value": "redis"
+                                            }
+                                        ],
+                                        "id": "u:f15eaa355f81",
+                                        "multiple": false,
+                                        "size": "sm",
+                                        "label": "类型"
+                                    }
+                                ],
+                                "id": "u:62d9b5cccc2b"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:7ccff559ea1d"
+                            },
+                            {
+                                "body": [],
+                                "id": "u:a0427127b1cb"
+                            }
+                        ],
+                        "id": "u:a7ed0d2caabc",
+                        "align": "left",
+                        "gap": "lg"
+                    }
+                ],
+                "id": "u:46edcb059983",
+                "actions": [
+                    {
+                        "type": "button",
+                        "label": "搜索",
+                        "level": "primary",
+                        "icon": "nb-icon nb-icon-31sousuo",
+                        "id": "u:ad0dc30b4503",
+                        "actionType": "submit"
+                    }
+                ]
+            }
+        }
+    ],
+    "type": "page",
+    "title": "中间件"
+}

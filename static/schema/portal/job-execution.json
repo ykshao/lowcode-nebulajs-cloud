@@ -1,0 +1,172 @@
+{
+  "id": "u:4hb38smc0b49",
+  "asideResizor": false,
+  "pullRefresh": {
+    "disabled": true
+  },
+  "regions": ["body"],
+  "body": [
+    {
+      "type": "crud",
+      "id": "u:74a948e50de0",
+      "columns": [
+        {
+          "type": "text",
+          "label": "名称",
+          "name": "name",
+          "id": "u:13198a7600bd"
+        },
+        {
+          "type": "text",
+          "label": "运行环境",
+          "name": "env",
+          "align": "center",
+          "id": "u:8cce8d9dg1h3",
+          "width": 100
+        },
+        {
+          "type": "date",
+          "label": "执行时间",
+          "name": "createdAt",
+          "format": "YYYY-MM-DD HH:mm:ss",
+          "id": "u:8ccf6f0df65h",
+          "width": 180
+        },
+        {
+          "type": "mapping",
+          "label": "状态",
+          "name": "status",
+          "id": "u:8ddf6f0df64f",
+          "align": "center",
+          "placeholder": "-",
+          "map": {
+            "1": "运行中",
+            "2": "已完成"
+          },
+          "width": 100
+        },
+        {
+          "type": "static-mapping",
+          "label": "结果",
+          "name": "result",
+          "id": "u:8ddf6f0df64f",
+          "align": "center",
+          "placeholder": "-",
+          "map": {
+            "true": "<span class='nb-tag success'>成功</span>",
+            "false": "<span class='nb-tag danger'>失败</span>"
+          },
+          "width": 100
+        },
+        {
+          "type": "operation",
+          "label": "操作",
+          "width": 150,
+          "align": "center",
+          "id": "u:e5e135d333f2",
+          "buttons": [
+            {
+              "type": "button",
+              "label": "查看",
+              "onEvent": {
+                "click": {
+                  "actions": [
+                    {
+                      "actionType": "dialog",
+                      "dialog": {
+                        "type": "dialog",
+                        "title": "查看日志",
+                        "size": "lg",
+                        "actions": [
+
+                        ],
+                        "body": [
+                          {
+                            "className": "m-t-sm",
+                            "type": "log",
+                            "height": 510,
+                            "disableColor": false,
+                            "source": "/portal/cl-job/execution/$id/log",
+                            "id": "u:ef7b91217625",
+                            "autoScroll": true,
+                            "operation": [
+                              "restart","stop","filter", "showLineNumber", "clear"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              "id": "u:eebdd1bcdfb5",
+              "loading": true,
+              "level": "link",
+              "size": "sm"
+            }
+          ]}
+      ],
+      "syncLocation": false,
+      "api": {
+        "method": "get",
+        "url": "/portal/cl-job/${jobId}/executions?sort[0]=updatedAt,desc",
+        "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+        "data": {
+          "sort[0]": "updatedAt,desc",
+          "page": "${page}",
+          "size": "${size}"
+        }
+      },
+      "bulkActions": [],
+      "itemActions": [],
+      "features": ["delete"],
+      "perPageField": "size",
+      "perPageAvailable": [10],
+      "messages": {},
+      "alwaysShowPagination": true,
+      "headerToolbar": [
+        {
+          "type": "bulk-actions"
+        },
+        {
+          "type": "button",
+          "id": "u:f61daa006881",
+          "label": "刷新",
+          "align": "right",
+          "level": "enhance",
+          "onEvent": {
+            "click": {
+              "weight": 0,
+              "actions": [
+                {
+                  "componentId": "u:74a948e50de0",
+                  "args": {
+                    "resetPage": true
+                  },
+                  "actionType": "reload",
+                  "dataMergeMode": "merge"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "button",
+          "label": "返回",
+          "align": "right",
+          "onEvent": {
+            "click": {
+              "actions": [
+                {
+                  "actionType": "goBack"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "title": "任务执行",
+  "type": "page"
+}

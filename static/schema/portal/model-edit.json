@@ -1,0 +1,773 @@
+{
+    "id": "u:d55e324013a7",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": [
+        "body"
+    ],
+    "body": [
+        {
+            "type": "form",
+            "labelWidth": 85,
+            "id": "u:e0c156da4dfc",
+            "api": {
+                "method": "post",
+                "url": "/portal/cl-model",
+                "messages": {
+                    "success": "保存成功"
+                },
+                "dataType": "json"
+            },
+            "title": "表单",
+            "body": [
+                {
+                    "type": "tabs",
+                    "id": "u:75109b56da5e",
+                    "tabs": [
+                        {
+                            "title": "基本信息",
+                            "body": {
+                                "type": "container",
+                                "body": [
+                                    {
+                                        "label": "模型名称",
+                                        "type": "input-text",
+                                        "name": "name",
+                                        "id": "u:1063e7a2972c",
+                                        "size": "full",
+                                        "description": "模型名称，由英文字母组成，驼峰式写法。如：SystemUser",
+                                        "value": "",
+                                        "required": true
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "label": "模型描述",
+                                        "name": "comment",
+                                        "id": "u:af0912295bf6",
+                                        "size": "full",
+                                        "description": "模型中文描述"
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "label": "表名",
+                                        "name": "tableName",
+                                        "id": "u:bbdfb83a51db",
+                                        "size": "full",
+                                        "description": "对应数据库中的表名，由字母、数字、下划线组成。",
+                                        "validations": {
+                                            "matchRegexp": "^[0-9a-zA-Z_]+$"
+                                        },
+                                        "validationErrors": {
+                                            "matchRegexp": "只由字母数字下划线组成"
+                                        }
+                                    },
+                                    {
+                                        "type": "switch",
+                                        "label": "软删除",
+                                        "name": "isSoftDelete",
+                                        "falseValue": false,
+                                        "trueValue": true,
+                                        "id": "u:07458fdf2153",
+                                        "value": false,
+                                        "description": "打开后，删除时不会删除数据库中的记录"
+                                    },
+                                    {
+                                        "type": "grid",
+                                        "columns": [
+                                            {
+                                                "body": [
+                                                    {
+                                                        "type": "input-text",
+                                                        "label": "创建时间",
+                                                        "name": "createdAtField",
+                                                        "id": "u:393ef0d96bd1",
+                                                        "size": "full",
+                                                        "description": "创建时间字段名称。",
+                                                        "value": "createdAt",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "label": "更新时间",
+                                                        "name": "updatedAtField",
+                                                        "id": "u:62eaf821288f",
+                                                        "size": "full",
+                                                        "description": "更新时间字段名称。",
+                                                        "value": "updatedAt",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "label": "删除时间",
+                                                        "name": "deletedAtField",
+                                                        "id": "u:49erf821298c",
+                                                        "size": "full",
+                                                        "description": "删除时间字段名称。",
+                                                        "value": "deletedAt",
+                                                        "required": true,
+                                                        "visibleOn": "this.isSoftDelete === true"
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "body": [
+                                                    {
+                                                        "type": "input-text",
+                                                        "label": "创建人",
+                                                        "name": "createdByField",
+                                                        "id": "u:48dhf821293f",
+                                                        "size": "full",
+                                                        "description": "创建人字段名称。",
+                                                        "value": "createdBy",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "label": "更新人",
+                                                        "name": "updatedByField",
+                                                        "id": "u:98fdf821387f",
+                                                        "size": "full",
+                                                        "description": "更新人字段名称。",
+                                                        "value": "updatedBy",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "type": "input-text",
+                                                        "label": "删除人",
+                                                        "name": "deletedByField",
+                                                        "id": "u:12fdf821495f",
+                                                        "size": "full",
+                                                        "description": "删除人字段名称。",
+                                                        "value": "deletedBy",
+                                                        "required": true,
+                                                        "visibleOn": "this.isSoftDelete === true"
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+
+                                    {
+                                        "type": "switch",
+                                        "label": "发起流程",
+                                        "name": "withProcess",
+                                        "falseValue": false,
+                                        "trueValue": true,
+                                        "id": "u:06518fdf1783",
+                                        "value": false,
+                                        "description": "打开后，允许流程绑定到模型"
+                                    },
+                                    {
+                                        "type": "select",
+                                        "source": "${props}",
+                                        "label": "流程状态",
+                                        "name": "processStatusField",
+                                        "id": "u:02394fdf1384",
+                                        "value": "status",
+                                        "size": "md",
+                                        "labelField": "comment",
+                                        "valueField": "name",
+                                        "menuTpl": "${comment} (${name})",
+                                        "description": "流程状态字段名称。",
+                                        "disabledOn": "${withProcess != true}",
+                                        "required": true
+                                    },
+                                    {
+                                        "type": "select",
+                                        "options": [
+                                            {
+                                                "label": "仅自己可见",
+                                                "value": "OWNER"
+                                            },
+                                            {
+                                                "label": "本部门可见",
+                                                "value": "DEPT"
+                                            },
+                                            {
+                                                "label": "本公司可见",
+                                                "value": "COMPANY"
+                                            },
+                                            {
+                                                "label": "所有人可见",
+                                                "value": "ALL"
+                                            }
+                                        ],
+                                        "label": "数据权限",
+                                        "name": "dataAccess",
+                                        "id": "u:12947fdf1382",
+                                        "value": "ALL",
+                                        "size": "md",
+                                        "labelField": "label",
+                                        "valueField": "value",
+                                        "description": "模型数据权限。"
+                                    },
+                                    {
+                                        "type": "textarea",
+                                        "label": "备注",
+                                        "name": "remark",
+                                        "id": "u:75afc9e02b47",
+                                        "minRows": 3,
+                                        "maxRows": 20,
+                                        "size": "lg",
+                                        "onEvent": {}
+                                    }
+                                ],
+                                "className": "w-1/2"
+                            },
+                            "id": "u:8ab01099511c",
+                            "className": ""
+                        },
+                        {
+                            "title": "模型属性",
+                            "body": [
+                                {
+                                    "type": "input-table",
+                                    "id": "u:5f030385389e",
+                                    "canAccessSuperData": false,
+                                    "name": "props",
+                                    "label": "",
+                                    "columns": [
+                                        {
+                                            "label": "名称",
+                                            "name": "name",
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "type": "input-text",
+                                                "name": "name",
+                                                "id": "u:8bc409295099",
+                                                "value": "",
+                                                "required": true,
+                                                "validations": {
+                                                    "isAlphanumeric": true
+                                                }
+                                            },
+                                            "type": "text",
+                                            "id": "u:7f51ae8e8472",
+                                            "placeholder": "-",
+                                            "required": true,
+                                            "width": 120,
+                                            "value": ""
+                                        },
+                                        {
+                                            "label": "注释",
+                                            "name": "comment",
+                                            "quickEdit": {
+                                                "mode": "inline",
+                                                "type": "input-text",
+                                                "name": "comment",
+                                                "id": "u:d58ceecfa40d",
+                                                "required": true
+                                            },
+                                            "type": "text",
+                                            "id": "u:bd37c295f271",
+                                            "placeholder": "-",
+                                            "width": 180,
+                                            "required": true
+                                        },
+                                        {
+                                            "label": "字段名",
+                                            "name": "fieldName",
+                                            "quickEdit": {
+                                                "mode": "inline",
+                                                "type": "input-text",
+                                                "name": "fieldName",
+                                                "id": "u:d89baabfa41d",
+                                                "required": false
+                                            },
+                                            "type": "text",
+                                            "id": "u:wd43c295f594",
+                                            "placeholder": "-",
+                                            "width": 120,
+                                            "required": false
+                                        },
+                                        {
+                                            "type": "text",
+                                            "label": "类型",
+                                            "name": "type",
+                                            "id": "u:26ff41a017ac",
+                                            "placeholder": "-",
+                                            "multiple": false,
+                                            "value": "",
+                                            "className": "text-center",
+                                            "width": 90,
+                                            "required": true,
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "type": "select",
+                                                "name": "type",
+                                                "id": "u:b7c5a188dc71",
+                                                "options": [
+                                                    {
+                                                        "label": "STRING",
+                                                        "value": "STRING"
+                                                    },
+                                                    {
+                                                        "label": "TEXT",
+                                                        "value": "TEXT"
+                                                    },
+                                                    {
+                                                        "label": "BOOLEAN",
+                                                        "value": "BOOLEAN"
+                                                    },
+                                                    {
+                                                        "label": "INTEGER",
+                                                        "value": "INTEGER"
+                                                    },
+                                                    {
+                                                        "label": "BIGINT",
+                                                        "value": "BIGINT"
+                                                    },
+                                                    {
+                                                        "label": "FLOAT",
+                                                        "value": "FLOAT"
+                                                    },
+                                                    {
+                                                        "label": "DOUBLE",
+                                                        "value": "DOUBLE"
+                                                    },
+                                                    {
+                                                        "label": "DATE",
+                                                        "value": "DATE"
+                                                    }
+                                                ],
+                                                "multiple": false,
+                                                "value": "STRING",
+                                                "required": true
+                                            }
+                                        },
+                                        {
+                                            "type": "text",
+                                            "label": "长度",
+                                            "name": "len",
+                                            "id": "u:d4971830a687",
+                                            "placeholder": "-",
+                                            "className": "text-center",
+                                            "width": 70,
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "id": "u:866764731ee1",
+                                                "type": "input-text",
+                                                "validations": {
+                                                    "maxLength": 5
+                                                },
+                                                "name": "len"
+                                            }
+                                        },
+                                        {
+                                            "type": "mapping",
+                                            "name": "nullable",
+                                            "label": "可为空",
+                                            "id": "u:5e46f9821f1f",
+                                            "placeholder": "-",
+                                            "popOver": false,
+                                            "className": "text-center",
+                                            "width": 70,
+                                            "value": true,
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "type": "checkbox",
+                                                "name": "nullable",
+                                                "id": "u:377532a8d23d",
+                                                "value": true
+                                            },
+                                            "map": {
+                                                "true": "是"
+                                            }
+                                        },
+                                        {
+                                            "type": "mapping",
+                                            "label": "可更新",
+                                            "name": "canUpdate",
+                                            "id": "u:9b2b567589a3",
+                                            "placeholder": "-",
+                                            "className": "text-center",
+                                            "width": 70,
+                                            "value": true,
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "type": "checkbox",
+                                                "name": "canUpdate",
+                                                "id": "u:5cc9dec4ede0",
+                                                "value": true
+                                            },
+                                            "map": {
+                                                "true": "是"
+                                            }
+                                        },
+                                        {
+                                            "type": "mapping",
+                                            "label": "可新增",
+                                            "name": "canInsert",
+                                            "id": "u:7ad472363d45",
+                                            "placeholder": "-",
+                                            "className": "text-center",
+                                            "width": 70,
+                                            "value": true,
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "type": "checkbox",
+                                                "name": "canInsert",
+                                                "id": "u:5e65ec32d4b9",
+                                                "value": true
+                                            },
+                                            "map": {
+                                                "true": "是"
+                                            }
+                                        },
+                                        {
+                                            "type": "mapping",
+                                            "label": "可查询",
+                                            "name": "canFilter",
+                                            "id": "u:6dh472363c12",
+                                            "placeholder": "-",
+                                            "className": "text-center",
+                                            "width": 70,
+                                            "value": false,
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "type": "checkbox",
+                                                "name": "canFilter",
+                                                "id": "u:5e65ec32d4b9",
+                                                "value": false
+                                            },
+                                            "map": {
+                                                "true": "是"
+                                            }
+                                        },
+                                        {
+                                            "label": "描述",
+                                            "name": "remark",
+                                            "quickEdit": {
+                                                "mode": "inline",
+                                                "type": "input-text",
+                                                "name": "remark",
+                                                "id": "u:e48ceecfa11d"
+                                            },
+                                            "type": "text",
+                                            "id": "u:db58c295f583",
+                                            "placeholder": "-",
+                                            "width": 180,
+                                            "required": true
+                                        },
+                                        {
+                                            "label": "数据字典",
+                                            "name": "dictCode",
+                                            "quickEdit": {
+                                                "mode": "inline",
+                                                "type": "input-text",
+                                                "name": "dictCode",
+                                                "id": "u:a83ceecfa33d"
+                                            },
+                                            "type": "text",
+                                            "id": "u:bc24c295f294",
+                                            "placeholder": "-",
+                                            "width": 180,
+                                            "required": true
+                                        }
+                                    ],
+                                    "strictMode": true,
+                                    "addable": true,
+                                    "removable": true,
+                                    "editable": true,
+                                    "draggable": false,
+                                    "addApi": "",
+                                    "columnsTogglable": false,
+                                    "needConfirm": false,
+                                    "mode": "normal",
+                                    "showAddBtn": false,
+                                    "inline": false,
+                                    "showIndex": true,
+                                    "footerAddBtn": {
+                                        "type": "button",
+                                        "label": "新增一行",
+                                        "level": "enhance",
+                                        "size": "sm"
+                                    }
+                                }
+                            ],
+                            "id": "u:3f6bcc73aa21"
+                        },
+                        {
+                            "title": "模型关系",
+                            "body": [
+                                {
+                                    "type": "input-table",
+                                    "id": "u:d77baf98665d",
+                                    "mode": "normal",
+                                    "label": "",
+                                    "name": "refs",
+                                    "columns": [
+                                        {
+                                            "label": "对应关系",
+                                            "name": "ref",
+                                            "quickEdit": {
+                                                "type": "select",
+                                                "name": "ref",
+                                                "id": "u:524e15f57f41",
+                                                "multiple": false,
+                                                "options": [
+                                                    {
+                                                        "label": "一对一(hasOne)",
+                                                        "value": "hasOne"
+                                                    },
+                                                    {
+                                                        "label": "多对一(belongsTo)",
+                                                        "value": "belongsTo"
+                                                    },
+                                                    {
+                                                        "label": "多对多(hasMany)",
+                                                        "value": "hasMany"
+                                                    }
+                                                ],
+                                                "mode": "popOver",
+                                                "required": true
+                                            },
+                                            "type": "text",
+                                            "id": "u:53e36aa6f4ac",
+                                            "placeholder": "-",
+                                            "width": 150
+                                        },
+                                        {
+                                            "type": "text",
+                                            "label": "源字段",
+                                            "name": "srcProp",
+                                            "id": "u:37a8bc974593",
+                                            "placeholder": "-",
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "type": "input-text",
+                                                "name": "srcProp",
+                                                "id": "u:eba9d544c8ee"
+                                            }
+                                        },
+                                        {
+                                            "type": "text",
+                                            "label": "目标模型",
+                                            "name": "dest",
+                                            "id": "u:2aade0adfabf",
+                                            "placeholder": "-",
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "type": "select",
+                                                "name": "dest",
+                                                "id": "u:b96bf7abbc20",
+                                                "multiple": false,
+                                                "source": {
+                                                    "url": "/portal/cl-model",
+                                                    "method": "get",
+                                                    "messages": {},
+                                                    "cache": 15000
+                                                },
+                                                "labelField": "name",
+                                                "valueField": "name",
+                                                "required": true
+                                            }
+                                        },
+                                        {
+                                            "type": "text",
+                                            "label": "目标字段",
+                                            "name": "destProp",
+                                            "id": "u:01f0c5992308",
+                                            "width": 100,
+                                            "placeholder": "-",
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "type": "input-text",
+                                                "name": "destProp",
+                                                "id": "u:74e383f70f16"
+                                            }
+                                        },
+                                        {
+                                            "type": "text",
+                                            "label": "别名",
+                                            "name": "alias",
+                                            "id": "u:af0b74bafc59",
+                                            "width": 100,
+                                            "placeholder": "-",
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "id": "u:46b8e2ce0ce9",
+                                                "type": "input-text",
+                                                "name": "alias",
+                                                "required": true
+                                            }
+                                        },
+                                        {
+                                            "type": "text",
+                                            "id": "u:aa0ddf25b351",
+                                            "label": "更新",
+                                            "name": "onUpdate",
+                                            "placeholder": "-",
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "type": "select",
+                                                "name": "onUpdate",
+                                                "id": "u:1040bf6e7da7",
+                                                "value": "CASCADE",
+                                                "options": [
+                                                    {
+                                                        "label": "NO ACTION",
+                                                        "value": "NO ACTION"
+                                                    },
+                                                    {
+                                                        "label": "CASCADE",
+                                                        "value": "CASCADE"
+                                                    },
+                                                    {
+                                                        "label": "RESTRICT",
+                                                        "value": "RESTRICT"
+                                                    },
+                                                    {
+                                                        "label": "SET NULL",
+                                                        "value": "SET NULL"
+                                                    }
+                                                ]
+                                            },
+                                            "width": 100
+                                        },
+                                        {
+                                            "type": "text",
+                                            "label": "删除",
+                                            "name": "onDelete",
+                                            "id": "u:3b809da4b311",
+                                            "placeholder": "-",
+                                            "quickEdit": {
+                                                "mode": "popOver",
+                                                "type": "select",
+                                                "name": "onDelete",
+                                                "id": "u:4bb97f8322ca",
+                                                "value": "CASCADE",
+                                                "options": [
+                                                    {
+                                                        "label": "NO ACTION",
+                                                        "value": "NO ACTION"
+                                                    },
+                                                    {
+                                                        "label": "CASCADE",
+                                                        "value": "CASCADE"
+                                                    },
+                                                    {
+                                                        "label": "RESTRICT",
+                                                        "value": "RESTRICT"
+                                                    },
+                                                    {
+                                                        "label": "SET NULL",
+                                                        "value": "SET NULL"
+                                                    }
+                                                ]
+                                            },
+                                            "width": 100
+                                        }
+                                    ],
+                                    "strictMode": true,
+                                    "columnsTogglable": false,
+                                    "addable": true,
+                                    "removable": true,
+                                    "editable": true,
+                                    "needConfirm": false,
+                                    "showAddBtn": false,
+                                    "showIndex": true,
+                                    "footerAddBtn": {
+                                        "type": "button",
+                                        "label": "新增一行",
+                                        "level": "enhance",
+                                        "size": "sm"
+                                    }
+                                }
+                            ],
+                            "id": "u:5dd60ce14a58"
+                        }
+                    ],
+                    "tabsMode": "",
+                    "contentClassName": "p-t",
+                    "unmountOnExit": false
+                }
+            ],
+            "wrapWithPanel": false,
+            "mode": "horizontal",
+            "canAccessSuperData": false,
+            "initApi": {
+                "url": "/portal/cl-model/${id}",
+                "method": "get",
+                "messages": {},
+                "responseData": {
+                    "&": "$$",
+                    "name": "${name}"
+                },
+                "replaceData": false,
+                "sendOn": "id"
+            },
+            "className": "nb-card p",
+            "actions": [
+                {
+                    "type": "button",
+                    "label": "按钮",
+                    "onEvent": {
+                        "click": {
+                            "actions": []
+                        }
+                    },
+                    "id": "u:13636e9d1bc5"
+                }
+            ]
+        },
+        {
+            "type": "container",
+            "body": [
+                {
+                    "type": "button",
+                    "label": "保存",
+                    "onEvent": {
+                        "click": {
+                            "actions": [
+                                {
+                                    "componentId": "u:e0c156da4dfc",
+                                    "args": {},
+                                    "actionType": "submit"
+                                }
+                            ]
+                        }
+                    },
+                    "id": "u:bdd99a087348",
+                    "className": "",
+                    "level": "primary",
+                    "block": false,
+                    "size": "md"
+                },
+                {
+                    "type": "button",
+                    "label": "返回",
+                    "onEvent": {
+                        "click": {
+                            "actions": [
+                                {
+                                    "args": {},
+                                    "actionType": "goBack"
+                                }
+                            ]
+                        }
+                    },
+                    "id": "u:d82339738471",
+                    "level": "enhance",
+                    "size": "md",
+                    "className": "m-l-sm"
+                }
+            ],
+            "style": {
+                "position": "static",
+                "display": "block"
+            },
+            "id": "u:1a4bc38d06b8",
+            "isFixedHeight": false,
+            "isFixedWidth": false,
+            "bodyClassName": "p-l-sm p-t-md"
+        }
+    ],
+    "toolbar": [],
+    "type": "page",
+    "style": {
+        "boxShadow": " 0px 0px 0px 0px transparent"
+    }
+}

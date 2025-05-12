@@ -1,0 +1,45 @@
+<%_ if(typeof database !== 'undefined'){ _%>
+## 数据库配置
+database:
+  dialect: '<%=database.type%>'
+  host: '<%=database.host%>'
+  port: '<%=database.port%>'
+  username: '<%=database.username%>'
+  password: '<%=database.password%>'
+  database: '<%=database.schema%>'
+<%_ } _%>
+
+<%_ if(typeof redis !== 'undefined'){ _%>
+## Redis配置
+redis:
+  port: <%=redis.port%> # Redis port
+  host: '<%=redis.host%>' # Redis host
+  family: 4 # 4 (IPv4) or 6 (IPv6)
+  db: <%=redis.schema%>
+  password: '<%=redis.password%>'
+<%_ } _%>
+
+## 日志配置
+logger:
+  level: '<%=logLevel%>'
+
+<%_ if(typeof authConfig !== 'undefined'){ _%>
+## 认证方式配置
+auth:
+  authType: '<%=authConfig.authType%>'
+  <%_ if(authConfig.authType === 'cas'){ _%>
+  casConfig:
+    endpoint: '<%=authConfig.casConfig?.endpoint%>'
+    clientId: '<%=authConfig.casConfig?.clientId%>'
+    clientSecret: '<%=authConfig.casConfig?.clientSecret%>'
+    certificate: '<%=authConfig.casConfig?.certificate2%>'
+    orgName: '<%=authConfig.casConfig?.orgName%>'
+  <%_ } else if(authConfig.authType === 'oauth'){ _%>
+  oauthConfig:
+    tokenKeyURL: '<%=authConfig.oauthConfig?.tokenKeyURL%>'
+    accessTokenURL: '<%=authConfig.oauthConfig?.accessTokenURL%>'
+    clientId: '<%=authConfig.oauthConfig?.clientId%>'
+    clientSecret: '<%=authConfig.oauthConfig?.clientSecret%>'
+  <%_ } _%>
+<%_ } _%>
+

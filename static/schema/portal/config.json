@@ -1,0 +1,496 @@
+{
+    "id": "u:71e086eb7ab7",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": ["body"],
+    "body": [
+        {
+            "type": "crud",
+            "id": "u:10d8d6c3ea83",
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/portal/cl-app-profile",
+                "messages": {},
+                "data": {}
+            },
+            "bulkActions": [],
+            "itemActions": [],
+            "perPageAvailable": [10],
+            "messages": {},
+            "headerToolbar": [
+                {
+                    "type": "bulk-actions"
+                },
+                {
+                    "label": "新增配置",
+                    "type": "button",
+                    "icon": "el-icon-plus",
+                    "actionType": "dialog",
+                    "level": "primary",
+                    "id": "u:e12af0905426",
+                    "dialog": {
+                        "title": "新增配置",
+                        "type": "dialog",
+                        "body": [
+
+                        ]
+                    }
+                }
+            ],
+            "alwaysShowPagination": true,
+            "card": {
+                "type": "card",
+                "className": "ptl-config-card",
+                "header": {
+                    "title": "${env}",
+                    "subTitle": ""
+                },
+                "body": [
+                    {
+                        "name": "databaseName",
+                        "label": "数据库",
+                        "id": "u:39f0fdceed5d"
+                    },
+                    {
+                        "name": "redisName",
+                        "label": "缓存",
+                        "id": "u:fbb00ea28965"
+                    },
+                    {
+                        "name": "authConfig.authType",
+                        "label": "认证方式",
+                        "type": "tpl",
+                        "id": "u:fbb00e17234b",
+                        "tpl": "${authConfig.authType | upperCase}"
+                    },
+                    {
+                        "type": "static-mapping",
+                        "name": "logLevel",
+                        "label": "类型",
+                        "align": "center",
+                        "map": {
+                            "warn": "<span class='nb-tag warning'>WARN</span>",
+                            "debug": "<span class='nb-tag success'>DEBUG</span>",
+                            "info": "<span class='nb-tag info'>INFO</span>",
+                            "error": "<span class='nb-tag danger'>ERROR</span>"
+
+                        }
+                    }
+                ],
+                "actions": [
+                    {
+                        "label": "编辑",
+                        "type": "button",
+                        "level": "primary",
+                        "id": "u:c4a7f8ab29e2",
+                        "icon": "nb-icon nb-icon-bianji1",
+                        "onEvent": {
+                            "click": {
+                                "weight": 0,
+                                "actions": [
+                                    {
+                                        "dialog": {
+                                            "type": "dialog",
+                                            "title": "应用配置",
+                                            "body": [
+                                                {
+                                                    "type": "form",
+                                                    "id": "u:5042533d5918",
+                                                    "title": "表单",
+                                                    "body": [
+                                                        {
+                                                            "type": "tabs",
+                                                            "id": "u:80eec27bdfd3",
+                                                            "tabs": [
+                                                                {
+                                                                    "title": "系统配置",
+                                                                    "body": [
+                                                                        {
+                                                                            "type": "grid",
+                                                                            "id": "u:4c776928f45f",
+                                                                            "columns": [
+                                                                                {
+                                                                                    "body": [
+                                                                                        {
+                                                                                            "type": "select",
+                                                                                            "label": "主数据库",
+                                                                                            "name": "databaseIns",
+                                                                                            "id": "u:14e83501097d",
+                                                                                            "multiple": false,
+                                                                                            "size": "md",
+                                                                                            "required": true,
+                                                                                            "source": {
+                                                                                                "url": "/portal/cl-middleware?filter[type][eq]=mysql",
+                                                                                                "method": "get",
+                                                                                                "messages": {}
+                                                                                            },
+                                                                                            "labelField": "name",
+                                                                                            "valueField": "id",
+                                                                                            "onEvent": {
+                                                                                                "change": {
+                                                                                                    "weight": 0,
+                                                                                                    "actions": [
+                                                                                                        {
+                                                                                                            "actionType": "reload",
+                                                                                                            "componentId": "u:514fbfc15ce7",
+                                                                                                            "dataMergeMode": "merge"
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "select",
+                                                                                            "label": "数据缓存",
+                                                                                            "name": "redisIns",
+                                                                                            "id": "u:8e9db071cc14",
+                                                                                            "clearable": true,
+                                                                                            "multiple": false,
+                                                                                            "size": "md",
+                                                                                            "source": {
+                                                                                                "url": "/portal/cl-middleware?filter[type][eq]=redis",
+                                                                                                "method": "get",
+                                                                                                "messages": {}
+                                                                                            },
+                                                                                            "labelField": "name",
+                                                                                            "valueField": "id",
+                                                                                            "onEvent": {
+                                                                                                "change": {
+                                                                                                    "weight": 0,
+                                                                                                    "actions": [
+                                                                                                        {
+                                                                                                            "actionType": "reload",
+                                                                                                            "componentId": "u:514fbfc15ce7",
+                                                                                                            "dataMergeMode": "merge"
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "select",
+                                                                                            "id": "u:a99d577b9ee5",
+                                                                                            "label": "日志级别",
+                                                                                            "name": "logLevel",
+                                                                                            "options": [
+                                                                                                {
+                                                                                                    "label": "调试",
+                                                                                                    "value": "debug"
+                                                                                                },
+                                                                                                {
+                                                                                                    "label": "信息",
+                                                                                                    "value": "info"
+                                                                                                },
+                                                                                                {
+                                                                                                    "label": "警告",
+                                                                                                    "value": "warn"
+                                                                                                },
+                                                                                                {
+                                                                                                    "label": "错误",
+                                                                                                    "value": "error"
+                                                                                                }
+                                                                                            ],
+                                                                                            "multiple": false,
+                                                                                            "required": true,
+                                                                                            "size": "md",
+                                                                                            "value": "info",
+                                                                                            "onEvent": {
+                                                                                                "change": {
+                                                                                                    "weight": 0,
+                                                                                                    "actions": [
+                                                                                                        {
+                                                                                                            "actionType": "reload",
+                                                                                                            "componentId": "u:514fbfc15ce7",
+                                                                                                            "dataMergeMode": "merge"
+                                                                                                        }
+                                                                                                    ]
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "input-sub-form",
+                                                                                            "name": "authConfig",
+                                                                                            "label": "认证方式",
+                                                                                            "btnLabel": "点击设置",
+                                                                                            "form": {
+                                                                                                "title": "认证方式",
+                                                                                                "body": [
+                                                                                                    {
+                                                                                                        "type": "button-group-select",
+                                                                                                        "name": "authConfig.authType",
+                                                                                                        "label": "认证方式",
+                                                                                                        "inline": false,
+                                                                                                        "options": [
+                                                                                                            {
+                                                                                                                "label": "无",
+                                                                                                                "value": "none"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "label": "Nebula",
+                                                                                                                "value": "nebula"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "label": "OAuth",
+                                                                                                                "value": "oauth"
+                                                                                                            },
+                                                                                                            {
+                                                                                                                "label": "CAS单点登录",
+                                                                                                                "value": "cas"
+                                                                                                            }
+                                                                                                        ],
+                                                                                                        "id": "u:5fb510fdf492",
+                                                                                                        "multiple": false,
+                                                                                                        "value": "nebula"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "name": "authConfig.oauthConfig.clientId",
+                                                                                                        "label": "ClientId",
+                                                                                                        "type": "input-text",
+                                                                                                        "visibleOn": "${authConfig.authType=='oauth'}"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "name": "authConfig.oauthConfig.clientSecret",
+                                                                                                        "label": "ClientSecret",
+                                                                                                        "type": "input-text",
+                                                                                                        "visibleOn": "${authConfig.authType=='oauth'}"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "name": "authConfig.oauthConfig.tokenKeyURL",
+                                                                                                        "label": "TokenKey地址",
+                                                                                                        "type": "input-text",
+                                                                                                        "description": "获取TokenKey的http地址",
+                                                                                                        "visibleOn": "${authConfig.authType=='oauth'}"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "name": "authConfig.oauthConfig.accessTokenURL",
+                                                                                                        "label": "AccessToken地址",
+                                                                                                        "type": "input-text",
+                                                                                                        "description": "获取Token的http地址",
+                                                                                                        "visibleOn": "${authConfig.authType=='oauth'}"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "name": "authConfig.casConfig.endpoint",
+                                                                                                        "label": "CAS地址",
+                                                                                                        "type": "input-text",
+                                                                                                        "visibleOn": "${authConfig.authType=='cas'}"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "name": "authConfig.casConfig.clientId",
+                                                                                                        "label": "ClientId",
+                                                                                                        "type": "input-text",
+                                                                                                        "visibleOn": "${authConfig.authType=='cas'}"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "name": "authConfig.casConfig.clientSecret",
+                                                                                                        "label": "ClientSecret",
+                                                                                                        "type": "input-text",
+                                                                                                        "visibleOn": "${authConfig.authType=='cas'}"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "name": "authConfig.casConfig.orgName",
+                                                                                                        "label": "CAS组织名称",
+                                                                                                        "type": "input-text",
+                                                                                                        "visibleOn": "${authConfig.authType=='cas'}"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "name": "authConfig.casConfig.certificate",
+                                                                                                        "label": "CAS证书",
+                                                                                                        "type": "textarea",
+                                                                                                        "minRows": 8,
+                                                                                                        "maxRows": 8,
+                                                                                                        "description": "CAS证书（公钥）",
+                                                                                                        "visibleOn": "${authConfig.authType=='cas'}"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "onEvent": {
+                                                                                                    "submit": {
+                                                                                                        "actions": [
+                                                                                                            {
+                                                                                                                "componentId": "u:514fbfc15ce7",
+                                                                                                                "actionType": "reload",
+                                                                                                                "dataMergeMode": "merge"
+                                                                                                             }
+                                                                                                        ]
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        {
+                                                                                            "type": "hidden",
+                                                                                            "name": "env",
+                                                                                            "id": "u:31e096e9dfc1",
+                                                                                            "label": ""
+                                                                                        }
+                                                                                    ],
+                                                                                    "id": "u:964611f8eb9a",
+                                                                                    "md": 5
+                                                                                },
+                                                                                {
+                                                                                    "body": [
+                                                                                        {
+                                                                                            "type": "service",
+                                                                                            "id": "u:514fbfc15ce7",
+                                                                                            "body": [
+                                                                                                {
+                                                                                                    "type": "editor",
+                                                                                                    "label": "系统配置",
+                                                                                                    "name": "content",
+                                                                                                    "id": "u:58c2a5e34170",
+                                                                                                    "language": "yaml",
+                                                                                                    "disabled": false,
+                                                                                                    "mode": "normal",
+                                                                                                    "size": "lg"
+                                                                                                }
+                                                                                            ],
+                                                                                            "messages": {},
+                                                                                            "api": {
+                                                                                                "url": "/portal/cl-app-profile/content",
+                                                                                                "method": "post",
+                                                                                                "messages": {},
+                                                                                                "data": {
+                                                                                                    "&": "$$"
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    ],
+                                                                                    "id": "u:bb78c8b65d2e"
+                                                                                }
+                                                                            ]
+                                                                        }
+                                                                    ],
+                                                                    "id": "u:5532a4b842a2",
+                                                                    "className": "p-t-md p-l-none p-r-none"
+                                                                },
+                                                                {
+                                                                    "title": "业务配置",
+                                                                    "body": [
+                                                                        {
+                                                                            "type": "editor",
+                                                                            "id": "u:68dc918202cf",
+                                                                            "label": "业务配置",
+                                                                            "name": "bizContent",
+                                                                            "language": "yaml",
+                                                                            "size": "lg"
+                                                                        }
+                                                                    ],
+                                                                    "id": "u:dd24a5efc45c",
+                                                                    "className": "p-t-md p-r-none p-l-none"
+                                                                }
+                                                            ],
+                                                            "toolbar": [
+                                                                {
+                                                                    "type": "tpl",
+                                                                    "id": "u:c71b5b574d8a",
+                                                                    "tpl": "${env}",
+                                                                    "inline": true,
+                                                                    "wrapperComponent": "",
+                                                                    "style": {
+                                                                        "fontFamily": "",
+                                                                        "fontSize": 14,
+                                                                        "fontWeight": "bold"
+                                                                    }
+                                                                }
+                                                            ]
+                                                        }
+                                                    ],
+                                                    "api": {
+                                                        "url": "/portal/cl-app-profile",
+                                                        "method": "post",
+                                                        "messages": {
+                                                            "success": "更新配置成功"
+                                                        },
+                                                        "dataType": "json",
+                                                        "data": {
+                                                            "databaseIns": "$databaseIns",
+                                                            "redisIns": "$redisIns",
+                                                            "logLevel": "$logLevel",
+                                                            "authConfig": "$authConfig",
+                                                            "content": "$content",
+                                                            "bizContent": "$bizContent",
+                                                            "env": "$env",
+                                                            "id": "$id"
+                                                        }
+                                                    },
+                                                    "onEvent": {
+                                                        "submitSucc": {
+                                                            "weight": 0,
+                                                            "actions": [
+                                                                {
+                                                                    "componentId": "u:10d8d6c3ea83",
+                                                                    "actionType": "reload",
+                                                                    "dataMergeMode": "merge"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            "showCloseButton": true,
+                                            "showErrorMsg": false,
+                                            "showLoading": true,
+                                            "id": "u:56c5a31291e7",
+                                            "closeOnEsc": false,
+                                            "dataMapSwitch": false,
+                                            "size": "lg",
+                                            "onEvent": {},
+                                            "actions": [
+                                                {
+                                                    "type": "button",
+                                                    "label": "取消",
+                                                    "onEvent": {
+                                                        "click": {
+                                                            "actions": [
+                                                                {
+                                                                    "args": {},
+                                                                    "actionType": "closeDialog"
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    "id": "u:8ca9ab209811"
+                                                },
+                                                {
+                                                    "type": "button",
+                                                    "label": "更新配置",
+                                                    "onEvent": {
+                                                        "click": {
+                                                            "actions": [
+                                                                {
+                                                                    "componentId": "u:5042533d5918",
+                                                                    "args": {},
+                                                                    "actionType": "submit"
+                                                                }
+                                                            ]
+                                                        }
+                                                    },
+                                                    "id": "u:8d28fbdd74c7",
+                                                    "level": "primary"
+                                                }
+                                            ]
+                                        },
+                                        "actionType": "dialog"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "label": "删除",
+                        "type": "button",
+                        "level": "link",
+                        "className": "text-danger",
+                        "id": "u:c4a7f8ab28372",
+                        "icon": "nb-icon nb-icon-shanchu"
+                    }
+                ],
+                "id": "u:e4a25f6860aa"
+            },
+            "mode": "cards"
+        }
+    ],
+    "title": "应用配置",
+    "type": "page"
+}

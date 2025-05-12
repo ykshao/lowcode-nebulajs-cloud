@@ -1,0 +1,337 @@
+{
+  "id": "u:89eb9365c9fa",
+  "asideResizor": false,
+  "pullRefresh": {
+    "disabled": true
+  },
+  "regions": [
+    "body"
+  ],
+  "type": "page",
+  "initApi": {
+    "method": "get",
+    "messages": {},
+    "url": "cloud/app/app-process/info?processInstanceId=${processId}&taskId=${taskId}"
+  },
+  "title": "流程详情",
+  "style": {
+    "boxShadow": " 0px 0px 0px 0px transparent"
+  },
+  "body": [
+    {
+      "type": "grid",
+      "gap": "lg",
+      "columns": [
+        {
+          "body": [
+            {
+              "type": "service",
+              "className": "nb-task-info-form",
+              "style": {
+                "minHeight": "400px"
+              },
+              "schemaApi": {
+                "url": "cloud/app/app-process-def/schema/render/${processDefinitionId}",
+                "method": "get",
+                "sendOn": "${processDefinitionKey}",
+                "data": {
+                  "mode": "view",
+                  "processInstanceId": "${processInstanceId}",
+                  "taskDefinitionKey": "${task.taskDefinitionKey}"
+                }
+              },
+              "id": "u:275f314fd9b8"
+            },
+            {
+              "type": "container",
+              "className": "mt-4",
+              "body": [
+                {
+                  "id": "u:398f349fd2j9",
+                  "type": "button",
+                  "label": "处理",
+                  "visibleOn": "${state=='ACTIVE' && task.assignee==ss:currentUser.login && !task.deleteReason}",
+                  "size": "md",
+                  "level": "primary",
+                  "className": "mr-3",
+                  "onEvent": {
+                    "click": {
+                      "weight": 0,
+                      "actions": [
+                        {
+                          "componentId": "nebula:custom_process_form",
+                          "args": {},
+                          "actionType": "submit"
+                        }
+                      ]
+                    },
+                    "nebula:business_process_submit": {
+                      "actions": [
+                        {
+                          "args": {},
+                          "dialog": {
+                            "type": "dialog",
+                            "title": "处理表单",
+                            "body": [
+                              {
+                                "type": "form",
+                                "api": {
+                                  "url": "cloud/app/app-process/task/${task.id}/submit",
+                                  "method": "post",
+                                  "data": {
+                                    "&": "$$"
+                                  },
+                                  "messages": {
+                                    "success": "处理表单成功"
+                                  }
+                                },
+                                "body": [
+                                  {
+                                    "type": "textarea",
+                                    "name": "message",
+                                    "label": "处理意见：",
+                                    "id": "u:7234ff1ea810",
+                                    "minRows": 3,
+                                    "maxRows": 20,
+                                    "required": true,
+                                    "showCounter": true,
+                                    "maxLength": 500,
+                                    "placeholder": "请输入处理意见"
+                                  },
+                                  {
+                                    "type": "input-file",
+                                    "label": "附件：",
+                                    "autoUpload": true,
+                                    "proxy": true,
+                                    "uploadType": "fileReceptor",
+                                    "name": "attachment",
+                                    "id": "u:33af1109ee26",
+                                    "btnLabel": "文件上传",
+                                    "multiple": true,
+                                    "useChunk": false,
+                                    "accept": "",
+                                    "receiver": "cloud/app/app-file/upload",
+                                    "drag": false
+                                  },
+                                  {
+                                    "type": "select",
+                                    "name": "assignees",
+                                    "visibleOn": "${task.selectUserMode == 'SELECT_ONE' || task.selectUserMode == 'SELECT_MULTIPLE'}",
+                                    "multiple": "${task.selectUserMode == 'SELECT_MULTIPLE'}",
+                                    "label": "接收人",
+                                    "source": {
+                                      "url": "cloud/app/app-user",
+                                      "method": "get",
+                                      "data": {
+                                        "filter[roles][code][in]": "${task.selectUserRoles}",
+                                        "size": 20
+                                      },
+                                      "messages": {}
+                                    },
+                                    "value": "",
+                                    "labelField": "name",
+                                    "valueField": "login"
+                                  },
+                                  {
+                                    "type": "hidden",
+                                    "name": "selectUserMode",
+                                    "label": "多人审批模式",
+                                    "value": "${task.selectUserMode}"
+                                  },
+                                  {
+                                    "type": "hidden",
+                                    "name": "flag",
+                                    "label": "审批标志",
+                                    "value": ""
+                                  }
+                                ],
+                                "id": "u:3jdce9542cbf",
+                                "onEvent": {
+                                  "submitSucc": {
+                                    "actions": [
+                                      {
+                                        "actionType": "reload",
+                                        "componentId": "u:89eb9365c9fa",
+                                        "dataMergeMode": "merge"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ],
+                            "actions": [
+                              {
+                                "type": "button",
+                                "label": "同意",
+                                "level": "primary",
+                                "onEvent": {
+                                  "click": {
+                                    "actions": [
+                                      {
+                                        "componentId": "u:3jdce9542cbf",
+                                        "actionType": "setValue",
+                                        "args": {
+                                          "value": {
+                                            "flag": "true"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "componentId": "u:3jdce9542cbf",
+                                        "args": {},
+                                        "actionType": "submit"
+                                      }
+                                    ]
+                                  }
+                                }
+                              },
+                              {
+                                "type": "button",
+                                "label": "驳回",
+                                "level": "danger",
+                                "onEvent": {
+                                  "click": {
+                                    "actions": [
+                                      {
+                                        "componentId": "u:3jdce9542cbf",
+                                        "actionType": "setValue",
+                                        "args": {
+                                          "value": {
+                                            "flag": "false"
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "componentId": "u:3jdce9542cbf",
+                                        "args": {},
+                                        "actionType": "submit"
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            ],
+                            "showCloseButton": true,
+                            "showErrorMsg": true,
+                            "showLoading": true,
+                            "id": "u:059671a0f7db"
+                          },
+                          "actionType": "dialog"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "type": "button",
+                  "level": "enhance",
+                  "size": "md",
+                  "label": "返回",
+                  "onEvent": {
+                    "click": {
+                      "actions": [
+                        {
+                          "actionType": "goBack"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ],
+              "wrapperBody": false,
+              "id": "u:fa88cc6d8d61",
+              "isFixedHeight": false,
+              "isFixedWidth": false
+            }
+
+          ],
+          "id": "u:b32a4b7cc45c"
+        },
+        {
+          "body": [
+            {
+              "type": "crud",
+              "mode": "cards",
+              "columnsCount": 1,
+              "placeholder": "没有处理信息",
+              "className": "nb-task-info-tasks",
+              "source": "${comments}",
+              "syncLocation": false,
+              "id": "u:441f598fd1v5",
+              "card": {
+                "type": "card",
+                "header": {
+                  "title": "$name",
+                  "subTitle": "${createTime | toDate | date:YYYY-MM-DD HH\\:mm\\:ss}",
+                  "avatarText": "<span>${assigneeName | substring:0:1}</span><h5>${assigneeName}</h5>"
+                },
+                "body": [
+                  {
+                    "type": "tpl",
+                    "tpl": "$comment"
+                  },
+                  {
+                    "type": "list",
+                    "title": "附件",
+                    "className": "nb-task-info-files",
+                    "hiddenOn": "${attachment == null}",
+                    "source": "${attachment | split:,}",
+                    "listItem": {
+                      "body": [
+                        {
+                          "type": "tpl",
+                          "tpl": "${item | split:\\: | nth:1}"
+                        }
+                      ]
+                    },
+                    "onEvent": {
+                      "itemClick": {
+                        "actions": [
+                          {
+                            "args": {
+                              "options": {},
+                              "api": {
+                                "url": "cloud/app/app-file/download?key=${item.data.item}",
+                                "method": "get",
+                                "messages": {
+                                  "success": ""
+                                }
+                              }
+                            },
+                            "outputVar": "responseResult",
+                            "actionType": "ajax"
+                          },
+                          {
+                            "actionType": "custom",
+                            "script": "window.open(event.data.responseResult.responseData.url)"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ],
+                "toolbar": [
+                  {
+                    "type": "tpl",
+                    "tpl": "驳回",
+                    "className": "label label-danger",
+                    "hiddenOn": "flag == true"
+                  },
+                  {
+                    "type": "tpl",
+                    "tpl": "同意",
+                    "className": "label label-success",
+                    "hiddenOn": "flag != true"
+                  }
+                ]
+              }
+            }
+          ],
+          "md": 4,
+          "id": "u:f33c9077d499"
+        }
+      ],
+      "id": "u:ac582fd473bb"
+    }
+  ]
+}

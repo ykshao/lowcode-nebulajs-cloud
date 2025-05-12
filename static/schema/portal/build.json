@@ -1,0 +1,253 @@
+{
+    "id": "u:3da04bdf0b32",
+    "asideResizor": false,
+    "pullRefresh": {
+        "disabled": true
+    },
+    "regions": ["body"],
+    "body": [
+        {
+            "type": "crud",
+            "id": "u:74a948e50de0",
+            "columns": [
+                {
+                    "type": "text",
+                    "label": "名称",
+                    "name": "name",
+                    "id": "u:13198a7600bd",
+                    "width": 200
+                },
+                {
+                    "type": "text",
+                    "label": "类型",
+                    "name": "type",
+                    "id": "u:6f5cc3cc1e77",
+                    "align": "center",
+                    "width": 85
+                },
+                {
+                    "type": "text",
+                    "label": "版本",
+                    "name": "version",
+                    "id": "u:8bbf6f0df62d",
+                    "align": "center",
+                    "width": 85
+                },
+                {
+                    "type": "text",
+                    "label": "描述",
+                    "name": "remark",
+                    "id": "u:8cce8d9dg1h3"
+                },
+                {
+                    "type": "status",
+                    "name": "buildStatus",
+                    "label": "构建状态",
+                    "id": "u:v49c43535ac9u",
+                    "width": 90,
+                    "placeholder": "-",
+                    "align": "center",
+                    "map": {
+                        "0": "nb-icon nb-icon-stop-fill",
+                        "1": "nb-icon nb-icon-success-fill text-success",
+                        "2": "nb-icon nb-icon-stop-fill text-danger"
+                    },
+                    "labelMap": {
+                        "0": "处理中",
+                        "1": "成功",
+                        "2": "失败"
+                    }
+                },
+                {
+                    "type": "text",
+                    "name": "updatedBy",
+                    "label": "更新人",
+                    "id": "u:a60c3595ac9f",
+                    "width": 100,
+                    "align": "center"
+                },
+                {
+                    "type": "date",
+                    "label": "更新时间",
+                    "name": "createdAt",
+                    "id": "u:ce295503c522",
+                    "width": 150,
+                    "format": "YYYY-MM-DD HH:mm:ss"
+                },
+                {
+                    "type": "operation",
+                    "label": "操作",
+                    "width": 80,
+                    "align": "center",
+                    "id": "u:e5e135d333f2",
+                    "buttons": [
+                        {
+                            "type": "button",
+                            "label": "删除",
+                            "icon": "nb-icon nb-icon-shanchu",
+                            "level": "link",
+                            "id": "u:6dbb74cc22f4",
+                            "actionType": "ajax",
+                            "className": "text-danger",
+                            "confirmText": "确定要删除？",
+                            "visibleOn": "buildStatus != 0",
+                            "api": {
+                                "method": "delete",
+                                "url": "/portal/cl-image/${id}",
+                                "messages": {
+                                    "success": "删除成功"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ],
+            "syncLocation": false,
+            "api": {
+                "method": "get",
+                "url": "/portal/cl-image",
+                "adaptor": "return nbAmis.adaptors.commonList(payload, response)",
+                "data": {
+                    "sort[0]": "updatedAt,desc",
+                    "page": "${page}",
+                    "size": "${size}"
+                }
+            },
+            "bulkActions": [],
+            "itemActions": [],
+            "features": ["delete"],
+            "perPageField": "size",
+            "perPageAvailable": [10],
+            "messages": {},
+            "alwaysShowPagination": true,
+            "headerToolbar": [
+                {
+                    "type": "bulk-actions"
+                },
+                {
+                    "type": "button",
+                    "tpl": "内容",
+                    "label": "开始构建",
+                    "align": "left",
+                    "level": "primary",
+                    "onEvent": {
+                        "click": {
+                            "actions": [
+                                {
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "应用构建",
+                                        "body": [
+                                            {
+                                                "type": "form",
+                                                "title": "表单",
+                                                "body": [
+                                                    {
+                                                        "label": "版本号",
+                                                        "type": "input-text",
+                                                        "name": "version",
+                                                        "id": "u:0a828d8bf88b",
+                                                        "description": "输入应用版本号（需要构建一个镜像）。如V1.0.0",
+                                                        "size": "md",
+                                                        "value": "latest",
+                                                        "required": true
+                                                    },
+                                                    {
+                                                        "type": "button-group-select",
+                                                        "name": "type",
+                                                        "label": "类型",
+                                                        "id": "u:9d8b22b9797d",
+                                                        "description": "选择包类型。\n<ul>\n<li>调试包用nodemon命令启动，支持调试。</li>\n<li>发布包由pm2方式启动。</li>\n</ul>",
+                                                        "options": [
+                                                            {
+                                                                "label": "调试（Debug）",
+                                                                "value": "debug"
+                                                            },
+                                                            {
+                                                                "label": "发布（Release）",
+                                                                "value": "release"
+                                                            }
+                                                        ],
+                                                        "multiple": false,
+                                                        "value": "debug",
+                                                        "size": "md"
+                                                    },
+                                                    {
+                                                        "type": "textarea",
+                                                        "label": "备注",
+                                                        "name": "remark",
+                                                        "id": "u:487a034df7a9",
+                                                        "minRows": 3,
+                                                        "maxRows": 20,
+                                                        "size": "lg"
+                                                    }
+                                                ],
+                                                "api": {
+                                                    "method": "post",
+                                                    "url": "/portal/cl-image/build",
+                                                    "messages": {
+                                                        "success": "正在构建应用镜像"
+                                                    },
+                                                    "dataType": "json"
+                                                },
+                                                "id": "u:61b102cbb132",
+                                                "onEvent": {
+                                                    "submitSucc": {
+                                                        "weight": 0,
+                                                        "actions": [
+                                                            {
+                                                                "componentId": "u:74a948e50de0",
+                                                                "args": {
+                                                                    "resetPage": false
+                                                                },
+                                                                "actionType": "reload",
+                                                                "data": null
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "showCloseButton": true,
+                                        "showErrorMsg": true,
+                                        "showLoading": false,
+                                        "id": "u:2816ad10c1d9",
+                                        "closeOnEsc": false,
+                                        "dataMapSwitch": false
+                                    },
+                                    "actionType": "dialog"
+                                }
+                            ],
+                            "weight": 0
+                        }
+                    },
+                    "id": "u:05a0ac945104"
+                },
+                {
+                    "type": "button",
+                    "id": "u:f61daa006881",
+                    "label": "刷新",
+                    "align": "right",
+                    "level": "enhance",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "componentId": "u:74a948e50de0",
+                                    "args": {
+                                        "resetPage": true
+                                    },
+                                    "actionType": "reload",
+                                    "dataMergeMode": "merge"
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "title": "构建",
+    "type": "page"
+}
