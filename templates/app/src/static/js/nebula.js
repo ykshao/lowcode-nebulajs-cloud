@@ -12,42 +12,55 @@ nbAmis.initHashHistory = function () {
     // const history = History.createBrowserHistory();
     const history = History.createHashHistory()
 
+    /**
+     * 更新到6.13.0
+     * https://github.com/baidu/amis/blob/v6.13.0-beta.8/packages/amis-core/src/utils/normalizeLink.ts
+     */
     function normalizeLink(to, location = history.location) {
-        to = to || ''
+        to = to || '';
 
         if (to && to[0] === '#') {
-            to = location.pathname + location.search + to
+            to = location.pathname + location.search + to;
         } else if (to && to[0] === '?') {
-            to = location.pathname + to
+            to = location.pathname + to;
         }
 
-        const idx = to.indexOf('?')
-        const idx2 = to.indexOf('#')
-        let pathname = ~idx
-            ? to.substring(0, idx)
-            : ~idx2
-            ? to.substring(0, idx2)
-            : to
-        let search = ~idx ? to.substring(idx, ~idx2 ? idx2 : undefined) : ''
-        let hash = ~idx2 ? to.substring(idx2) : location.hash
+        const idx = to.indexOf('?');
+        const idx2 = to.indexOf('#');
+        let pathname = to;
+        let search = '';
+        let hash = location.hash;
+        // host?a=a#b 的情况
+        if (idx < idx2) {
+            pathname = ~idx ? to.substring(0, idx) : ~idx2 ? to.substring(0, idx2) : to;
+            hash = ~idx2 ? to.substring(idx2) : location.hash;
+            search = ~idx ? to.substring(idx, ~idx2 ? idx2 : undefined) : '';
+        }
+        // host#b?a=a 的情况
+        else if (idx > idx2) {
+            pathname = ~idx2 ? to.substring(0, idx2) : ~idx ? to.substring(0, idx) : to;
+            hash = ~idx2 ? to.substring(idx2, ~idx ? idx : undefined) : location.hash;
+            search = ~idx ? to.substring(idx) : '';
+        }
 
         if (!pathname) {
-            pathname = location.pathname
+            pathname = location.pathname;
         } else if (pathname[0] != '/' && !/^https?\:\/\//.test(pathname)) {
-            let relativeBase = location.pathname
-            const paths = relativeBase.split('/')
-            paths.pop()
-            let m
+            let relativeBase = location.pathname;
+            const paths = relativeBase.split('/');
+            paths.pop();
+            let m;
             while ((m = /^\.\.?\//.exec(pathname))) {
                 if (m[0] === '../') {
-                    paths.pop()
+                    paths.pop();
                 }
-                pathname = pathname.substring(m[0].length)
+                pathname = pathname.substring(m[0].length);
             }
-            pathname = paths.concat(pathname).join('/')
+            pathname = paths.concat(pathname).join('/');
         }
 
-        return pathname + search + hash
+        const rest = idx < idx2 ? search + hash : hash + search;
+        return pathname + rest;
     }
 
     function isCurrentUrl(to, ctx) {
@@ -79,7 +92,7 @@ nbAmis.initHashHistory = function () {
         } else if (
             (!/^https?\:\/\//.test(location) &&
                 location ===
-                    history.location.pathname + history.location.search) ||
+                history.location.pathname + history.location.search) ||
             location === history.location.href
         ) {
             // 目标地址和当前地址一样，不处理，免得重复刷新
@@ -103,13 +116,9 @@ nbAmis.initHashHistory = function () {
         }
 
         if (action && action.actionType === 'url') {
-            const fullURL =
-                to.indexOf('#/') >= 0
-                    ? to
-                    : to + '#' + (history.location.pathname || '/')
             action.blank === false
-                ? (window.location.href = fullURL)
-                : window.open(fullURL, '_blank')
+                ? (window.location.href = to)
+                : window.open(to, '_blank')
             return
         } else if (action && action.blank) {
             window.open(to, '_blank')
@@ -146,6 +155,18 @@ nbAmis.initHashHistory = function () {
     }
 }
 nbAmis.initAmis = function (rootId, appConfig) {
+
+    // 注册url参数解析过滤器
+    let amisLib = amisRequire('amis');
+    amisLib.registerFilter('toURLParams', function (input) {
+        const params = new URLSearchParams(input.split('?')[1]);
+        const paramObj = {};
+        for (const [key, value] of params) {
+            paramObj[key] = value;
+        }
+        return paramObj;
+    });
+
     // const appPath = Cookies.get('nebula-app-path') || ''
     const hashHistory = nbAmis.initHashHistory()
     const amis = amisRequire('amis/embed')

@@ -107,13 +107,6 @@ export = {
         },
     },
 
-    cloudlake: {
-        baseURL: 'http://cloudlake.cncico.com',
-        pk: '5ebefc672d9a4831a22a51c83f313d17',
-        ak: '2619f9fda4d84a26b9f036f7ca706eaa',
-        sk: '2676b935b65642f8a889e019f65decf8',
-    },
-
     dataPath: path.join(__dirname, '../../../data'),
 
     app: {

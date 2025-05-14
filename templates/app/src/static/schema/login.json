@@ -51,7 +51,8 @@
                         {
                           "type": "hidden",
                           "name": "redirect",
-                          "id": "u:c9fae0123d05"
+                          "id": "u:c9fae0123d05",
+                          "value": "${window:location.search|toURLParams|pick:redirect}${window:location.hash}"
                         },
                         {
                           "type": "button",
