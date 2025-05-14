@@ -43,6 +43,7 @@
     --Tree-indent: 1.4rem;
 
     --Drawer-body-padding: 0;
+    --DropDown-caret-marginLeft: 3px;
 
     --dialog-header-fontSize: 18px;
     --button-light-default-font-color:#255abb;
@@ -182,10 +183,22 @@
 
 .cxd-DropDown {
     .cxd-DropDown-caret {
-        font-size: 0;
+        & > svg{
+            width: 0.55rem;
+            height: 0.55rem;
+        }
     }
-    .cxd-DropDown-menu-root {
-        box-shadow: 0px 2px 8px 0px #e3e3e3;
+}
+.cxd-DropDown-menu{
+    box-shadow: 2px 2px 8px 0px #e3e3e3;
+    & > li {
+        a {
+            display: flex;
+            align-items: center;
+            i {
+                margin-right: 2px;
+            }
+        }
     }
 }
 .cxd-DatePicker{
