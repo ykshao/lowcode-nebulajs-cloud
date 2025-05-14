@@ -1,14 +1,25 @@
 import { ApplicationConfigService } from '../../services/ApplicationConfigService'
-import { Constants, NebulaBizError, QueryParser } from 'nebulajs-core'
-import { ApplicationErrors } from '../../config/errors'
-import { AuditModelProps, Websocket } from '../../config/constants'
+import {Constants, NebulaBizError, NebulaErrors, QueryParser} from 'nebulajs-core'
+import {AuditModelProps, Cache, Websocket} from '../../config/constants'
 import { ClAppProfile } from '../../models/ClAppProfile'
 import { ClMiddleware } from '../../models/ClMiddleware'
 import { SocketEvent } from 'nebulajs-core/lib/constants'
 import { ApplicationService } from '../../services/ApplicationService'
 
 export = {
+
     'post /cl-app-profile': async function (ctx, next) {
+        const appId = ctx.appId
+        const env = ctx.getParam('env')
+        await ClAppProfile.create({
+            appId,
+            env,
+            logLevel: 'info',
+        })
+        ctx.ok()
+    },
+
+    'post /cl-app-profile/update': async function (ctx, next) {
         ctx.checkRequired('id')
         const id = ctx.getParam('id')
         const appId = ctx.appId
@@ -101,4 +112,17 @@ export = {
         ctx.ok(list)
         ctx.set('X-Total-Count', count)
     },
+
+    'delete /cl-app-profile/:id': async function (ctx, next) {
+        const id = ctx.getParam('id')
+        const model = await ClAppProfile.getByPk(id)
+        if (!model) {
+            return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
+        }
+        const key = Cache.getAppConfigKey(model.env, model.appId)
+
+        await model.destroy()
+        await nebula.redis.del(key)
+        ctx.ok()
+    }
 }

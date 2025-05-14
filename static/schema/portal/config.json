@@ -35,7 +35,39 @@
                         "title": "新增配置",
                         "type": "dialog",
                         "body": [
-
+                            {
+                                "type": "form",
+                                "labelWidth": 75,
+                                "api": {
+                                    "method": "post",
+                                    "url": "/portal/cl-app-profile",
+                                    "messages": {
+                                        "success": "保存流程分组成功"
+                                    },
+                                    "dataType": "json"
+                                },
+                                "body": [
+                                    {
+                                        "name": "env",
+                                        "label": "环境名",
+                                        "id": "u:bcdf6bc22233",
+                                        "type": "input-text",
+                                        "description": "由英文和数字组成。 不少于3位",
+                                        "validations": {
+                                            "minLength": 3,
+                                            "matchRegexp": "^[a-zA-Z0-9]+$"
+                                        },
+                                        "size": "md",
+                                        "required": true
+                                    },
+                                    {
+                                        "type": "textarea",
+                                        "name": "remark",
+                                        "label": "备注",
+                                        "size": "lg"
+                                    }
+                                ]
+                            }
                         ]
                     }
                 }
@@ -233,7 +265,7 @@
                                                                                                                 "value": "nebula"
                                                                                                             },
                                                                                                             {
-                                                                                                                "label": "OAuth",
+                                                                                                                "label": "OAUTH",
                                                                                                                 "value": "oauth"
                                                                                                             },
                                                                                                             {
@@ -373,6 +405,7 @@
                                                                             "label": "业务配置",
                                                                             "name": "bizContent",
                                                                             "language": "yaml",
+                                                                            "description": "使用YAML语法",
                                                                             "size": "lg"
                                                                         }
                                                                     ],
@@ -397,7 +430,7 @@
                                                         }
                                                     ],
                                                     "api": {
-                                                        "url": "/portal/cl-app-profile",
+                                                        "url": "/portal/cl-app-profile/update",
                                                         "method": "post",
                                                         "messages": {
                                                             "success": "更新配置成功"
@@ -483,7 +516,16 @@
                         "level": "link",
                         "className": "text-danger",
                         "id": "u:c4a7f8ab28372",
-                        "icon": "nb-icon nb-icon-shanchu"
+                        "icon": "nb-icon nb-icon-shanchu",
+                        "confirmText": "确定要删除？",
+                        "actionType": "ajax",
+                        "api": {
+                            "method": "delete",
+                            "url": "/portal/cl-app-profile/$id",
+                            "messages": {
+                                "success": "删除配置成功"
+                            }
+                        }
                     }
                 ],
                 "id": "u:e4a25f6860aa"
