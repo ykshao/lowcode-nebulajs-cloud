@@ -47,9 +47,10 @@
                     "tpl": "${host}:${split(ports, ',')[0]}"
                 },
                 {
-                    "type": "text",
+                    "type": "tpl",
                     "label": "环境",
                     "name": "env",
+                    "tpl": "<span class='nb-tag info'>${env | upperCase}</span>",
                     "align": "center",
                     "id": "u:775d6de64b79"
                 },
@@ -57,6 +58,7 @@
                     "type": "container",
                     "label": "版本",
                     "name": "version",
+                    "align": "center",
                     "id": "u:224d6de64d93",
                     "body": [
                         {

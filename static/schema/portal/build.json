@@ -18,10 +18,11 @@
                     "width": 200
                 },
                 {
-                    "type": "text",
+                    "type": "tpl",
                     "label": "类型",
                     "name": "type",
                     "id": "u:6f5cc3cc1e77",
+                    "tpl": "<span class='nb-tag info'>${type | upperCase}</span>",
                     "align": "center",
                     "width": 85
                 },
