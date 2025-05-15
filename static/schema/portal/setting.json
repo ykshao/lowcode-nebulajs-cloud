@@ -133,7 +133,7 @@
                                                     "label": "删除应用",
                                                     "id": "u:482d622e4346",
                                                     "level": "danger",
-                                                    "confirmText": "删除应用将失去您应用相关的所有数据并且无法恢复，确定要继续吗？",
+                                                    "confirmText": "删除应用后可以联系管理员在30天内找回，确定要继续吗？",
                                                     "onEvent": {
                                                         "click": {
                                                             "actions": [

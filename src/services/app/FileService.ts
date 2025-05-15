@@ -1,6 +1,8 @@
 import { Client, CopyConditions } from 'minio'
 import { lookup, mimes } from 'mrmime'
 import { minio as minioConfig } from '../../config/env'
+import { NebulaBizError } from 'nebulajs-core'
+import { ApplicationErrors } from '../../config/errors'
 
 export class FileService {
     clientAppCode: string
@@ -29,7 +31,17 @@ export class FileService {
         const buckets = [this.defaultBucket, this.publicBucket]
         for (const bucket of buckets) {
             nebula.logger.info('Create minio bucket: %s', bucket)
-            await this.minioClient.makeBucket(bucket)
+            try {
+                await this.minioClient.makeBucket(bucket)
+            } catch (e) {
+                if (e.code === 'BucketAlreadyOwnedByYou') {
+                    throw new NebulaBizError(
+                        ApplicationErrors.StorageBucketAlreadyExist
+                    )
+                } else {
+                    throw e
+                }
+            }
         }
     }
 

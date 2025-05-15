@@ -9,6 +9,10 @@ export = {
         username: 'zeiet',
         database: 'zeiet_cloud',
         password: 'zeiet1123',
+
+        // dialect: 'sqlite',
+        // storage: './db/nebulajs_db.sqlite',
+        // timezone: '+00:00',
     },
 
     logger: {
@@ -70,7 +74,9 @@ export = {
             clientId: '7278c91484c7ef9e8b3a',
             clientSecret: '74d7bb4c6508fff5542b151999d398450e4edd0c',
             certificate: fs
-                .readFileSync(path.join(__dirname, '../../../res/cert/cas/pub.key'))
+                .readFileSync(
+                    path.join(__dirname, '../../../res/cert/cas/pub.key')
+                )
                 .toString(),
             orgName: 'organization_nebula',
         },

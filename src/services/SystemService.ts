@@ -20,6 +20,7 @@ export class SystemService {
     static async initDatabase() {
         const needInitialize = await this.isEmptyDatabase()
         if (needInitialize) {
+            nebula.logger.info('初始化数据库开始')
             await nebula.sequelize.sync({ alter: true })
             // 初始化数据
             const sqlFile = fs
@@ -36,6 +37,7 @@ export class SystemService {
                     type: QueryTypes.RAW,
                 })
             }
+            nebula.logger.info('初始化数据库成功')
         }
         // const [results1] = await nebula.sequelize.query(
         //     'select * from app_user_role'

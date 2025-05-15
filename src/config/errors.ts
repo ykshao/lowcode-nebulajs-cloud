@@ -54,6 +54,10 @@ export class ApplicationErrors extends NebulaErrors.BadRequestErrors {
         code: 20025,
         msg: '应用不在线，任务取消',
     }
+    static StorageBucketAlreadyExist = {
+        code: 20026,
+        msg: '创建存储桶失败，已存在相同名称的存储桶',
+    }
 }
 /**
  * 模块编码：21 User
