@@ -56,12 +56,12 @@ export = {
             refreshTokenLifetime: 60 * 60 * 24 * 14, // 2 weeks.
             publicKey: fs
                 .readFileSync(
-                    path.join(__dirname, '../../../cert/oauth/pub.key')
+                    path.join(__dirname, '../../../res/cert/oauth/pub.key')
                 )
                 .toString(),
             privateKey: fs
                 .readFileSync(
-                    path.join(__dirname, '../../../cert/oauth/pri.key')
+                    path.join(__dirname, '../../../res/cert/oauth/pri.key')
                 )
                 .toString(),
         },
@@ -70,7 +70,7 @@ export = {
             clientId: '7278c91484c7ef9e8b3a',
             clientSecret: '74d7bb4c6508fff5542b151999d398450e4edd0c',
             certificate: fs
-                .readFileSync(path.join(__dirname, '../../../cert/cas/pub.key'))
+                .readFileSync(path.join(__dirname, '../../../res/cert/cas/pub.key'))
                 .toString(),
             orgName: 'organization_nebula',
         },

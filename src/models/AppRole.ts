@@ -41,6 +41,7 @@ export class AppRole extends BaseModel<
     declare id: string
     declare code: string
     declare name: string
+    declare status: string
     declare createdBy: string
     declare updatedBy: string
     declare remark: string
@@ -78,6 +79,11 @@ export class AppRole extends BaseModel<
                 remark: {
                     type: DataTypes.STRING,
                     comment: '备注',
+                },
+                status: {
+                    type: DataTypes.STRING(1),
+                    comment: '状态（0:无效, 1:有效）',
+                    defaultValue: DataStatus.ENABLED,
                 },
                 appId: {
                     type: DataTypes.STRING,

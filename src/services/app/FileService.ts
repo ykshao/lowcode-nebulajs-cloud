@@ -28,7 +28,7 @@ export class FileService {
     async createAppBuckets() {
         const buckets = [this.defaultBucket, this.publicBucket]
         for (const bucket of buckets) {
-            nebula.logger.info('making minio bucket: %s', bucket)
+            nebula.logger.info('Create minio bucket: %s', bucket)
             await this.minioClient.makeBucket(bucket)
         }
     }

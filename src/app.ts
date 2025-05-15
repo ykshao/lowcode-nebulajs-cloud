@@ -7,6 +7,7 @@ import {
 } from 'nebulajs-core'
 import path from 'path'
 import { ApplicationService } from './services/ApplicationService'
+import { SystemService } from './services/SystemService'
 import { Cache, Cookies, DataStatus, OAuthGrantTypes } from './config/constants'
 import { whitePathList } from './config/security'
 import { getNamespace, createNamespace } from 'continuation-local-storage'
@@ -18,7 +19,6 @@ import { ClPage } from './models/ClPage'
 import { Agenda } from '@hokify/agenda'
 import { JobService } from './services/JobService'
 import { Op } from 'sequelize'
-import { PageService } from './services/PageService'
 import { portalExtension } from './midwares/app-extension'
 import { clientExtension } from './midwares/client-extension'
 import { NebulaAppInitOptions } from 'nebulajs-core/lib/types/nebula'
@@ -116,13 +116,9 @@ async function startup(port) {
     // await app.sequelize.models.AppUser.sync({ alter: true })
     // await app.sequelize.models.ClJobExecution.sync({ alter: true })
     // await app.sequelize.sync({ alter: true })
-    // await SyncCico.syncOrg()
 
-    // const apps = await app.cas.getApplication('application_hn0qw7')
-    // console.log('apps', apps.data.data)
-    // apps.data.data.displayName += '00'
-    // const res = await app.cas.updateApplication(apps.data.data)
-    // console.log('update res', res.data)
+    // 初始化数据库
+    await SystemService.initDatabase()
 
     // 装载任务调度
     await setupScheduler()
