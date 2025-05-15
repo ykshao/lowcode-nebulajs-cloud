@@ -29,7 +29,7 @@ export class CamundaTaskListener {
         this.taskTimer = setInterval(async () => {
             const tasks = await CamundaService.listAllUnHandledHistoryTasks()
             nebula.logger.debug(
-                'Detected unhandled process tasks: %o',
+                'Listening unhandled process tasks: %o',
                 tasks.length
             )
             for (const task of tasks) {

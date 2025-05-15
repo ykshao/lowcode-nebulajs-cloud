@@ -4,7 +4,7 @@ export const Constants = {
     COMMON_FORM_MODEL: '',
     ROLE_ADMIN: 'ROLE_ADMIN',
     DEFAULT_ADMIN_USER: 'admin',
-    DEFAULT_ADMIN_PASSWORD: 'admin123!',
+    DEFAULT_ADMIN_PASSWORD: 'admin',
 }
 export const MiddlewareTypes = {
     MySQL: 'mysql',
