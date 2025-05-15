@@ -108,6 +108,7 @@
                                     "dialog": {
                                         "type": "dialog",
                                         "title": "创建应用",
+                                        "size": "md",
                                         "body": [
                                             {
                                                 "type": "form",
@@ -119,6 +120,7 @@
                                                         "name": "name",
                                                         "id": "u:cfa97fe838c9",
                                                         "description": "应用中文名称",
+                                                        "size": "md",
                                                         "required": true,
                                                         "validations": {
                                                             "maxLength": 50
@@ -127,6 +129,7 @@
                                                     {
                                                         "type": "input-text",
                                                         "name": "code",
+                                                        "size": "md",
                                                         "label": "应用编码",
                                                         "id": "u:9b489bb8e623",
                                                         "description": "应用英文编码，通常由英文数字中划线组成。编码在创建应用后无法进行修改。",
@@ -139,6 +142,32 @@
                                                         "validationErrors": {
                                                             "matchRegexp": "由英文、数字、中划线组成"
                                                         }
+                                                    },
+                                                    {
+                                                        "type": "checkboxes",
+                                                        "name": "storageService",
+                                                        "label": "文件存储",
+                                                        "value": "minio",
+                                                        "options": [
+                                                            {
+                                                                "label": "Minio",
+                                                                "value": "minio"
+                                                            }
+                                                        ],
+                                                        "description": "应用所使用的文件存储服务，需要部署并配置Minio分布式存储服务器。"
+                                                    },
+                                                    {
+                                                        "name": "workflow",
+                                                        "type": "checkboxes",
+                                                        "label": "工作流",
+                                                        "value": "camunda",
+                                                        "options": [
+                                                            {
+                                                                "label": "Camunda BPMN",
+                                                                "value": "camunda"
+                                                            }
+                                                        ],
+                                                        "description": "应用所使用的工作流程服务，需要部署并配置Camunda服务器。"
                                                     },
                                                     {
                                                         "type": "button-group-select",

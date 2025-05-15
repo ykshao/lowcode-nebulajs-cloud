@@ -261,8 +261,9 @@ export class UserService {
     /**
      * 创建管理员和角色
      * @param appId
+     * @param transaction
      */
-    static async createDefaultAdminAndRole(appId) {
+    static async createDefaultAdminAndRole(appId, transaction) {
         const salt = await bcrypt.genSalt(10)
         const passwordHash = await bcrypt.hash(
             Constants.DEFAULT_ADMIN_PASSWORD,
@@ -274,6 +275,7 @@ export class UserService {
                 password: passwordHash,
                 appId,
             },
+            transaction,
         })
         const [roleModel] = await AppRole.findOrCreate({
             where: {
@@ -281,9 +283,10 @@ export class UserService {
                 name: '管理角色',
                 appId,
             },
+            transaction,
         })
 
-        await userModel.addRole(roleModel)
-        await userModel.save()
+        await userModel.addRole(roleModel, { transaction })
+        // await userModel.save({transaction})
     }
 }

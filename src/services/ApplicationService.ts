@@ -70,7 +70,7 @@ export class ApplicationService {
      * @returns {Promise<Model>}
      */
     static async createApplication(body, currentLogin) {
-        const { code, name, logo, gitUrl, protocol, domain, serverId } = body
+        const { code, name, logo, gitUrl, workflow, storageService, serverId } = body
         let model = await ClApplication.getByUniqueKey('code', code)
         if (model) {
             throw new NebulaBizError(ApplicationErrors.ApplicationExist)
@@ -82,7 +82,8 @@ export class ApplicationService {
             name,
             gitUrl,
             logo,
-            domain,
+            workflow,
+            storageService,
             serverId,
         }
         const basePort = await AppUtil.getApplicationBasePort()
@@ -122,17 +123,21 @@ export class ApplicationService {
             await this.generateAppSkeleton(model, currentLogin)
 
             // 创建Minio空间（default, temp, public）
-            const fileService = new FileService(code)
-            await fileService.createAppBuckets()
+            if(storageService === 'minio'){
+                const fileService = new FileService(code)
+                await fileService.createAppBuckets()
+            }
 
-            // 给客户端发送流程消息时需要用到
-            await CamundaService.createTenant({
-                id: model.camundaTenantId,
-                name: model.name,
-            })
+            // 创建Camunda租户
+            if(workflow === 'camunda'){
+                await CamundaService.createTenant({
+                    id: model.camundaTenantId,
+                    name: model.name,
+                })
+            }
 
             // 创建管理员账号
-            await UserService.createDefaultAdminAndRole(model.dataValues.id)
+            await UserService.createDefaultAdminAndRole(model.dataValues.id, transaction)
 
             await transaction.commit()
         } catch (e) {

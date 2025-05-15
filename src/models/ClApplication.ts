@@ -23,8 +23,8 @@ export class ClApplication extends BaseModel<
     declare serverName: ForeignKey<string>
     declare basePort: string
     declare camundaTenantId: string
-    declare protocol: string
-    declare domain: string
+    declare workflow: string
+    declare storageService: string
     declare status: string
     declare createdBy: string
     declare updatedBy: string
@@ -74,13 +74,13 @@ export class ClApplication extends BaseModel<
                     comment: '基础端口(端口前3位，500开始)',
                     allowNull: false,
                 },
-                protocol: {
-                    type: DataTypes.STRING,
-                    comment: '请求协议（http/https）',
+                workflow: {
+                    type: DataTypes.STRING(30),
+                    comment: '工作流',
                 },
-                domain: {
-                    type: DataTypes.STRING,
-                    comment: '应用域名',
+                storageService: {
+                    type: DataTypes.STRING(30),
+                    comment: '存储服务',
                 },
                 camundaTenantId: {
                     type: DataTypes.STRING,

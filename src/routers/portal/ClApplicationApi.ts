@@ -110,7 +110,7 @@ export = {
      * @returns {Promise<void>}
      */
     'post /cl-application': async function (ctx, next) {
-        const { id, name, domain, logo, remark } = ctx.request.body
+        const { id, name, workflow, storageService, logo, remark } = ctx.request.body
         const { login } = ctx.state.user
         let model: ClApplication | null = null
         if (!id) {
@@ -133,7 +133,8 @@ export = {
             }
             model.set({
                 name,
-                domain,
+                workflow,
+                storageService,
                 logo: logoURL || '',
                 remark,
             })
