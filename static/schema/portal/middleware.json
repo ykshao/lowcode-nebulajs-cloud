@@ -319,6 +319,7 @@
                     "dialog": {
                         "type": "dialog",
                         "title": "新增中间件",
+                        "size": "md",
                         "body": [
                             {
                                 "type": "form",
@@ -339,28 +340,29 @@
                                         "required": true
                                     },
                                     {
-                                        "type": "button-group-select",
+                                        "type": "list-select",
                                         "name": "type",
-                                        "inline": false,
+                                        "id": "u:f15eaa355f81",
+                                        "label": "类型",
+                                        "description": "中间件类型：数据库，缓存等。",
+                                        "value": "mysql",
                                         "options": [
                                             {
                                                 "label": "MySQL",
-                                                "value": "mysql"
+                                                "value": "mysql",
+                                                "image": "images/icons/mysql.png"
                                             },
                                             {
                                                 "label": "MongoDB",
-                                                "value": "mongodb"
+                                                "value": "mongodb",
+                                                "image": "images/icons/mongodb.png"
                                             },
                                             {
                                                 "label": "Redis",
-                                                "value": "redis"
+                                                "value": "redis",
+                                                "image": "images/icons/redis.png"
                                             }
-                                        ],
-                                        "id": "u:f15eaa355f81",
-                                        "multiple": false,
-                                        "label": "类型",
-                                        "description": "中间件类型：数据库，缓存等。",
-                                        "value": "mysql"
+                                        ]
                                     },
                                     {
                                         "type": "button-group-select",

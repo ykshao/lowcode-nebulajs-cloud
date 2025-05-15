@@ -168,6 +168,16 @@
   min-width: unset;
 }
 
+.cxd-ListControl .cxd-ListControl-itemImage img {
+  border-radius: 5px;
+  width: 150px;
+}
+
+.cxd-CheckboxesControl.is-inline .cxd-Checkbox {
+  display: flex;
+  align-items: center;
+}
+
 .cxd-Crud .cxd-Crud-filter,
 .cxd-Crud .cxd-Crud-body {
   background: #fff;
