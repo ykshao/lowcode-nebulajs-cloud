@@ -107,7 +107,7 @@ export = {
     },
 
     /**
-     * 从数据库同步并生成Model
+     * 从数据库导入并生成Model
      * @param ctx
      * @param next
      * @returns {Promise<void>}

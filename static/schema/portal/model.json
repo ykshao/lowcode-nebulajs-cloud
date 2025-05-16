@@ -334,7 +334,7 @@
                 {
                     "type": "button",
                     "tpl": "内容",
-                    "label": "从数据库同步",
+                    "label": "从数据库导入",
                     "align": "right",
                     "level": "enhance",
                     "onEvent": {
@@ -347,7 +347,7 @@
                                             "currStep": 1
                                         },
                                         "type": "dialog",
-                                        "title": "从数据库同步",
+                                        "title": "从数据库导入",
                                         "body": [
                                             {
                                                 "type": "wizard",
@@ -549,7 +549,7 @@
                                                                 "body": [
                                                                     {
                                                                         "type": "tpl",
-                                                                        "tpl": "已从数据库同步 <code><b>${syncCount||0}</b></code> 个模型。",
+                                                                        "tpl": "已从数据库导入 <code><b>${syncCount||0}</b></code> 个模型。",
                                                                         "inline": true,
                                                                         "wrapperComponent": "",
                                                                         "id": "u:7dc3b42944de",

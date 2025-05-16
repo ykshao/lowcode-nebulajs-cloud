@@ -795,7 +795,11 @@ export class ApplicationService {
         if (bizContent) {
             bizConfig = YAML.parse(bizContent)
         }
-        return Object.assign(sysConfig, bizConfig)
+        const appConfig = Object.assign(sysConfig, bizConfig)
+        await nebula.redis.set(
+            Cache.getAppConfigKey(env, app.id),
+            JSON.stringify(appConfig)
+        )
     }
 
     /**

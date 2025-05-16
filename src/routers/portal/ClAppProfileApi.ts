@@ -1,13 +1,17 @@
 import { ApplicationConfigService } from '../../services/ApplicationConfigService'
-import {Constants, NebulaBizError, NebulaErrors, QueryParser} from 'nebulajs-core'
-import {AuditModelProps, Cache, Websocket} from '../../config/constants'
+import {
+    Constants,
+    NebulaBizError,
+    NebulaErrors,
+    QueryParser,
+} from 'nebulajs-core'
+import { AuditModelProps, Cache, Websocket } from '../../config/constants'
 import { ClAppProfile } from '../../models/ClAppProfile'
 import { ClMiddleware } from '../../models/ClMiddleware'
 import { SocketEvent } from 'nebulajs-core/lib/constants'
 import { ApplicationService } from '../../services/ApplicationService'
 
 export = {
-
     'post /cl-app-profile': async function (ctx, next) {
         const appId = ctx.appId
         const env = ctx.getParam('env')
@@ -51,7 +55,7 @@ export = {
         await model.save()
 
         // 刷新缓存
-        await ApplicationService.setupCloudConfig(model)
+        await ApplicationService.loadAppConfig(model)
 
         // 发送ws消息给客户端
         const { env } = model.dataValues
@@ -124,5 +128,5 @@ export = {
         await model.destroy()
         await nebula.redis.del(key)
         ctx.ok()
-    }
+    },
 }

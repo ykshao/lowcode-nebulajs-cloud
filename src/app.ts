@@ -182,15 +182,10 @@ async function setupAppConfig(instance) {
     })
     for (const config of configList) {
         try {
-            const { env, app } = config
-            const appConfig = await ApplicationService.loadAppConfig(config)
-            await nebula.redis.set(
-                Cache.getAppConfigKey(env, app.id),
-                JSON.stringify(appConfig)
-            )
+            await ApplicationService.loadAppConfig(config)
         } catch (e) {
             nebula.logger.warn(
-                `转换YAML文件件格式失败，应用CODE：${config.app.code}，原因：${e.message}`
+                `加载应用配置失败，应用CODE：${config.app.code}，原因：${e.message}`
             )
         }
     }
