@@ -6,9 +6,9 @@ export = {
         dialect: 'mysql',
         host: '10.126.32.28',
         port: '3306',
-        username: 'zeiet',
-        database: 'zeiet_cloud',
-        password: 'zeiet1123',
+        username: 'nebula',
+        database: 'nebula_cloud',
+        password: 'nebula123',
 
         // dialect: 'sqlite',
         // storage: './db/nebulajs_db.sqlite',
@@ -26,7 +26,7 @@ export = {
         host: '10.126.32.28', // Redis host
         family: 4, // 4 (IPv4) or 6 (IPv6)
         db: 6,
-        password: 'zeiet1123',
+        password: 'nebula123',
     },
 
     mongodb: {
@@ -103,12 +103,6 @@ export = {
             // socketPath: '/var/run/docker.sock',
             protocol: 'http',
             host: '127.0.0.1', //host字段需要用到，暂不使用socketPath配置
-            port: 2375,
-        },
-        zeiet: {
-            name: '高信机房',
-            protocol: 'http',
-            host: '10.126.32.28',
             port: 2375,
         },
     },

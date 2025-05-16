@@ -10,6 +10,9 @@ export class SystemService {
             nebula.logger.debug('SQLite tables: %o', results)
             return results.length === 0
         } else if (nebula.config.database.dialect === 'mysql') {
+            // const sql = 'show tables'
+            // const [results, metadata] = await nebula.sequelize.query(sql)
+            // console.log(results, metadata)
         }
         return false
     }

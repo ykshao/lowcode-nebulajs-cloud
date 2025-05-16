@@ -6,7 +6,7 @@ export = {
         dialect: 'mysql',
         host: '10.100.227.8',
         port: '3306',
-        username: 'zeiet',
+        username: 'root',
         database: 'nebula_cloud',
         password: 'zeiET@2021',
     },
@@ -22,7 +22,7 @@ export = {
         host: '10.100.227.5', // Redis host
         family: 4, // 4 (IPv4) or 6 (IPv6)
         db: 3,
-        password: 'zeiet1123',
+        password: 'nebula123',
     },
 
     mongodb: {
@@ -42,7 +42,7 @@ export = {
     //     },
     //     auth: {
     //         username: 'admin',
-    //         password: 'zeiet0630',
+    //         password: 'admin',
     //     },
     //     client: {},
     // },
@@ -70,7 +70,9 @@ export = {
             clientId: '7278c91484c7ef9e8b3a',
             clientSecret: '74d7bb4c6508fff5542b151999d398450e4edd0c',
             certificate: fs
-                .readFileSync(path.join(__dirname, '../../../res/cert/cas/pub.key'))
+                .readFileSync(
+                    path.join(__dirname, '../../../res/cert/cas/pub.key')
+                )
                 .toString(),
             orgName: 'organization_nebula',
         },

@@ -6,9 +6,9 @@ export = {
         dialect: 'mysql',
         host: '10.126.32.219',
         port: '3306',
-        username: 'zeiet',
+        username: 'root',
         database: 'nebula_cloud',
-        password: 'zeiet1123',
+        password: 'nebula123',
     },
 
     logger: {
@@ -22,7 +22,7 @@ export = {
         host: '10.126.32.219', // Redis host
         family: 4, // 4 (IPv4) or 6 (IPv6)
         db: 6,
-        // password: 'zeiet1123',
+        // password: 'nebula123',
     },
 
     mongodb: {
@@ -70,7 +70,9 @@ export = {
             clientId: '7278c91484c7ef9e8b3a',
             clientSecret: '74d7bb4c6508fff5542b151999d398450e4edd0c',
             certificate: fs
-                .readFileSync(path.join(__dirname, '../../../res/cert/cas/pub.key'))
+                .readFileSync(
+                    path.join(__dirname, '../../../res/cert/cas/pub.key')
+                )
                 .toString(),
             orgName: 'organization_nebula',
         },
@@ -97,12 +99,6 @@ export = {
             // socketPath: '/var/run/docker.sock',
             protocol: 'http',
             host: '10.126.32.219', //host字段需要用到，暂不使用socketPath配置
-            port: 2375,
-        },
-        zeiet: {
-            name: '高信机房',
-            protocol: 'http',
-            host: '10.126.32.219',
             port: 2375,
         },
     },
