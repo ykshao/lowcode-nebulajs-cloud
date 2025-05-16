@@ -1,6 +1,10 @@
 import fs from 'fs'
 import path from 'path'
 import { QueryTypes } from 'sequelize'
+import { CamundaTaskListener } from '../jobs/camunda-task-listener'
+import { CamundaService } from './common/CamundaService'
+import { AppProcessDef } from '../models/AppProcessDef'
+import { MessageService } from './app/MessageService'
 
 export class SystemService {
     static async isEmptyDatabase() {
@@ -46,5 +50,43 @@ export class SystemService {
         //     'select * from app_user_role'
         // )
         // console.log('results1', results1)
+    }
+
+    static listenCamundaTasks() {
+        // Camunda 工作流监听
+        CamundaTaskListener.listenUnHandledTask(async (task) => {
+            nebula.logger.debug('listenUnHandledTask callback =====> %o', task)
+            // event事件（create, complete, delete, timeout）
+            const { event, processDefinitionId: definitionId } = task
+
+            // 删除通知标志
+            await CamundaService.deleteHistoryVariable(task.variableId)
+
+            // 获取流程定义
+            const processDefinition = await CamundaService.getProcessDefinition(
+                definitionId
+            )
+            const { appId, envs = '' } = await AppProcessDef.getByUniqueKey(
+                'camundaProcessId',
+                definitionId
+            )
+
+            // 向所有环境发送应用消息
+            for (const env of envs.split(',')) {
+                // 向租户应用发送消息，租户收到消息后做一些处理
+                MessageService.sendClientProcessMessage(event, appId, env, {
+                    ...task,
+                    processDefinition,
+                })
+            }
+
+            // 发送站内流程消息
+            await MessageService.sendAppUserTaskMessage(
+                appId,
+                task,
+                processDefinition,
+                event
+            )
+        })
     }
 }

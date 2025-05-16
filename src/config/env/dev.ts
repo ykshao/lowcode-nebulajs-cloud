@@ -3,16 +3,16 @@ import path from 'path'
 
 export = {
     database: {
-        dialect: 'mysql',
-        host: '10.126.32.28',
-        port: '3306',
-        username: 'nebula',
-        database: 'nebula_cloud',
-        password: 'nebula123',
+        // dialect: 'mysql',
+        // host: '10.126.32.28',
+        // port: '3306',
+        // username: 'nebula',
+        // database: 'nebula_cloud',
+        // password: 'nebula123',
 
-        // dialect: 'sqlite',
-        // storage: './db/nebulajs_db.sqlite',
-        // timezone: '+00:00',
+        dialect: 'sqlite',
+        storage: './db/nebulajs_db.sqlite',
+        timezone: '+00:00',
     },
 
     logger: {
@@ -23,18 +23,18 @@ export = {
 
     redis: {
         port: 6379, // Redis port
-        host: '10.126.32.28', // Redis host
+        host: '127.0.0.1', // Redis host
         family: 4, // 4 (IPv4) or 6 (IPv6)
         db: 6,
         password: 'nebula123',
     },
 
-    mongodb: {
-        uri: 'mongodb://admin:Zeiet1123@10.126.32.28:27017',
-        options: {
-            dbName: 'nebula_cloud',
-        },
-    },
+    // mongodb: {
+    //     uri: 'mongodb://admin:nebula123@10.126.32.28:27017',
+    //     options: {
+    //         dbName: 'nebula_cloud',
+    //     },
+    // },
 
     // eureka: {
     //     server: {

@@ -10,21 +10,14 @@ import { ApplicationService } from './services/ApplicationService'
 import { SystemService } from './services/SystemService'
 import { Cache, Cookies, DataStatus, OAuthGrantTypes } from './config/constants'
 import { whitePathList } from './config/security'
-import { getNamespace, createNamespace } from 'continuation-local-storage'
-import { CamundaTaskListener } from './jobs/camunda-task-listener'
-import { MessageService } from './services/app/MessageService'
 import { ClAppProfile } from './models/ClAppProfile'
 import { ClApplication } from './models/ClApplication'
-import { ClPage } from './models/ClPage'
 import { Agenda } from '@hokify/agenda'
 import { JobService } from './services/JobService'
-import { Op } from 'sequelize'
 import { portalExtension } from './midwares/app-extension'
 import { clientExtension } from './midwares/client-extension'
 import { NebulaAppInitOptions } from 'nebulajs-core/lib/types/nebula'
 import OAuth2Server from 'nebulajs-oauth2-server'
-import { AppProcessDef } from './models/AppProcessDef'
-import { CamundaService } from './services/common/CamundaService'
 
 const pkg = require('../package.json')
 const config = require('./config/env')
@@ -114,53 +107,19 @@ async function startup(port) {
     // 启动
     await app.startup({ port })
     // await app.sequelize.models.AppUser.sync({ alter: true })
-    // await app.sequelize.models.ClJobExecution.sync({ alter: true })
     // await app.sequelize.sync({ alter: true })
 
     // 初始化数据库
     await SystemService.initDatabase()
 
-    // 装载任务调度
-    await setupScheduler()
-
     // 装载应用配置
     await setupAppConfig(app)
 
-    // Camunda 工作流监听
-    CamundaTaskListener.listenUnHandledTask(async (task) => {
-        nebula.logger.debug('listenUnHandledTask callback =====> %o', task)
-        // event事件（create, complete, delete, timeout）
-        const { event, processDefinitionId: definitionId } = task
+    // 装载任务调度
+    await setupScheduler()
 
-        // 删除通知标志
-        await CamundaService.deleteHistoryVariable(task.variableId)
-
-        // 获取流程定义
-        const processDefinition = await CamundaService.getProcessDefinition(
-            definitionId
-        )
-        const { appId, envs = '' } = await AppProcessDef.getByUniqueKey(
-            'camundaProcessId',
-            definitionId
-        )
-
-        // 向所有环境发送应用消息
-        for (const env of envs.split(',')) {
-            // 向租户应用发送消息，租户收到消息后做一些处理
-            MessageService.sendClientProcessMessage(event, appId, env, {
-                ...task,
-                processDefinition,
-            })
-        }
-
-        // 发送站内流程消息
-        await MessageService.sendAppUserTaskMessage(
-            appId,
-            task,
-            processDefinition,
-            event
-        )
-    })
+    // Camunda 工作流任务监听
+    SystemService.listenCamundaTasks()
 
     process.on('unhandledRejection', (reason, p) => {
         app.logger.error('unhandledRejection: %s', reason)
@@ -173,6 +132,10 @@ async function startup(port) {
 }
 
 async function setupScheduler() {
+    if (!nebula.config.mongodb) {
+        nebula.logger.error('未配置mongodb，无法启动任务调度。')
+        return
+    }
     const mongoConnectionString =
         nebula.config.mongodb.uri +
         '/' +
@@ -196,7 +159,9 @@ async function setupScheduler() {
     const jobs = await nebula.scheduler.jobs({})
     for (const job of jobs) {
         nebula.logger.info(
-            `加载Job，应用CODE：${job.attrs.data.appCode}，Job：${job.attrs.name}`
+            `加载应用任务：APP:${job.attrs.data.appCode}, JOB:${
+                job.attrs.name
+            }, NAME:${job.attrs.data.name || ''}`
         )
         JobService.defineRemoteJob(job.attrs.name)
     }
@@ -217,7 +182,12 @@ async function setupAppConfig(instance) {
     })
     for (const config of configList) {
         try {
-            await ApplicationService.setupCloudConfig(config)
+            const { env, app } = config
+            const appConfig = await ApplicationService.loadAppConfig(config)
+            await nebula.redis.set(
+                Cache.getAppConfigKey(env, app.id),
+                JSON.stringify(appConfig)
+            )
         } catch (e) {
             nebula.logger.warn(
                 `转换YAML文件件格式失败，应用CODE：${config.app.code}，原因：${e.message}`

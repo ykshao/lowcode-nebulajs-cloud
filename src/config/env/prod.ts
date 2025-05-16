@@ -8,7 +8,7 @@ export = {
         port: '3306',
         username: 'root',
         database: 'nebula_cloud',
-        password: 'zeiET@2021',
+        password: 'nebula@2021',
     },
 
     logger: {
@@ -26,7 +26,7 @@ export = {
     },
 
     mongodb: {
-        uri: 'mongodb://admin:Zeiet1123@10.100.227.5:27017',
+        uri: 'mongodb://admin:nebula123@10.100.227.5:27017',
         options: {
             dbName: 'nebula_cloud',
         },

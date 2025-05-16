@@ -70,7 +70,8 @@ export class ApplicationService {
      * @returns {Promise<Model>}
      */
     static async createApplication(body, currentLogin) {
-        const { code, name, logo, gitUrl, workflow, storageService, serverId } = body
+        const { code, name, logo, gitUrl, workflow, storageService, serverId } =
+            body
         let model = await ClApplication.getByUniqueKey('code', code)
         if (model) {
             throw new NebulaBizError(ApplicationErrors.ApplicationExist)
@@ -123,13 +124,13 @@ export class ApplicationService {
             await this.generateAppSkeleton(model, currentLogin)
 
             // 创建Minio空间（default, temp, public）
-            if(storageService === 'minio'){
+            if (storageService === 'minio') {
                 const fileService = new FileService(code)
                 await fileService.createAppBuckets()
             }
 
             // 创建Camunda租户
-            if(workflow === 'camunda'){
+            if (workflow === 'camunda') {
                 await CamundaService.createTenant({
                     id: model.camundaTenantId,
                     name: model.name,
@@ -137,7 +138,10 @@ export class ApplicationService {
             }
 
             // 创建管理员账号
-            await UserService.createDefaultAdminAndRole(model.dataValues.id, transaction)
+            await UserService.createDefaultAdminAndRole(
+                model.dataValues.id,
+                transaction
+            )
 
             await transaction.commit()
         } catch (e) {
@@ -777,14 +781,12 @@ export class ApplicationService {
     }
 
     /**
-     * 装载应用配置到缓存
+     * 装载应用配置
      * @returns {Promise<any>}
      */
-    static async setupCloudConfig(model: ClAppProfile) {
+    static async loadAppConfig(model: ClAppProfile) {
         const { env, app, content, bizContent } = model.dataValues
-        nebula.logger.info(
-            `装载应用配置到缓存，应用CODE：${app.code}，环境：${env}`
-        )
+        nebula.logger.info(`加载应用配置：CODE:${app.code}, ENV:${env}`)
         let sysConfig = {},
             bizConfig = {}
         if (content) {
@@ -793,12 +795,7 @@ export class ApplicationService {
         if (bizContent) {
             bizConfig = YAML.parse(bizContent)
         }
-        const config = Object.assign(sysConfig, bizConfig)
-        await nebula.redis.set(
-            Cache.getAppConfigKey(env, app.id),
-            JSON.stringify(config)
-        )
-        return config
+        return Object.assign(sysConfig, bizConfig)
     }
 
     /**
