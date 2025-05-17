@@ -11,7 +11,7 @@ import { ClMiddleware } from '../models/ClMiddleware'
 import { ClApplication } from '../models/ClApplication'
 import { ClInstance } from '../models/ClInstance'
 import { CommonUtils } from 'nebulajs-core/lib/utils'
-import { servers } from '../config/env'
+import { app as appConfig } from '../config/env'
 import { AppUtil } from '../utils/app-util'
 import { ApplicationErrors } from '../config/errors'
 import { NebulaBizError } from 'nebulajs-core'
@@ -105,7 +105,7 @@ export class MiddlewareService {
                 const middleware = await ClMiddleware.create(
                     {
                         ...body,
-                        host: servers[serverId]?.host,
+                        host: appConfig.servers[serverId]?.host,
                         port: ports[0],
                         username,
                         password: randomstring.generate(16),
@@ -123,7 +123,7 @@ export class MiddlewareService {
                         type,
                         dockerFile,
                         status: InstanceStatus.STOPPED,
-                        host: servers[serverId]?.host,
+                        host: appConfig.servers[serverId]?.host,
                         ports: ports.join(','),
                         subPorts: subPorts.join(','),
                         middlewareId: middleware.dataValues.id,

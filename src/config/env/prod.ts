@@ -65,17 +65,17 @@ export = {
                 )
                 .toString(),
         },
-        casConfig: {
-            endpoint: 'http://10.126.32.28:8000',
-            clientId: '7278c91484c7ef9e8b3a',
-            clientSecret: '74d7bb4c6508fff5542b151999d398450e4edd0c',
-            certificate: fs
-                .readFileSync(
-                    path.join(__dirname, '../../../res/cert/cas/pub.key')
-                )
-                .toString(),
-            orgName: 'organization_nebula',
-        },
+        // casConfig: {
+        //     endpoint: 'http://10.126.32.28:8000',
+        //     clientId: '7278c91484c7ef9e8b3a',
+        //     clientSecret: '74d7bb4c6508fff5542b151999d398450e4edd0c',
+        //     certificate: fs
+        //         .readFileSync(
+        //             path.join(__dirname, '../../../res/cert/cas/pub.key')
+        //         )
+        //         .toString(),
+        //     orgName: 'organization_nebula',
+        // },
     },
 
     camunda: {
@@ -93,20 +93,18 @@ export = {
         secretKey: 'dWZV9Le9N6saU2WW',
     },
 
-    servers: {
-        default: {
-            name: '本地默认',
-            socketPath: '/var/run/docker.sock',
-            protocol: 'http',
-            host: '10.100.227.3', //host字段需要用到，获取服务器IP
-            port: 2375,
-        },
-    },
-
-    dataPath: process.env.NEBULA_DATA_PATH || '/opt/nebula-data',
-
     app: {
         serviceURL: 'http://10.100.227.3:3000',
         wsServiceURL: 'ws://10.100.227.3:3001',
+        dataPath: process.env.NEBULA_DATA_PATH || '/opt/nebula-data',
+        servers: {
+            default: {
+                name: '本地默认',
+                socketPath: '/var/run/docker.sock',
+                protocol: 'http',
+                host: '10.100.227.3', //host字段需要用到，获取服务器IP
+                port: 2375,
+            },
+        },
     },
 }

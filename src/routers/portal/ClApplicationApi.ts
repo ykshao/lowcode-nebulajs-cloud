@@ -15,7 +15,7 @@ import { CommonUtils } from 'nebulajs-core/lib/utils'
 import { GitService } from '../../services/common/GitService'
 import { ClAppInfo } from '../../models/ClAppInfo'
 import { UserService } from '../../services/app/UserService'
-import { servers } from '../../config/env'
+import { app as appConfig } from '../../config/env'
 
 export = {
     /**
@@ -110,7 +110,8 @@ export = {
      * @returns {Promise<void>}
      */
     'post /cl-application': async function (ctx, next) {
-        const { id, name, workflow, storageService, logo, remark } = ctx.request.body
+        const { id, name, workflow, storageService, logo, remark } =
+            ctx.request.body
         const { login } = ctx.state.user
         let model: ClApplication | null = null
         if (!id) {
@@ -194,7 +195,8 @@ export = {
             include: include,
         })
         const list = rows.map((app) => {
-            app.dataValues.serverName = servers[app.dataValues.serverId]?.name
+            app.dataValues.serverName =
+                appConfig.servers[app.dataValues.serverId]?.name
             return app.dataValues
         })
         ctx.ok(list)
@@ -331,10 +333,10 @@ export = {
 
     'get /cl-application/servers': async function (ctx, next) {
         const list: any[] = []
-        for (const key in servers) {
+        for (const key in appConfig.servers) {
             list.push({
                 code: key,
-                name: servers[key].name,
+                name: appConfig.servers[key].name,
             })
         }
         ctx.ok(list)

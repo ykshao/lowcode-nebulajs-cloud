@@ -42,10 +42,10 @@ import { ClAppInfo } from '../models/ClAppInfo'
 import { PageService } from './PageService'
 import { ModelService } from './ModelService'
 import camelcase from 'camelcase'
-import { dataPath, app, servers } from '../config/env'
+import { app as appConfig } from '../config/env'
 import { AppUtil } from '../utils/app-util'
 
-const { serviceURL, wsServiceURL } = app
+const { serviceURL, wsServiceURL, dataPath } = appConfig
 export class ApplicationService {
     /**
      * 获取当前应用
@@ -720,7 +720,7 @@ export class ApplicationService {
                     type: insType,
                     dockerFile,
                     status: InstanceStatus.STOPPED,
-                    host: servers[serverId]?.host,
+                    host: appConfig.servers[serverId]?.host,
                     ports: ports.join(','),
                     subPorts: subPorts.join(','),
                     env: env,

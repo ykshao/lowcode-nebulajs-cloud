@@ -5,7 +5,7 @@ import { Piscina } from 'piscina'
 import { NebulaBizError } from 'nebulajs-core'
 import { ApplicationErrors } from '../../config/errors'
 import { ClApplication } from '../../models/ClApplication'
-import { servers } from '../../config/env'
+import { app as appConfig } from '../../config/env'
 import { CPromise } from 'c-promise2'
 import moment from 'moment'
 
@@ -24,7 +24,8 @@ export class DockerService {
 
     constructor(serverId) {
         // socketPath优先
-        const { socketPath, protocol, host, port } = servers[serverId] || {}
+        const { socketPath, protocol, host, port } =
+            appConfig.servers[serverId] || {}
         if (socketPath) {
             this.docker = new Docker({ socketPath })
         } else {

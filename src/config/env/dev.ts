@@ -69,17 +69,17 @@ export = {
                 )
                 .toString(),
         },
-        casConfig: {
-            endpoint: 'http://10.126.32.28:8000',
-            clientId: '7278c91484c7ef9e8b3a',
-            clientSecret: '74d7bb4c6508fff5542b151999d398450e4edd0c',
-            certificate: fs
-                .readFileSync(
-                    path.join(__dirname, '../../../res/cert/cas/pub.key')
-                )
-                .toString(),
-            orgName: 'organization_nebula',
-        },
+        // casConfig: {
+        //     endpoint: 'http://10.126.32.28:8000',
+        //     clientId: '7278c91484c7ef9e8b3a',
+        //     clientSecret: '74d7bb4c6508fff5542b151999d398450e4edd0c',
+        //     certificate: fs
+        //         .readFileSync(
+        //             path.join(__dirname, '../../../res/cert/cas/pub.key')
+        //         )
+        //         .toString(),
+        //     orgName: 'organization_nebula',
+        // },
     },
 
     camunda: {
@@ -97,21 +97,33 @@ export = {
         secretKey: 'NJdHEdYTUpXGX8dJYVDECSuQIGf9dr8A',
     },
 
-    servers: {
-        default: {
-            name: '本地默认',
-            // socketPath: '/var/run/docker.sock',
-            protocol: 'http',
-            host: '127.0.0.1', //host字段需要用到，暂不使用socketPath配置
-            port: 2375,
-        },
-    },
-
-    dataPath: path.join(__dirname, '../../../data'),
-
     app: {
-        // 用localhost会出现网络无法请求的错误
+        /**
+         * 云端地址
+         */
         serviceURL: 'http://127.0.0.1:3000',
+
+        /**
+         * 云端WS地址
+         */
         wsServiceURL: 'ws://127.0.0.1:3001',
+
+        /**
+         * 应用存放目录
+         */
+        dataPath: path.join(__dirname, '../../../data'),
+
+        /**
+         * 服务器配置
+         */
+        servers: {
+            default: {
+                name: '本地默认',
+                // socketPath: '/var/run/docker.sock',
+                protocol: 'http',
+                host: '127.0.0.1', //host字段需要用到，暂不使用socketPath配置
+                port: 2375,
+            },
+        },
     },
 }

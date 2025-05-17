@@ -2,7 +2,7 @@ import { DockerWorker } from './module/DockerWorker'
 import { ApplicationService } from '../services/ApplicationService'
 import { ClApplication } from '../models/ClApplication'
 import { GitService } from '../services/common/GitService'
-import { servers } from '../config/env'
+import { app as appConfig } from '../config/env'
 
 export = async ({
     app,
@@ -10,7 +10,7 @@ export = async ({
     version,
 }: { app: ClApplication } & Partial<any>) => {
     const appSrcFolder = ApplicationService.getAppDataSrcPath(app.code)
-    const server = servers[app.serverId]
+    const server = appConfig.servers[app.serverId]
     // console.log('server', server)
     // 打包
     const dockerWorker = new DockerWorker(server)
