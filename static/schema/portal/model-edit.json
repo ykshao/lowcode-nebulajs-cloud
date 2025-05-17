@@ -47,7 +47,8 @@
                                         "name": "comment",
                                         "id": "u:af0912295bf6",
                                         "size": "full",
-                                        "description": "模型中文描述"
+                                        "description": "模型中文描述",
+                                        "required": true
                                     },
                                     {
                                         "type": "input-text",

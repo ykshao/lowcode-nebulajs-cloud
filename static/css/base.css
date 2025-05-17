@@ -173,7 +173,7 @@
   width: 150px;
 }
 
-.cxd-CheckboxesControl.is-inline .cxd-Checkbox {
+.cxd-CheckboxesControl:not(.is-inline) .cxd-Checkbox {
   display: flex;
   align-items: center;
 }

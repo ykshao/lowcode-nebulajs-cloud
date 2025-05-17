@@ -21,31 +21,32 @@ export = {
             size = 20,
         } = QueryParser.parseFilter(ctx.request.query)
         const offset = (page - 1) * size
-
-        const jobList = (
-            await nebula.scheduler.jobs(
+        const list =
+            (await nebula.scheduler?.jobs(
                 { 'data.appId': ctx.appId },
                 {},
                 size,
                 offset < 0 ? 0 : offset
-            )
-        ).map((job: Job<{ appCode; appId; env; remark; scriptPath; name }>) => {
-            const { env = '', remark, scriptPath } = job.attrs.data
-            return {
-                id: job.attrs._id,
-                disabled:
-                    job.attrs.disabled !== undefined
-                        ? job.attrs.disabled
-                        : false,
-                // envs,
-                ...job.attrs,
-                name: job.attrs.data?.name || job.attrs.name,
-                env: env,
-                cron: job.attrs.repeatInterval,
-                remark,
-                scriptPath,
+            )) || []
+        const jobList = list.map(
+            (job: Job<{ appCode; appId; env; remark; scriptPath; name }>) => {
+                const { env = '', remark, scriptPath } = job.attrs.data
+                return {
+                    id: job.attrs._id,
+                    disabled:
+                        job.attrs.disabled !== undefined
+                            ? job.attrs.disabled
+                            : false,
+                    // envs,
+                    ...job.attrs,
+                    name: job.attrs.data?.name || job.attrs.name,
+                    env: env,
+                    cron: job.attrs.repeatInterval,
+                    remark,
+                    scriptPath,
+                }
             }
-        })
+        )
         ctx.ok(jobList)
         ctx.set('X-Total-Count', jobList.length)
     },
