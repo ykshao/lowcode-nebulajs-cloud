@@ -99,12 +99,12 @@ export = {
 
     app: {
         /**
-         * 云端地址
+         * 服务端地址
          */
         serviceURL: 'http://127.0.0.1:3000',
 
         /**
-         * 云端WS地址
+         * 服务端WS地址
          */
         wsServiceURL: 'ws://127.0.0.1:3001',
 
@@ -114,7 +114,7 @@ export = {
         dataPath: path.join(__dirname, '../../../data'),
 
         /**
-         * 服务器配置
+         * Docker通信配置
          */
         servers: {
             default: {

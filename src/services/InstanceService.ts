@@ -36,6 +36,10 @@ export class InstanceService {
                 { vsCodePassword },
                 { where: { appId: app.id }, transaction }
             )
+            if (!process.env.NEBULA_NODE_HOME) {
+                throw new Error('未配置环境变量：NEBULA_NODE_HOME')
+            }
+
             ApplicationService.generateComposeFile(instance, composeFile, {
                 vsCodePassword,
                 serviceURL,
