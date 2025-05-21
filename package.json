@@ -105,5 +105,9 @@
         "node": ">=16.0.0"
     },
     "author": "kyo",
-    "license": "ISC"
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://gitee.com/nebulajs/nebulajs-cloud/issues"
+    },
+    "homepage": "https://gitee.com/nebulajs/nebulajs-cloud"
 }
