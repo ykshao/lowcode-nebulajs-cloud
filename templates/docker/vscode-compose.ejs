@@ -11,6 +11,7 @@ services:
         volumes:
             - "./:/root"
             - "<%=envVars.NEBULA_NODE_HOME%>:/opt/nodejs"
+            - "./sources.list.debian:/etc/apt/sources.list"
         # entrypoint: /root/entrypoint.sh
         user: "0:0" # Root user
         environment:

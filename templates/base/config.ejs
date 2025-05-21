@@ -10,7 +10,7 @@ database:
   database: '<%=database.schema%>'
   <%_ } _%>
   <%_ if(typeof database !== 'undefined' && database.type === 'sqlite'){ _%>
-  storage: './db/<%=database.host%>.sqlite'
+  storage: './db/<%=database.schema%>.sqlite'
   timezone: '+00:00'
   <%_ } _%>
 <%_ } _%>
