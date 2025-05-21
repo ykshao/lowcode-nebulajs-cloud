@@ -792,6 +792,16 @@ export class ApplicationService {
             bizConfig = {}
         if (content) {
             sysConfig = YAML.parse(content)
+        } else {
+            // 默认应用配置
+            sysConfig = {
+                logger: {
+                    level: 'info',
+                },
+                auth: {
+                    authType: 'nebula',
+                },
+            }
         }
         if (bizContent) {
             bizConfig = YAML.parse(bizContent)
