@@ -172,7 +172,7 @@ async function setupScheduler() {
  * @param instance {NebulaApp}
  * @returns {Promise<void>}
  */
-async function setupAppConfig(instance) {
+async function setupAppConfig(instance: NebulaApp) {
     const configList = await ClAppProfile.findAll({
         include: {
             model: ClApplication,

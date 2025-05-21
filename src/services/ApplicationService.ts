@@ -111,7 +111,7 @@ export class ApplicationService {
             )
             // 创建各环境配置文件
             for (let env of Environments) {
-                await ClAppProfile.create(
+                const profile = await ClAppProfile.create(
                     {
                         env,
                         appId: model.id,
@@ -119,6 +119,7 @@ export class ApplicationService {
                     },
                     { transaction }
                 )
+                await this.loadAppConfig(profile)
             }
             // 并生成应用骨架
             await this.generateAppSkeleton(model, currentLogin)
@@ -785,8 +786,8 @@ export class ApplicationService {
      * @returns {Promise<any>}
      */
     static async loadAppConfig(model: ClAppProfile) {
-        const { env, app, content, bizContent } = model.dataValues
-        nebula.logger.info(`加载应用配置：CODE:${app.code}, ENV:${env}`)
+        const { env, content, bizContent, appId } = model.dataValues
+        nebula.logger.info(`加载应用配置：APPID:${appId}, ENV:${env}`)
         let sysConfig = {},
             bizConfig = {}
         if (content) {
@@ -797,7 +798,7 @@ export class ApplicationService {
         }
         const appConfig = Object.assign(sysConfig, bizConfig)
         await nebula.redis.set(
-            Cache.getAppConfigKey(env, app.id),
+            Cache.getAppConfigKey(env, model.appId),
             JSON.stringify(appConfig)
         )
     }
