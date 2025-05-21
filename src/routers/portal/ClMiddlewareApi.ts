@@ -11,6 +11,7 @@ import { DatabaseService } from '../../services/common/DatabaseService'
 import { ClMiddleware } from '../../models/ClMiddleware'
 import { ClInstance } from '../../models/ClInstance'
 import { CommonUtils } from 'nebulajs-core/lib/utils'
+import path from 'path'
 
 export = {
     'post /cl-middleware': async (ctx, next) => {
@@ -26,22 +27,25 @@ export = {
     'put /cl-middleware': async (ctx, next) => {
         ctx.checkRequired(['id'])
         const id = ctx.getParam('id')
-        const {
-            name,
-            hostPort: { host, port },
-            schema,
-            username,
-            password,
-        } = ctx.request.body
+        const { name, hostPort, schema, username, password } = ctx.request.body
+        const { host, port } = hostPort || {}
         const model = await ClMiddleware.getByPk(id)
         if (!model) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
-        const { isExternal } = model.dataValues
+        const { isExternal, type } = model.dataValues
         if (isExternal) {
             model.set({ name, host, port, schema, username, password })
         } else {
             model.set({ name })
+        }
+
+        if (type === 'sqlite') {
+            const relDbPath = path.join('./db', `${schema}.sqlite`)
+            model.set({
+                host: relDbPath,
+                schema,
+            })
         }
 
         const { dataValues } = await model.save()

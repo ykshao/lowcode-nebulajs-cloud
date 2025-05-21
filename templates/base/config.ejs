@@ -2,11 +2,17 @@
 ## 数据库配置
 database:
   dialect: '<%=database.type%>'
+  <%_ if(typeof database !== 'undefined' && database.type !== 'sqlite'){ _%>
   host: '<%=database.host%>'
   port: '<%=database.port%>'
   username: '<%=database.username%>'
   password: '<%=database.password%>'
   database: '<%=database.schema%>'
+  <%_ } _%>
+  <%_ if(typeof database !== 'undefined' && database.type === 'sqlite'){ _%>
+  storage: './db/<%=database.host%>.sqlite'
+  timezone: '+00:00'
+  <%_ } _%>
 <%_ } _%>
 
 <%_ if(typeof redis !== 'undefined'){ _%>

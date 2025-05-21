@@ -155,7 +155,7 @@
                                                                                             "size": "md",
                                                                                             "required": true,
                                                                                             "source": {
-                                                                                                "url": "/portal/cl-middleware?filter[type][eq]=mysql",
+                                                                                                "url": "/portal/cl-middleware?filter[type][in]=mysql,sqlite",
                                                                                                 "method": "get",
                                                                                                 "messages": {}
                                                                                             },
