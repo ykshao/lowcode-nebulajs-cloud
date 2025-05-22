@@ -17,7 +17,9 @@ npm i
 
 #### 1.3 环境变量配置
 
-需要配置`NEBULA_NODE_HOME`环境变量。以Linux为例，如下所示
+* __NEBULA_NODE_HOME__
+
+配置Nebula应用在Web版`VSCODE`中运行的`nodejs`环境。由于Web版本的`VSCODE`采用Linux作为基础镜像，此处需要配置Linux版本的nodejs，如下所示。
 
 ```shell
 export NEBULA_NODE_HOME=/opt/node-v16.13.1-linux-x64
@@ -165,9 +167,13 @@ docker-compose up
 
 ## 3.服务端配置
 
-* __app.serviceURL__ 云平台服务端地址，用于各子应用和云端应用API通信
+* __app.serviceURL__
 
-* __app.wsServiceURL__ 云平台服务端Websocket地址，用于各子应用和云端应用WS通信
+ 云平台服务端地址，用于各子应用和云端应用API通信。（当应用部署在docker或在docker中启动时，此处不要配置`127.0.0.1`，这会导致应用无法连接云端）
+
+* __app.wsServiceURL__ 
+
+ 云平台服务端Websocket地址，用于各子应用和云端应用WS通信。（当应用部署在docker或在docker中启动时，此处不要配置`127.0.0.1`，这会导致应用无法连接云端）
 
 * __app.dataPath__ 创建应用后，代码及文件存放的目录
 
@@ -213,6 +219,8 @@ app: {
 ---
 
 #### 4.1 DockerSocat启动
+
+Nebulajs Cloud平台使用`Socat`和Docker服务器通信。
 
 ```shell
 docker run -d --name socat-local --restart always -p 127.0.0.1:2375:2375 -v /var/run/docker.sock:/var/run/docker.sock alpine/socat tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
