@@ -17,7 +17,7 @@ npm i
 
 #### 1.3 环境变量配置
 
-* __NEBULA_NODE_HOME__
+* __`NEBULA_NODE_HOME`__
 
 配置Nebula应用在Web版`VSCODE`中运行的`nodejs`环境。由于Web版本的`VSCODE`采用Linux作为基础镜像，此处需要配置Linux版本的nodejs，如下所示。
 
@@ -25,11 +25,44 @@ npm i
 export NEBULA_NODE_HOME=/opt/node-v16.13.1-linux-x64
 ```
 
+* __`NEBULA_DATA_PATH`__ （可选）
+
+配置Nebula应用代码存放的位置。用户可以在配置文件中更改。
+
+```shell
+export NEBULA_DATA_PATH=/opt/nebula-data
+```
+
 ## 2.中间件配置
 ---
-配置文件存放在`src/config/env/`目录下，可以自行修改。如：dev.ts
+各环境配置文件存放在`src/config/env/`目录下，可以自行修改。如：dev.ts、prod.ts
 
 * __数据库配置（必须）__
+
+本平台使用`Sequelize`作为数据库连接层，数据库支持常见的关系型数据库。不同的数据库需要安装相应的驱动模块，如下所示：
+
+
+```shell
+### Postgres
+npm install --save pg pg-hstore
+
+### MySQL
+npm install --save mysql2
+
+### Mariadb
+npm install --save mariadb
+
+### SQLite
+npm install --save sqlite3
+
+### Microsoft SQL Server
+npm install --save tedious
+
+### Oracle Database
+npm install --save oracledb
+```
+
+详细信息请查看[SequelizeV6官方文档](https://sequelize.org/docs/v6/getting-started/)。以SQLite为例：
 
 ```javascript
 database: {
@@ -166,6 +199,7 @@ docker-compose up
 ```
 
 ## 3.服务端配置
+---
 
 * __app.serviceURL__
 
@@ -226,7 +260,15 @@ Nebulajs Cloud平台使用`Socat`和Docker服务器通信。
 docker run -d --name socat-local --restart always -p 127.0.0.1:2375:2375 -v /var/run/docker.sock:/var/run/docker.sock alpine/socat tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
 ```
 
-#### 4.2 应用启动
+#### 4.2 TypeScript编译监听
+
+本项目使用`TypeScript`开发，如果要修改代码请先启动`TypeScript`监听。
+
+```shell
+npm run tsc
+```
+
+#### 4.3 应用启动
 
 
 * __开发模式启动__
