@@ -11,8 +11,8 @@ services:
         volumes:
             - "./:/root"
             - "<%=envVars.NEBULA_NODE_HOME%>:/opt/nodejs"
-            - "./sources.list.debian:/etc/apt/sources.list"
-        # entrypoint: /root/entrypoint.sh
+            - "./vscode/sources.list.debian:/etc/apt/sources.list"
+        # entrypoint: /root/vscode/entrypoint.sh
         user: "0:0" # Root user
         environment:
             PASSWORD: "<%=extra.vsCodePassword%>"
@@ -20,6 +20,6 @@ services:
             NODE_ENV: "<%=env%>"
             SERVICE_URL: "<%=extra.serviceURL%>"
             WS_SERVICE_URL: "<%=extra.wsServiceURL%>"
-            ENTRYPOINTD: "/root/entrypoint.d"
+            ENTRYPOINTD: "/root/vscode/entrypoint.d"
             TZ: "Asia/Shanghai"
         restart: always
