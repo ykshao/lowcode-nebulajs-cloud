@@ -187,6 +187,7 @@
                                                 },
                                                 {
                                                     "label": "切换版本",
+                                                    "visibleOn": "${type=='app'}",
                                                     "type": "button",
                                                     "size": "sm",
                                                     "actionType": "dialog",
