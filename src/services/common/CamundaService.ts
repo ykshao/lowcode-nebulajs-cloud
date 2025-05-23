@@ -1,7 +1,7 @@
 import { AxiosInstance } from 'axios'
 import moment from 'moment'
 import { NebulaAxiosRequest, NebulaBizError } from 'nebulajs-core'
-import { Client as CamundaClient } from 'camunda-bpm-sdk-js'
+import { Client as CamundaClient } from 'nebulajs-camunda-sdk'
 import FormData from 'form-data'
 import { ProcessErrors } from '../../config/errors'
 import {

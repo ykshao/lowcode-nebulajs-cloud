@@ -140,7 +140,7 @@ camunda: {
 }
 ```
 
-#### 快速使用Docker启动开发环境
+#### 使用Docker快速启动开发环境
 
 编写`docker-compose.yaml`文件
 
