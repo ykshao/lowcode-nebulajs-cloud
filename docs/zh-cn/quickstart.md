@@ -13,6 +13,8 @@ npm i
 
 #### 1.2 Docker/DockerCompose安装
 
+本顶目使用`Docker/DockerCompose`对应用部署和管理。
+
 > 参考Docker官方文档 [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
 
 #### 1.3 环境变量配置
@@ -93,7 +95,7 @@ redis: {
 
 * __Mongodb配置（可选）__
 
-如要使用定时任务调度，则需要配置该项。完整配置可参考[mongoose](https://github.com/Automattic/mongoose)。
+如要使用定时任务调度（用户可以在左侧菜单`任务`中进行管理），则需要配置该项。在完整配置可参考[mongoose](https://github.com/Automattic/mongoose)。
 
 ```javascript
 mongodb: {
@@ -110,7 +112,6 @@ mongodb: {
 
 如要使用分布式文件存储，则需要配置该项。完整配置可参考[minio-js](https://github.com/minio/minio-js)。
 
-
 ```javascript
 minio: {
     endPoint: '10.126.32.28',
@@ -124,11 +125,17 @@ minio: {
 
 * __Camunda工作流配置（可选）__
 
+如要使用`Camunda`工作流，需要先进行部署。本项目通过`Camunda`的Restful接口与其通信。
+
+> Camunda7社区版工作流部署请参考 [https://docs.camunda.org/manual/7.23/installation/](https://docs.camunda.org/manual/7.23/installation/)。<br/>
+
+Camunda RESTful API若开启权限则需要配置 `headers.Authorization` 选项。
+
 ```javascript
 camunda: {
-    apiUri: 'http://10.126.32.219:8070/engine-rest',
+    apiUri: 'http://10.126.32.219:8070/engine-rest', // Camunda RESTful URL
     headers: {
-        Authorization: 'Basic ZGVtbzpkZW1v', //demo:demo
+        Authorization: 'Basic ZGVtbzpkZW1v', //demo:demo 
     },
 }
 ```

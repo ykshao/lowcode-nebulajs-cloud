@@ -118,10 +118,7 @@
                             "type": "input-text",
                             "name": "name",
                             "id": "u:0a565d8bf88b",
-                            "description": "输入任务名称。（不少于5个字符）",
-                            "validations": {
-                              "minLength": 5
-                            },
+
                             "size": "md",
                             "required": true
                           },
@@ -403,10 +400,7 @@
                             "type": "input-text",
                             "name": "name",
                             "id": "u:0a828d8bf99b",
-                            "description": "输入任务名称。（不少于5个字符）",
-                            "validations": {
-                              "minLength": 5
-                            },
+
                             "size": "md",
                             "required": true
                           },

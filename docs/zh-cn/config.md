@@ -1,6 +1,9 @@
 # 配置
 
 ## 完整配置文件
+
+---
+
 ```javascript
 import fs from 'fs'
 import path from 'path'
