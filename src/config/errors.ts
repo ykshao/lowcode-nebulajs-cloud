@@ -88,6 +88,10 @@ export class UserErrors extends NebulaErrors.BadRequestErrors {
         msg: '没有权限登陆此应用',
         status: 403,
     }
+    static CannotDeleteAdmin = {
+        code: 21007,
+        msg: '无法删除管理员',
+    }
 }
 
 /**

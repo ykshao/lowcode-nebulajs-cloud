@@ -95,12 +95,16 @@ export = {
 
     'delete /app-user/:id': async function (ctx, next) {
         const id = ctx.getParam('id')
-        await AppUser.destroy({
+        const user = await AppUser.findOne({
             where: {
                 id,
                 appId: ctx.clientAppId,
             },
         })
+        if (user.login === Constants.DEFAULT_ADMIN_USER) {
+            throw new NebulaBizError(UserErrors.CannotDeleteAdmin)
+        }
+        await user.destroy()
         ctx.ok()
     },
 
