@@ -61,68 +61,68 @@ Nebulajs应用是由`SAAS通用模块`和`业务模块`两种方式组合而成�
 #### 3.1 云平台
 <table>
     <tr>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1501747901234_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1211747538227_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1501747901234_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1211747538227_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
     </tr>
     <tr>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1181747479467_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1191747480447_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1181747479467_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1191747480447_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
     </tr>
     <tr>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1201747480447_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1521747905876_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1201747480447_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1521747905876_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
     </tr>
     <tr>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1541747906231_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1551747906544_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1541747906231_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1551747906544_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
     </tr>
     <tr>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1701747980879_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1721747991209_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1701747980879_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1721747991209_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
     </tr>
     <tr>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1581747912911_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1591747912938_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1581747912911_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1591747912938_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
     </tr>
 
 </table>
 
 #### 3.2 代码编辑器
-![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1481747832488_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100)
+![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1481747832488_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0)
 
 #### 3.3 页面编辑器
-![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1531747906033_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100)
+![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1531747906033_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0)
 
 #### 3.4 流程设计器
-![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1781748086853_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100)
-![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1771748086827_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100)
+![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1781748086853_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0)
+![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1771748086827_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0)
 
 #### 3.5 云应用
 
 <table>
     <tr>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1511747901261_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1791748088407_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1511747901261_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1791748088407_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
     </tr>
     <tr>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1611747915966_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1651747916161_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1611747915966_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1651747916161_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
     </tr>
     <tr>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1621747916019_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1661747916241_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1621747916019_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1661747916241_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
     </tr>
     <tr>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1671747916297_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1691747916349_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1671747916297_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1691747916349_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
     </tr>
     <tr>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1741748086514_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1801748088444_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1741748086514_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1801748088444_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
     </tr>
     <tr>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1821748088489_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
-        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1831748088600_.pic.jpg?imageMogr2/thumbnail/1280x/quality/100"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1821748088489_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
+        <td><img src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1831748088600_.pic.jpg?imageMogr2/thumbnail/1440x/quality/100/format/webp/interlace/0"></td>
     </tr>
 </table>
 
