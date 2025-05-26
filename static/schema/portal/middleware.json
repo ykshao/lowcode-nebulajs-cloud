@@ -241,9 +241,9 @@
                                                 "name": "dataPath",
                                                 "label": "数据文件",
                                                 "id": "u:4dd6cb68df51",
-                                                "size": "md",
+                                                "size": "lg",
                                                 "visibleOn": "${type=='sqlite'}",
-                                                "description": "数据库文件绝对路径。如：/opt/database/test.sqlite",
+                                                "description": "数据库文件绝对路径，如：/opt/database/test.sqlite。（如果在Docker容器中需要注意路径映射）",
                                                 "disabled": false,
                                                 "required": true
                                             }
@@ -477,9 +477,9 @@
                                         "name": "dataPath",
                                         "label": "数据文件",
                                         "id": "u:4dd6cb68df51",
-                                        "size": "md",
+                                        "size": "lg",
                                         "visibleOn": "${type=='sqlite'}",
-                                        "description": "数据库文件绝对路径。如：/opt/database/test.sqlite",
+                                        "description": "数据库文件绝对路径，如：/opt/database/test.sqlite。（如果在Docker容器中需要注意路径映射）",
                                         "disabled": false,
                                         "required": true
                                     },

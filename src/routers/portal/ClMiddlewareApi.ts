@@ -107,10 +107,15 @@ export = {
             schema,
             username,
             password,
-            hostPort: { host, port },
+            dataPath,
+            hostPort,
             type: dialect,
         } = ctx.request.body
-        if (dialect === MiddlewareTypes.MySQL) {
+        const { host, port } = hostPort || {}
+        if (
+            dialect === MiddlewareTypes.MySQL ||
+            dialect === MiddlewareTypes.SQLite
+        ) {
             const databaseService = new DatabaseService({
                 schema,
                 username,
@@ -118,6 +123,7 @@ export = {
                 host,
                 port,
                 dialect,
+                dataPath,
             })
             try {
                 await databaseService.test()

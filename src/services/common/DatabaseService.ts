@@ -15,16 +15,8 @@ export class DatabaseService {
 
     constructor(options) {
         options.dialect = options.dialect || options.type
-        const {
-            schema,
-            username,
-            password,
-            host,
-            port,
-            dialect,
-            dataPath,
-            app,
-        } = options
+        const { schema, username, password, host, port, dialect, dataPath } =
+            options
         this.options = options
         if (dialect === MiddlewareTypes.SQLite) {
             this.sequelize = new Sequelize({
