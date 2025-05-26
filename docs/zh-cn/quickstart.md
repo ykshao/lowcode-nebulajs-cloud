@@ -3,7 +3,14 @@
 ## 1. 环境配置
 ---
 #### 1.1 Node.js安装
-> 本项目基于`Nodejs+Koa2`开发，需要先安装 [Node.js v16+](https://nodejs.org/zh-cn/download)。
+
+本项目基于`Nodejs+Koa2`开发，需要先安装`Node.js v16+`开发环境。
+
+> `Node.js`安装及下载，请参考[官方文档](https://nodejs.org/zh-cn/download)。
+
+```shell
+node -v
+```
 
 ```shell
 git clone https://gitee.com/nebulajs/nebulajs-cloud.git
@@ -13,7 +20,7 @@ npm i
 
 #### 1.2 Docker/DockerCompose安装
 
-本顶目使用`Docker/DockerCompose`对应用部署和管理。
+本顶目使用`Docker/DockerCompose`对应用进行部署和管理。如：应用打包、启动、停止等操作。
 
 > 参考Docker官方文档 [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
 
@@ -21,7 +28,8 @@ npm i
 
 * __`NEBULA_NODE_HOME`__
 
-配置Nebula应用在Web版`VSCODE`中运行的`nodejs`环境。由于Web版本的`VSCODE`采用Linux作为基础镜像，此处需要配置Linux版本的nodejs，如下所示。
+配置Nebula应用在Web版`VSCODE`中运行所需要的`nodejs`环境。
+由于Web版本的`VSCODE`采用Linux作为基础镜像，此处需要固定配置Linux版本的nodejs，如下所示。
 
 ```shell
 export NEBULA_NODE_HOME=/opt/node-v16.13.1-linux-x64
@@ -29,7 +37,7 @@ export NEBULA_NODE_HOME=/opt/node-v16.13.1-linux-x64
 
 * __`NEBULA_DATA_PATH`__ （可选）
 
-配置Nebula应用代码存放的位置。用户可以在配置文件中更改。
+配置Nebula应用代码存放的位置。默认位置为`nebulajs-cloud/data`下，用户可以在配置文件中更改。
 
 ```shell
 export NEBULA_DATA_PATH=/opt/nebula-data
@@ -37,7 +45,8 @@ export NEBULA_DATA_PATH=/opt/nebula-data
 
 ## 2.中间件配置
 ---
-各环境配置文件存放在`src/config/env/`目录下，可以自行修改。如：dev.ts、prod.ts
+Nebula Cloud启动时会依赖部分第三方中间件，使平台的性能及扩展性更好。如：关系数据库、缓存、KV数据库等。
+中间件的配置可以在各环境配置中修改。环境配置文件存放在`src/config/env/`目录下，可以自行修改。如：`dev.ts`、`prod.ts`
 
 * __数据库配置（必须）__
 
@@ -82,7 +91,8 @@ database: {
 ```
 
 * __Redis配置（必须）__
-
+本平台使用Redis作为应用缓存。配置如下：
+  
 ```javascript
 redis: {
     port: 6379, // Redis port
@@ -205,7 +215,7 @@ services:
 docker-compose up
 ```
 
-## 3.服务端配置
+## 3.云服务端配置
 ---
 
 * __app.serviceURL__
@@ -261,7 +271,7 @@ app: {
 
 #### 4.1 DockerSocat启动
 
-Nebulajs Cloud平台使用`Socat`和Docker服务器通信。
+Nebulajs Cloud平台使用`Socat`和`Docker`服务器通信。
 
 ```shell
 docker run -d --name socat-local --restart always -p 127.0.0.1:2375:2375 -v /var/run/docker.sock:/var/run/docker.sock alpine/socat tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock

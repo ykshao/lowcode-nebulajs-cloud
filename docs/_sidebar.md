@@ -6,14 +6,12 @@
 
 * 参考
 
-  * [集成](zh-cn/integration.md)
+  * [系统集成](zh-cn/integration.md)
   * [API](zh-cn/api.md)
   * [开发](zh-cn/develop.md)
   * [配置](zh-cn/config.md)
   
-* 定制
-  
-  * 自定义主题
-  
 * 常见问题
+  
+  * [常见问题](zh-cn/qa.md)
 

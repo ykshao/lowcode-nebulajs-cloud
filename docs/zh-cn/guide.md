@@ -52,7 +52,7 @@ Nebulajs Cloud是一个云应用平台，用户可以在平台托管多个应用
 ## 3. 生成模型代码
 ---
 
-在模型列表页面中，勾选想要生成的模型后进行代码生成，生成代码后可以在Web版的VSCODE中查看文件改动。
+在模型列表页面中，勾选想要生成的模型后进行代码生成，生成代码后可以在Web版的VSCODE中查看文件改动，代码存放目录为`/src`。
 
 * __功能选择__
   * __列表__ ：模型数据列表，支持分页和条件查询
@@ -65,8 +65,14 @@ Nebulajs Cloud是一个云应用平台，用户可以在平台托管多个应用
 
 * __生成接口：__
 
-  生成应用代码时，是否生成RESTful API中的接口。
+  生成应用代码时，是否生成`RESTful API`中的接口，rest接口都会有`/rest`为前缀。如请假条接口：
 
+  * 新增接口：`PUT /rest/leave-note`
+  * 修改接口：`POST /rest/leave-note`
+  * 删除接口：`DELETE /rest/leave-note/:id`
+  * 查询列表接口：`GET /rest/leave-note`
+  * 查询单条接口：`GET /rest/leave-note/:id`
+  
 * __生成页面：__
 
   生成应用代码时，是否根据模型字段生成增删查改页面。页面采用百度 [Amis](https://aisuda.bce.baidu.com/amis/zh-CN/docs/index) 开发。
