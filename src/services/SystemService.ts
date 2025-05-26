@@ -14,9 +14,17 @@ export class SystemService {
             nebula.logger.debug('SQLite tables: %o', results)
             return results.length === 0
         } else if (nebula.config.database.dialect === 'mysql') {
-            // const sql = 'show tables'
-            // const [results, metadata] = await nebula.sequelize.query(sql)
-            // console.log(results, metadata)
+            const results = await nebula.sequelize.query(
+                'select table_name as table_name, table_comment as table_comment ' +
+                    'from information_schema.tables ' +
+                    'where table_schema = :schema',
+                {
+                    raw: true,
+                    type: QueryTypes.SELECT,
+                    replacements: { schema: nebula.config.database.database },
+                }
+            )
+            return results.length === 0
         }
         return false
     }

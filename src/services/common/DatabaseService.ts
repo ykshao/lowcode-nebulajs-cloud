@@ -69,7 +69,7 @@ export class DatabaseService {
      * @returns {Promise<*[]|{descr: *, name: *}[]>}
      */
     async getDatabaseTables(prefix) {
-        const { schema, dialect, host, app } = this.options
+        const { schema, dialect, host, app, dataPath } = this.options
         if (dialect === MiddlewareTypes.MySQL) {
             // 需要指定小写列名，可能会区分大小写
             const ret = await this.sequelize.query(
@@ -90,11 +90,10 @@ export class DatabaseService {
                     return { name: t.table_name, descr: t.table_comment }
                 })
         } else if (dialect === MiddlewareTypes.SQLite) {
-            const appDataPath = ApplicationService.getAppDataSrcPath(app.code)
             const sequelize = new Sequelize({
                 dialect: 'sqlite',
                 timezone: '+00:00',
-                storage: path.join(appDataPath, host),
+                storage: dataPath,
             })
             const sql = "select name from sqlite_master where type = 'table'"
             const [results, metadata] = await sequelize.query(sql)
