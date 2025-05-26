@@ -272,7 +272,7 @@ app: {
 
 #### 4.1 DockerSocat启动
 
-Nebulajs Cloud平台使用`Socat`和`Docker`服务器通信。
+Nebulajs平台使用`Socat`和`Docker`服务器通信。
 
 ```shell
 docker run -d --name socat-local --restart always -p 127.0.0.1:2375:2375 -v /var/run/docker.sock:/var/run/docker.sock alpine/socat tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
