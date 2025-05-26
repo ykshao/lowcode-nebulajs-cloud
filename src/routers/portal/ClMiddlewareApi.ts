@@ -149,30 +149,30 @@ export = {
         if (!model) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
-        const middlewareService = new DatabaseService(model.dataValues)
+        const middlewareService = new DatabaseService(model)
         const result = await middlewareService.getDatabaseTables(prefix)
 
         ctx.ok(result)
     },
 
-    /**
-     * 获取数据库表结构
-     * @param ctx
-     * @param next
-     * @returns {Promise<any>}
-     */
-    'post /cl-middleware/database/:id/metadata': async (ctx, next) => {
-        const id = ctx.getParam('id')
-        const { tables = [], sequences = [] } = ctx.request.body
-        const model = await ClMiddleware.getByPk(id)
-        if (!model) {
-            return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
-        }
-        const middlewareService = new DatabaseService(model.dataValues)
-        const metadata = await middlewareService.getDatabaseMetadata(
-            tables,
-            sequences
-        )
-        ctx.ok(metadata)
-    },
+    // /**
+    //  * 获取数据库表结构
+    //  * @param ctx
+    //  * @param next
+    //  * @returns {Promise<any>}
+    //  */
+    // 'post /cl-middleware/database/:id/metadata': async (ctx, next) => {
+    //     const id = ctx.getParam('id')
+    //     const { tables = [], sequences = [] } = ctx.request.body
+    //     const model = await ClMiddleware.getByPk(id)
+    //     if (!model) {
+    //         return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
+    //     }
+    //     const middlewareService = new DatabaseService(model.dataValues)
+    //     const metadata = await middlewareService.getDatabaseMetadata(
+    //         tables,
+    //         sequences
+    //     )
+    //     ctx.ok(metadata)
+    // },
 }

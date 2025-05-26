@@ -48,9 +48,11 @@ export NEBULA_DATA_PATH=/opt/nebula-data
 Nebula Cloud启动时会依赖部分第三方中间件，使平台的性能及扩展性更好。如：关系数据库、缓存、KV数据库等。
 中间件的配置可以在各环境配置中修改。环境配置文件存放在`src/config/env/`目录下，可以自行修改。如：`dev.ts`、`prod.ts`
 
+#### 2.1 中间件配置
+
 * __数据库配置（必须）__
 
-本平台使用`Sequelize`作为数据库连接层，数据库支持常见的关系型数据库。不同的数据库需要安装相应的驱动模块，如下所示：
+本平台使用`Sequelize`作为数据库连接层，数据库支持常见的关系型数据库。本项目推荐使用`MySQL5.7`，不同的数据库需要安装相应的驱动模块，如下所示：
 
 
 ```shell
@@ -91,6 +93,7 @@ database: {
 ```
 
 * __Redis配置（必须）__
+
 本平台使用Redis作为应用缓存。配置如下：
   
 ```javascript
@@ -116,8 +119,6 @@ mongodb: {
 }
 ```
 
-
-
 * __MinIO配置（可选）__
 
 如要使用分布式文件存储，则需要配置该项。完整配置可参考[minio-js](https://github.com/minio/minio-js)。
@@ -135,11 +136,11 @@ minio: {
 
 * __Camunda工作流配置（可选）__
 
-如要使用`Camunda`工作流，需要先进行部署。本项目通过`Camunda`的Restful接口与其通信。
+本项目使用`Camunda`实现工作流，通过调用其`RESTful`接口通信达到完全解耦的效果，无需再对工作流进行定制开发。如要使用`Camunda`工作流，需要先进行部署。
 
+> Camunda RESTful API若开启权限则需要配置 `headers.Authorization` 选项。
 > Camunda7社区版工作流部署请参考 [https://docs.camunda.org/manual/7.23/installation/](https://docs.camunda.org/manual/7.23/installation/)。<br/>
 
-Camunda RESTful API若开启权限则需要配置 `headers.Authorization` 选项。
 
 ```javascript
 camunda: {
@@ -150,9 +151,9 @@ camunda: {
 }
 ```
 
-#### 使用Docker快速启动开发环境
+#### 2.2 使用Docker快速启动开发环境
 
-编写`docker-compose.yaml`文件
+也可以通过`Docker/Docker Compose`快速启动所有中间件。编写`docker-compose.yaml`文件
 
 ```yaml
 version: '3.0'
@@ -300,3 +301,7 @@ npm run dev
 pm2 start ecosystem.config.js --env dev
 ```
 
+> 启动后使用浏览器访问地址 [http://localhost:3000](http://localhost:3000)
+> 
+> 用户名：`admin`
+> 密码：`admin`

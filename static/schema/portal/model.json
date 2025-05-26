@@ -366,7 +366,7 @@
                                                                 "description": "选择一个数据库中件间，若为空可到中间件管理新增。",
                                                                 "multiple": false,
                                                                 "source": {
-                                                                    "url": "/portal/cl-middleware?filter[type][eq]=mysql",
+                                                                    "url": "/portal/cl-middleware?filter[type][in]=mysql,sqlite",
                                                                     "method": "get",
                                                                     "messages": {}
                                                                 },

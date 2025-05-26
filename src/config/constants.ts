@@ -8,6 +8,7 @@ export const Constants = {
 }
 export const MiddlewareTypes = {
     MySQL: 'mysql',
+    SQLite: 'sqlite',
     Redis: 'redis',
     MongoDB: 'mongodb',
 }

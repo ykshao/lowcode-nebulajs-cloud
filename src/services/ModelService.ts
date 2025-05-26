@@ -49,11 +49,9 @@ export class ModelService {
         prefix = '',
         tablesConfig: SyncFromTableConfig = {}
     ) {
-        const middlewareService = new DatabaseService(database.dataValues)
+        const middlewareService = new DatabaseService(database)
         const metadata = await middlewareService.getDatabaseMetadata(names)
-        const typeMapper = SequelizeTypeMapper.getInstance(
-            database.dataValues.type
-        )
+        const typeMapper = SequelizeTypeMapper.getInstance(database.type)
         const modelMap = new Map()
         const models = await ClModel.findAll({
             where: {

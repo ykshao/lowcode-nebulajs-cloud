@@ -5,6 +5,7 @@ import {
     InferAttributes,
     InferCreationAttributes,
     ForeignKey,
+    NonAttribute,
 } from 'sequelize'
 import decamelize from 'decamelize'
 import { BaseModel } from 'nebulajs-core'
@@ -28,6 +29,7 @@ export class ClMiddleware extends BaseModel<
     declare updatedBy: string
     declare remark: string
     declare appId: ForeignKey<string>
+    declare app: NonAttribute<ClApplication>
 
     static initAttributes = (sequelize) =>
         this.init(

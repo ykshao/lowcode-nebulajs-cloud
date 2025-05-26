@@ -1,6 +1,9 @@
 import { QueryTypes, Sequelize } from 'sequelize'
 import { MiddlewareTypes } from '../../config/constants'
 import Metalize from 'nebulajs-metalize'
+import { ApplicationService } from '../ApplicationService'
+import { ClMiddleware } from '../../models/ClMiddleware'
+import path from 'path'
 
 export class DatabaseService {
     /**
@@ -8,7 +11,7 @@ export class DatabaseService {
      */
     sequelize = null
 
-    options = null
+    options: ClMiddleware & { dialect: string } = null
 
     constructor(options) {
         options.dialect = options.dialect || options.type
@@ -46,7 +49,7 @@ export class DatabaseService {
      * @returns {Promise<*[]|{descr: *, name: *}[]>}
      */
     async getDatabaseTables(prefix) {
-        const { schema, dialect } = this.options
+        const { schema, dialect, host, app } = this.options
         if (dialect === MiddlewareTypes.MySQL) {
             // 需要指定小写列名，可能会区分大小写
             const ret = await this.sequelize.query(
@@ -64,6 +67,18 @@ export class DatabaseService {
                 .map((t) => {
                     return { name: t.table_name, descr: t.table_comment }
                 })
+        } else if (dialect === MiddlewareTypes.SQLite) {
+            const appDataPath = ApplicationService.getAppDataSrcPath(app.code)
+            const sequelize = new Sequelize({
+                dialect: 'sqlite',
+                timezone: '+00:00',
+                storage: path.join(appDataPath, host),
+            })
+            const sql = "select name from sqlite_master where type='table'"
+            const [results, metadata] = await sequelize.query(sql)
+            return results.map((t) => {
+                return { name: (t as any).name, descr: '' }
+            })
         }
         return []
     }
@@ -74,7 +89,8 @@ export class DatabaseService {
      * @param sequences
      */
     async getDatabaseMetadata(tables = [], sequences = []) {
-        const { schema, username, password, host, port, dialect } = this.options
+        const { schema, username, password, host, port, dialect, app } =
+            this.options
         const metadata = {
             tables: {},
         }
@@ -104,8 +120,47 @@ export class DatabaseService {
                     metadata.tables[key] = t
                 }
             })
-            nebula.logger.info(`获取数据库表结构：${JSON.stringify(metadata)}`)
+        } else if (dialect === MiddlewareTypes.SQLite) {
+            const appDataPath = ApplicationService.getAppDataSrcPath(app.code)
+            const sequelize = new Sequelize({
+                dialect: 'sqlite',
+                timezone: '+00:00',
+                storage: path.join(appDataPath, host),
+            })
+            for (const tab of tables) {
+                const sql = `PRAGMA table_info(${tab})`
+                const [results] = await sequelize.query(sql)
+                const columns = results.map((c) => {
+                    // {
+                    //     cid: 12,
+                    //     name: 'updated_at',
+                    //     type: 'DATETIME',
+                    //     notnull: 1,
+                    //     dflt_value: null,
+                    //     pk: 0
+                    // }
+                    const { pk, name, notnull, type } = c as any
+                    const mch = new RegExp(/.+\(([\d\,]+)\)/).exec(type)
+                    return {
+                        name: name,
+                        type: type,
+                        comment: '',
+                        default: null,
+                        nullable: notnull !== 1,
+                        identity: pk === 1,
+                        maxLength: mch ? mch[1] : null,
+                    }
+                })
+                metadata.tables[tab] = {
+                    name: tab,
+                    comment: '',
+                    columns,
+                    foreignKeys: [],
+                }
+            }
         }
+        nebula.logger.info(`获取数据库表结构：${JSON.stringify(metadata)}`)
+
         return metadata
     }
 }
