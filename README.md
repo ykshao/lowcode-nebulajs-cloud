@@ -130,4 +130,9 @@ Nebulajs应用是由`SAAS通用模块`和`业务模块`两种方式组合而成�
 
 在线文档： [https://docs.nebulajs.com](https://docs.nebulajs.com)
 
+## 五、技术交流
+
+ * __QQ群__
+
+[![加入QQ群](https://img.shields.io/badge/%E6%AC%A2%E8%BF%8E-893262803-blue.svg)](https://qm.qq.com/q/INqDsH5MsI)  
 

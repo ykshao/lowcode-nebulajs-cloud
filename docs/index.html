@@ -32,13 +32,13 @@
       search: 'auto', // default
       plugins: [
         EditOnGithubPlugin.create(
-          'https://gitee.com/nebulajs/nebulajs-cloud',
+          'https://gitee.com/nebulajs/nebulajs-cloud/',
           null,
           function(file) {
             if (file.indexOf('en') === -1) {
               return '在Gitee上编辑'
             } else {
-              return 'edit on git'
+              return 'edit on gitee'
             }
           }
         )
