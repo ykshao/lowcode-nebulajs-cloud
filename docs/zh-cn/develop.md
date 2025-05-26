@@ -7,7 +7,7 @@
   
     `Sequelize` 是一个基于 promise 的 Node.js ORM, 目前支持 `Postgres`, `MySQL`, `MariaDB`, `SQLite` 以及 `Microsoft SQL Server`. 它具有强大的事务支持, 关联关系, 预读和延迟加载,读取复制等功能。
 
-  * [Amis](https://sequelize.org/)
+  * [Amis](https://aisuda.bce.baidu.com/amis/zh-CN/docs/index)
 
     百度`amis` 是一个低代码前端框架，它使用 `JSON` 配置来生成页面，可以减少页面开发工作量，极大提升效率。
 
