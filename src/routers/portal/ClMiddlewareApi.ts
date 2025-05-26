@@ -27,25 +27,26 @@ export = {
     'put /cl-middleware': async (ctx, next) => {
         ctx.checkRequired(['id'])
         const id = ctx.getParam('id')
-        const { name, hostPort, schema, username, password } = ctx.request.body
+        const { name, hostPort, schema, username, password, dataPath } =
+            ctx.request.body
         const { host, port } = hostPort || {}
         const model = await ClMiddleware.getByPk(id)
         if (!model) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
         const { isExternal, type } = model.dataValues
-        if (isExternal) {
-            model.set({ name, host, port, schema, username, password })
+        if (isExternal || type === 'sqlite') {
+            model.set({
+                name,
+                host,
+                port,
+                schema,
+                username,
+                password,
+                dataPath,
+            })
         } else {
             model.set({ name })
-        }
-
-        if (type === 'sqlite') {
-            const relDbPath = path.join('./db', `${schema}.sqlite`)
-            model.set({
-                host: relDbPath,
-                schema,
-            })
         }
 
         const { dataValues } = await model.save()

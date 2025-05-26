@@ -66,9 +66,8 @@ export class MiddlewareService {
      * @param body
      */
     static async createMiddleware(appId, body: ClMiddleware & { hostPort }) {
-        const { type, isExternal, hostPort, schema } = body
-
-        if (CommonUtils.parseBoolean(isExternal)) {
+        const { type, isExternal, hostPort } = body
+        if (CommonUtils.parseBoolean(isExternal) || type === 'sqlite') {
             // 外部中间件
             return await ClMiddleware.create({
                 ...body,
@@ -76,14 +75,6 @@ export class MiddlewareService {
                 appId,
             })
         } else {
-            if (type === 'sqlite') {
-                const relDbPath = path.join('./db', `${schema}.sqlite`)
-                return await ClMiddleware.create({
-                    ...body,
-                    host: relDbPath,
-                    appId,
-                })
-            }
             // 内部中间件
             const { code, basePort, serverId } = await ClApplication.getByPk(
                 appId

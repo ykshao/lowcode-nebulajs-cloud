@@ -19,6 +19,7 @@
                     "name": "name",
                     "label": "名称",
                     "type": "text",
+                    "width": 160,
                     "id": "u:9e10199a5e64"
                 },
                 {
@@ -67,20 +68,6 @@
                     "id": "u:559556d3ced0"
                 },
                 {
-                    "type": "text",
-                    "label": "用户名",
-                    "width": 140,
-                    "name": "username",
-                    "id": "u:43c3ab1408f4"
-                },
-                {
-                    "type": "text",
-                    "label": "密码",
-                    "width": 200,
-                    "name": "password",
-                    "id": "u:2a1136defb38"
-                },
-                {
                     "type": "mapping",
                     "label": "外部",
                     "name": "isExternal",
@@ -89,8 +76,35 @@
                         "true": "是",
                         "false": "否"
                     },
-                    "width": 80,
+                    "width": 70,
                     "className": "text-center"
+                },
+                {
+                    "type": "text",
+                    "label": "用户名",
+                    "width": 100,
+                    "name": "username",
+                    "id": "u:43c3ab1408f4"
+                },
+                {
+                    "type": "text",
+                    "label": "密码",
+                    "width": 140,
+                    "name": "password",
+                    "id": "u:2a1136defb38"
+                },
+                {
+                    "type": "text",
+                    "label": "数据路径",
+                    "width": 200,
+                    "name": "dataPath",
+                    "id": "u:2a2283defb21",
+                    "textOverflow": "ellipsis",
+                    "style": {
+                        "overflow": "hidden",
+                        "whiteSpace": "nowrap",
+                        "textOverflow": "ellipsis"
+                    }
                 },
                 {
                     "type": "operation",
@@ -98,6 +112,7 @@
                     "width": 120,
                     "align": "center",
                     "id": "u:8266b15ca058",
+                    "fixed": "right",
                     "buttons": [
                         {
                             "label": "编辑",
@@ -151,8 +166,7 @@
                                                 "label": "外部中间件",
                                                 "description": "是否外部中间件。",
                                                 "disabled": true,
-                                                "hiddenOn": "type=='sqlite'",
-                                                "value": "${isExternal}"
+                                                "hiddenOn": "${type=='sqlite'}"
                                             },
                                             {
                                                 "type": "combo",
@@ -190,7 +204,8 @@
                                                 "className": "",
                                                 "inputClassName": "",
                                                 "staticClassName": "",
-                                                "visibleOn": "isExternal=='true' && (type=='mysql'||type=='mongodb'||type=='redis')",
+                                                "disabledOn": "${!isExternal}",
+                                                "visibleOn": "${type=='mysql'||type=='mongodb'||type=='redis'}",
                                                 "required": true
                                             },
                                             {
@@ -199,7 +214,8 @@
                                                 "label": "用户名",
                                                 "id": "u:d8f7f82f4a95",
                                                 "size": "md",
-                                                "visibleOn": "isExternal=='true' && (type=='mysql'||type=='mongodb')"
+                                                "disabledOn": "${!isExternal}",
+                                                "visibleOn": "${type=='mysql'||type=='mongodb'}"
                                             },
                                             {
                                                 "type": "input-text",
@@ -207,7 +223,8 @@
                                                 "label": "密码",
                                                 "id": "u:e28486670509",
                                                 "size": "md",
-                                                "visibleOn": "isExternal=='true' && (type=='mysql'||type=='mongodb'||type=='redis')"
+                                                "disabledOn": "${!isExternal}",
+                                                "visibleOn": "${type=='mysql'||type=='mongodb'||type=='redis'}"
                                             },
                                             {
                                                 "type": "input-text",
@@ -215,8 +232,20 @@
                                                 "label": "数据库",
                                                 "id": "u:4dd6cb68df51",
                                                 "size": "md",
-                                                "description": "数据库名称，缓存填数据库序号如：0",
-                                                "disabledOn": "isExternal==false"
+                                                "required": true,
+                                                "description": "数据库名称，Redis缓存填数据库序号如：0",
+                                                "disabledOn": "${!isExternal && type!='sqlite'}"
+                                            },
+                                            {
+                                                "type": "input-text",
+                                                "name": "dataPath",
+                                                "label": "数据文件",
+                                                "id": "u:4dd6cb68df51",
+                                                "size": "md",
+                                                "visibleOn": "${type=='sqlite'}",
+                                                "description": "数据库文件绝对路径。如：/opt/database/test.sqlite",
+                                                "disabled": false,
+                                                "required": true
                                             }
                                         ],
                                         "id": "u:8cbf696d6024"
@@ -377,7 +406,7 @@
                                     {
                                         "type": "button-group-select",
                                         "name": "isExternal",
-                                        "hiddenOn": "type=='sqlite'",
+                                        "hiddenOn": "${type=='sqlite'}",
                                         "inline": false,
                                         "options": [
                                             {
@@ -404,7 +433,7 @@
                                             {
                                                 "type": "input-text",
                                                 "name": "host",
-                                                "placeholder": "主机",
+                                                "placeholder": "主机名/IP",
                                                 "id": "u:f5e6ed2c9f69",
                                                 "size": "sm",
                                                 "className": "",
@@ -431,16 +460,26 @@
                                         "className": "",
                                         "inputClassName": "",
                                         "staticClassName": "",
-                                        "visibleOn": "isExternal=='true' && (type=='mysql'||type=='mongodb'||type=='redis')",
+                                        "visibleOn": "${isExternal=='true' && (type=='mysql'||type=='mongodb'||type=='redis')}",
                                         "required": true
                                     },
                                     {
                                         "type": "input-text",
                                         "name": "schema",
-                                        "label": "数据库名",
+                                        "label": "数据库",
                                         "id": "u:4dd6cb68df51",
                                         "size": "md",
-                                        "description": "数据库名称，缓存填数据库序号。如：0",
+                                        "description": "数据库名称，Redis缓存填数据库序号。如：0",
+                                        "required": true
+                                    },
+                                    {
+                                        "type": "input-text",
+                                        "name": "dataPath",
+                                        "label": "数据文件",
+                                        "id": "u:4dd6cb68df51",
+                                        "size": "md",
+                                        "visibleOn": "${type=='sqlite'}",
+                                        "description": "数据库文件绝对路径。如：/opt/database/test.sqlite",
                                         "disabled": false,
                                         "required": true
                                     },
@@ -451,7 +490,7 @@
                                         "id": "u:d8f7f82f4a95",
                                         "size": "md",
                                         "className": "m-t-lg",
-                                        "visibleOn": "isExternal=='true' && (type=='mysql'||type=='mongodb')"
+                                        "visibleOn": "${isExternal=='true' && (type=='mysql'||type=='mongodb')}"
                                     },
                                     {
                                         "type": "input-text",
@@ -459,7 +498,7 @@
                                         "label": "密码",
                                         "id": "u:e28486670509",
                                         "size": "md",
-                                        "visibleOn": "isExternal=='true' && (type=='mysql'||type=='mongodb'||type=='redis')"
+                                        "visibleOn": "${isExternal=='true' && (type=='mysql'||type=='mongodb'||type=='redis')}"
                                     }
                                 ],
                                 "id": "u:8cbf696d6024",
@@ -575,6 +614,10 @@
                                             {
                                                 "label": "MySQL",
                                                 "value": "mysql"
+                                            },
+                                            {
+                                                "label": "SQLite",
+                                                "value": "sqlite"
                                             },
                                             {
                                                 "label": "MongoDB",

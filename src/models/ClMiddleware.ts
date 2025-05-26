@@ -22,6 +22,7 @@ export class ClMiddleware extends BaseModel<
     declare host: string
     declare port: string
     declare schema: string
+    declare dataPath: string
     declare isExternal: boolean
     declare username: string
     declare password: string
@@ -60,6 +61,10 @@ export class ClMiddleware extends BaseModel<
                 schema: {
                     type: DataTypes.STRING,
                     comment: '数据库名',
+                },
+                dataPath: {
+                    type: DataTypes.STRING,
+                    comment: '数据文件路径',
                 },
                 isExternal: {
                     type: DataTypes.BOOLEAN,

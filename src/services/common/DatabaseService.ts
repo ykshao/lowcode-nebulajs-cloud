@@ -15,16 +15,36 @@ export class DatabaseService {
 
     constructor(options) {
         options.dialect = options.dialect || options.type
-        const { schema, username, password, host, port, dialect } = options
-        this.options = options
-        this.sequelize = new Sequelize(schema, username, password, {
+        const {
+            schema,
+            username,
+            password,
             host,
             port,
             dialect,
-            logging: (msg) => {
-                nebula.logger.debug(msg)
-            },
-        })
+            dataPath,
+            app,
+        } = options
+        this.options = options
+        if (dialect === MiddlewareTypes.SQLite) {
+            this.sequelize = new Sequelize({
+                dialect: 'sqlite',
+                timezone: '+00:00',
+                storage: dataPath,
+                logging: (msg) => {
+                    nebula.logger.debug(msg)
+                },
+            })
+        } else {
+            this.sequelize = new Sequelize(schema, username, password, {
+                host,
+                port,
+                dialect,
+                logging: (msg) => {
+                    nebula.logger.debug(msg)
+                },
+            })
+        }
     }
 
     /**
@@ -53,7 +73,9 @@ export class DatabaseService {
         if (dialect === MiddlewareTypes.MySQL) {
             // 需要指定小写列名，可能会区分大小写
             const ret = await this.sequelize.query(
-                'select table_name as table_name, table_comment as table_comment from information_schema.tables where table_schema = :schema',
+                'select table_name as table_name, table_comment as table_comment ' +
+                    'from information_schema.tables ' +
+                    'where table_schema = :schema',
                 {
                     raw: true,
                     type: QueryTypes.SELECT,
@@ -74,7 +96,7 @@ export class DatabaseService {
                 timezone: '+00:00',
                 storage: path.join(appDataPath, host),
             })
-            const sql = "select name from sqlite_master where type='table'"
+            const sql = "select name from sqlite_master where type = 'table'"
             const [results, metadata] = await sequelize.query(sql)
             return results.map((t) => {
                 return { name: (t as any).name, descr: '' }
@@ -121,15 +143,9 @@ export class DatabaseService {
                 }
             })
         } else if (dialect === MiddlewareTypes.SQLite) {
-            const appDataPath = ApplicationService.getAppDataSrcPath(app.code)
-            const sequelize = new Sequelize({
-                dialect: 'sqlite',
-                timezone: '+00:00',
-                storage: path.join(appDataPath, host),
-            })
             for (const tab of tables) {
                 const sql = `PRAGMA table_info(${tab})`
-                const [results] = await sequelize.query(sql)
+                const [results] = await this.sequelize.query(sql)
                 const columns = results.map((c) => {
                     // {
                     //     cid: 12,
