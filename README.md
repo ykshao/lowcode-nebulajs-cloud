@@ -1,7 +1,7 @@
 <p align="center">
 	<img width="100" alt="logo" src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fnebulajs.png">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Nebulajs 低代码开发平台 v1.0.0</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Nebulajs 低代码开发平台</h1>
 <h4 align="center">基于Node.js + Amis开发的SAAS化低代码快速开发平台</h4>
 <!-- p align="center">
 	<a href="https://gitee.com/y_project/RuoYi/stargazers"><img src="https://gitee.com/y_project/RuoYi/badge/star.svg?theme=gvp"></a>
