@@ -27,7 +27,7 @@ async function packageTarGz(withNodeModules) {
     await cmd.execAsShell('tar', [
         '-zcvf',
         archivePath,
-        '.version bin cert cli dist docs static templates views .npmrc ecosystem.config.js package.json',
+        '.version bin res cli dist docs static templates views .npmrc ecosystem.config.js package.json',
         withNodeModules ? 'node_modules' : '',
     ])
     return archivePath
