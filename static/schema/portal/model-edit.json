@@ -191,7 +191,7 @@
                                                 "value": "COMPANY"
                                             },
                                             {
-                                                "label": "所有人可见",
+                                                "label": "本应用所有用户可见",
                                                 "value": "ALL"
                                             }
                                         ],
