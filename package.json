@@ -43,7 +43,7 @@
         "nebulajs-oauth2-server": "^1.0.0",
         "nebulajs-camunda-sdk": "7.7.10",
         "axios": "^1.1.3",
-        "bcrypt": "^5.1.1",
+        "bcryptjs": "^3.0.2",
         "bpmn-auto-layout": "0.4.0",
         "bpmn-moddle": "^8.1.0",
         "c-promise2": "^0.13.12",

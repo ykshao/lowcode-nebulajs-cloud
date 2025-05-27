@@ -1,5 +1,5 @@
 import randomstring from 'randomstring'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { NebulaBizError, NebulaErrors, QueryParser } from 'nebulajs-core'
 import { UserService } from '../../services/app/UserService'
 import { UserErrors } from '../../config/errors'
@@ -113,8 +113,8 @@ export = {
         const { login } = ctx.request.body
         const newPassword = randomstring.generate(16)
         const userModel = await AppUser.getByUniqueKey('login', login)
-        const salt = await bcrypt.genSalt(10)
-        const newHash = await bcrypt.hash(newPassword, salt)
+        const salt = await bcrypt.genSaltSync(10)
+        const newHash = await bcrypt.hashSync(newPassword, salt)
         userModel.set({ password: newHash })
         await userModel.save()
         ctx.ok({ newPassword })
@@ -203,13 +203,13 @@ export = {
         )
 
         // 验证旧密码
-        const result = await bcrypt.compare(password, currUser.password)
+        const result = await bcrypt.compareSync(password, currUser.password)
         if (!result) {
             throw new NebulaBizError(UserErrors.InvalidPassword)
         }
 
-        const salt = await bcrypt.genSalt(10)
-        const newHash = await bcrypt.hash(newPassword, salt)
+        const salt = await bcrypt.genSaltSync(10)
+        const newHash = await bcrypt.hashSync(newPassword, salt)
         currUser.set({ password: newHash })
         await currUser.save()
         ctx.ok()

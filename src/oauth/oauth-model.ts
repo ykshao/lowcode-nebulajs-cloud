@@ -1,4 +1,5 @@
 import moment from 'moment'
+import bcrypt from 'bcryptjs'
 import { Cache, DataStatus, OAuthGrantTypes } from '../config/constants'
 import { OAuthError } from 'nebulajs-oauth2-server'
 import { auth } from '../config/env'
@@ -6,7 +7,6 @@ import { AppUser } from '../models/AppUser'
 import { ClApplication } from '../models/ClApplication'
 import { UserService } from '../services/app/UserService'
 
-const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 module.exports = {
@@ -89,7 +89,7 @@ module.exports = {
             })
         }
         const { login, password: hashPassword, id } = user
-        const result = await bcrypt.compare(password, hashPassword)
+        const result = await bcrypt.compareSync(password, hashPassword)
         if (!result) {
             return null
         }

@@ -3,8 +3,7 @@ import { ApplicationErrors, UserErrors } from '../../config/errors'
 import { UserService } from '../../services/app/UserService'
 import { AuthUtils } from 'nebulajs-core/lib/utils'
 import { Cookies } from '../../config/constants'
-
-const bcrypt = require('bcrypt')
+import bcrypt from 'bcryptjs'
 
 module.exports = {
     /**
@@ -160,8 +159,8 @@ module.exports = {
     //         throw new NebulaBizError(UserErrors.UserLoginExist)
     //     }
     //
-    //     const salt = await bcrypt.genSalt(10)
-    //     const hash = await bcrypt.hash(password, salt)
+    //     const salt = await bcrypt.genSaltSync(10)
+    //     const hash = await bcrypt.hashSync(password, salt)
     //     const { dataValues } = await ClUser.create(
     //         {
     //             login,

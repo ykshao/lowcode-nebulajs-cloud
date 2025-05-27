@@ -1,5 +1,5 @@
 import { NebulaBizError, NebulaErrors } from 'nebulajs-core'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { Sequelize, Op } from 'sequelize'
 import { Constants, DataStatus } from '../../config/constants'
 import { AppUser } from '../../models/AppUser'
@@ -93,8 +93,8 @@ export class UserService {
             }
 
             const defaultPwd = '12345678'
-            const salt = await bcrypt.genSalt(10)
-            const hash = await bcrypt.hash(defaultPwd, salt)
+            const salt = await bcrypt.genSaltSync(10)
+            const hash = await bcrypt.hashSync(defaultPwd, salt)
             model = await AppUser.create(
                 {
                     appId,
@@ -264,8 +264,8 @@ export class UserService {
      * @param transaction
      */
     static async createDefaultAdminAndRole(appId, transaction) {
-        const salt = await bcrypt.genSalt(10)
-        const passwordHash = await bcrypt.hash(
+        const salt = await bcrypt.genSaltSync(10)
+        const passwordHash = await bcrypt.hashSync(
             Constants.DEFAULT_ADMIN_PASSWORD,
             salt
         )
