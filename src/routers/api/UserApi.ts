@@ -25,11 +25,17 @@ export = {
                         'parentId',
                         'isComp',
                     ],
+                    where: {
+                        status: DataStatus.ENABLED,
+                    },
                 },
                 {
                     model: AppRole,
                     as: 'roles',
                     attributes: ['id', 'code', 'name'],
+                    where: {
+                        status: DataStatus.ENABLED,
+                    },
                 },
             ],
         })
