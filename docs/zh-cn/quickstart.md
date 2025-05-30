@@ -45,7 +45,7 @@ export NEBULA_DATA_PATH=/opt/nebula-data
 
 ## 2.中间件配置
 ---
-Nebula Cloud启动时会依赖部分第三方中间件，使平台的性能及扩展性更好。如：关系数据库、缓存、KV数据库等。
+Nebulajs Cloud启动时会依赖部分第三方中间件，使平台的性能及扩展性更好。如：关系数据库、缓存、KV数据库等。
 中间件的配置可以在各环境配置中修改。环境配置文件存放在`src/config/env/`目录下，可以自行修改。如：`dev.ts`、`prod.ts`
 
 #### 2.1 中间件配置
@@ -272,7 +272,7 @@ app: {
 
 #### 4.1 DockerSocat启动
 
-Nebulajs平台使用`Socat`和`Docker`服务器通信。
+Nebulajs Cloud平台使用`Socat`和`Docker`服务器通信。
 
 ```shell
 docker run -d --name socat-local --restart always -p 127.0.0.1:2375:2375 -v /var/run/docker.sock:/var/run/docker.sock alpine/socat tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock

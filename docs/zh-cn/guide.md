@@ -3,7 +3,7 @@
 ## 1. 创建一个应用
 ---
 
-Nebulajs是一个云应用平台，用户可以在平台托管多个应用。登录后在应用列表中创建一个应用，根据实际情况选择需要的功能模块。如：分布式文件存储（`Minio`）和工作流（`Camunda`）需要部署对应的第三方中间件。
+Nebulajs Cloud是一个云应用平台，用户可以在平台托管多个应用。登录后在应用列表中创建一个应用，根据实际情况选择需要的功能模块。如：分布式文件存储（`Minio`）和工作流（`Camunda`）需要部署对应的第三方中间件。
 
 * __文件存储__
 
@@ -17,15 +17,14 @@ Nebulajs是一个云应用平台，用户可以在平台托管多个应用。登
 
   > Camunda7社区版工作流部署请参考 [https://docs.camunda.org/manual/7.23/installation/](https://docs.camunda.org/manual/7.23/installation/)
 
-![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot/1211747538227_.pic.jpg)
+![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1961748565483_.pic.jpg)
 
 ## 2. 创建一个模型
 ---
 
 选择`模型`菜单，在模型列表中创建一个模型，并设置基本属性和字段。如果是现有的数据库表也可以选择`从数据库中导入`，导入时需要先把数据库信息填加到平台的外部中间件中。
 
-![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1181747479467_.pic.jpg)
-
+![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1971748565532_.pic.jpg)
 #### 2.1 基本信息
 
 设置模型的名称、描述、权限、流程等信息。
@@ -46,7 +45,7 @@ Nebulajs是一个云应用平台，用户可以在平台托管多个应用。登
 
 设置模型的字段信息，如：长度、类型、是否可查询等。
 
-![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1191747480447_.pic.jpg)
+![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1981748565546_.pic.jpg)
 
 * __可为空：__
   数据库和表单字段可为空，保存或更新时无需校验。
@@ -135,7 +134,7 @@ Nebulajs是一个云应用平台，用户可以在平台托管多个应用。登
 
   生成应用代码时，是否将本模块的页面自动挂载到系统菜单。
 
-![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1201747480447_.pic.jpg)
+![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1991748565583_.pic.jpg)
 
 ## 4. 应用配置
 ---
@@ -223,8 +222,7 @@ npm run dev
 选择`实例`菜单，可以查看当前应用所有实例的运行状态、版本、地址和端口。点击`创建实例`可以创建新的应用实例，选择对应的配置和应用版本，每个环境只可以启动一个实例。
 用户可以通过主机地址可以直接访问应用。
 
-![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1581747912911_.pic.jpg)
-
+![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F2001748565621_.pic.jpg)
 
 #### 8.1 实例详情
 
@@ -239,7 +237,7 @@ npm run dev
 * __停止__ ：停止实例。
 
 
-![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot/1591747912938_.pic.jpg)
+![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F2011748568604_.pic.jpg)
 
 ## 9. 任务调度
 ---

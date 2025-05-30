@@ -84,7 +84,7 @@ export class CamundaService {
     async createDeployment({ name, source }): Promise<CamundaTypes.Deployment> {
         return deploymentApi.create({
             deploymentName: name,
-            deploymentSource: 'Nebula Cloud',
+            deploymentSource: 'Nebulajs Cloud',
             files: [{ name: `${name}.bpmn20.xml`, content: source }],
             tenantId: this.tenantId,
         })
