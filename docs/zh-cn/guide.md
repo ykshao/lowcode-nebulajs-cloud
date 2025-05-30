@@ -185,6 +185,30 @@ Nebulajs Cloud是一个云应用平台，用户可以在平台托管多个应用
 
 <img style="border: 1px solid #ddd" src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1571747907402_.pic.jpg">
 
+#### 5.1 主数据库
+
+  配置程序主数据库（请先建立相应的中间件）。
+
+#### 5.1 数据缓存
+
+  配置程序缓存（可选，请先建立相应的中间件）。
+
+#### 5.1 日志级别
+  
+  配置程序的日志打印级别（调试、信息、警告、错误）。
+
+#### 5.1 认证方式
+
+ <img width="400" style="border: 1px solid #eee" src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F2021748570006_.pic.jpg"/>
+
+ * __无__ ： 无认证方式，用户可以直接访问所有页面。
+
+ * __Nebula__ ： 使用Nebula平台的用户登录。
+
+ * __OAUTH__ ：使用OAUTH认证方式，一般用于和其他应用做用户集成。
+
+ * __CAS__ ：使用第三方CAS统一登录系统。如：[casdoor](https://www.casdoor.com/)
+
 ## 6. 启动开发工具
 ---
 

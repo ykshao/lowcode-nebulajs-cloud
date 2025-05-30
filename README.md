@@ -87,11 +87,11 @@ Nebulajs Cloud应用是由`SAAS通用模块`和`业务模块`两种方式组合�
 
 </table>
 
-#### 3.2 代码编辑器
-![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1481747832488_.pic.jpg?imageMogr2/thumbnail/1920x/format/webp/interlace/0/quality/100)
-
-#### 3.3 页面编辑器
+#### 3.2 页面编辑器
 ![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1531747906033_.pic.jpg?imageMogr2/thumbnail/1920x/format/webp/interlace/0/quality/100)
+
+#### 3.3 代码编辑器
+![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1481747832488_.pic.jpg?imageMogr2/thumbnail/1920x/format/webp/interlace/0/quality/100)
 
 #### 3.4 流程设计器
 ![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1781748086853_.pic.jpg?imageMogr2/thumbnail/1920x/format/webp/interlace/0/quality/100)
