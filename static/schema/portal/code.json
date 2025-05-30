@@ -175,14 +175,14 @@
                                         },
                                         {
                                             "type": "button",
-                                            "label": "更新程序模板",
+                                            "label": "重新生成应用",
                                             "actionType": "ajax",
-                                            "confirmText": "<div style='line-height:1.7em;letter-spacing:0.05em'>即将使用Nebula中最新的程序模板<b style='color:red'>重新生成应用</b>，该操作会导致<b style='color:red'>本地代码被覆盖</b>，请确认本地代码已经提交到仓库。</div>",
+                                            "confirmText": "<div style='line-height:1.7em;letter-spacing:0.05em'>使用Nebula Cloud中最新的程序模板<b style='color:red'>重新生成应用</b>，该操作会导致<b style='color:red'>本地代码被覆盖</b>，请确认本地代码已经提交到仓库。</div>",
                                             "api": {
                                                 "method": "post",
                                                 "url": "/portal/cl-application/recreate?appId=${appInfo.appId}",
                                                 "messages": {
-                                                    "success": "升级应用程序模板成功"
+                                                    "success": "升级应用程序成功，请在代码编辑器中查看应用变动。"
                                                 }
                                             },
                                             "level": "danger"
