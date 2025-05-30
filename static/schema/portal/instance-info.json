@@ -307,6 +307,7 @@
                                         {
                                             "type": "static",
                                             "label": "运行环境：",
+                                            "visibleOn": "${type=='app'}",
                                             "id": "u:35d93c93ebf3",
                                             "tpl": "<span class='nb-tag warning'>${env | upperCase}</span>"
                                         },

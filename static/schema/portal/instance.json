@@ -47,10 +47,21 @@
                     "tpl": "${host}:${split(ports, ',')[0]}"
                 },
                 {
-                    "type": "tpl",
+                    "type": "container",
                     "label": "环境",
                     "name": "env",
-                    "tpl": "<span class='nb-tag info'>${env | upperCase}</span>",
+                    "body": [
+                        {
+                            "type": "tpl",
+                            "visibleOn": "${env}",
+                            "tpl": "<span class='nb-tag info'>${env | upperCase}</span>"
+                        },
+                        {
+                            "type": "tpl",
+                            "visibleOn": "${!env}",
+                            "tpl": "-"
+                        }
+                    ],
                     "align": "center",
                     "id": "u:775d6de64b79"
                 },
