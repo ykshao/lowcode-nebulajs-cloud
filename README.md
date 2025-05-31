@@ -1,7 +1,7 @@
 <p align="center">
 	<img width="100" alt="logo" src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fnebulajs.png">
 </p>
-<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Nebulajs Cloud低代码开发平台</h1>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;color:red;">Nebulajs Cloud低代码开发平台</h1>
 <h4 align="center">基于Node.js + Amis开发的SAAS化低代码快速开发平台</h4>
 <!-- p align="center">
 	<a href="https://gitee.com/y_project/RuoYi/stargazers"><img src="https://gitee.com/y_project/RuoYi/badge/star.svg?theme=gvp"></a>
@@ -10,6 +10,25 @@
 </p!-->
 
 ---
+
+
+## 先听我说：
+<h4 style="color: #cccccc;font-weight: bold;">
+网上的低代码平台大都是基于`Java`开发的。本平台使用Node.js作为开发语言，除了开发效率可以碾压Java，还可以给只会JS的同学使用。
+</h4>
+
+* __如果您使用`Node.js`开发__
+* __如果您是前端`Javascript`开发人员__
+* __如果您厌倦了`Java`开发__
+
+<h4 style="color: #cccccc;font-weight: bold;">
+请试试这一款吧。开源不易请点个Star吧。
+</h4>
+
+
+##
+##
+
 
 ## 一、平台说明
 Nebulajs Cloud是一个基于`Node.js`的低码云平台。它适用于多种不同类型企业的多样化场景企业应用开发、系统项目实施与数字化建设。
