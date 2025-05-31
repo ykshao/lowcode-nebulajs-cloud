@@ -25,15 +25,8 @@
         "gen-docs": "node ./cli/gen-docs.js"
     },
     "nodemonConfig": {
-        "ignore": [
-            "node_modules/**",
-            "templates/**",
-            "static/**",
-            "schema/**",
-            "data/**",
-            "logs/**",
-            "src/**",
-            "package.json"
+        "watch": [
+            "dist/"
         ]
     },
     "dependencies": {
