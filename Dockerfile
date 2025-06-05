@@ -21,12 +21,10 @@ RUN rm -rf /etc/localtime && ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localt
 
 # 把当前目录下所有的文件拷贝到 Image 的 /usr/local/app/目录下
 COPY bin /usr/local/nebula/bin
-COPY cert /usr/local/nebula/cert
 COPY cli /usr/local/nebula/cli
 COPY dist /usr/local/nebula/dist
 COPY docs /usr/local/nebula/docs
-COPY lib /usr/local/nebula/lib
-COPY schema /usr/local/nebula/schema
+COPY schema /usr/local/nebula/res
 COPY static /usr/local/nebula/static
 COPY templates /usr/local/nebula/templates
 COPY views /usr/local/nebula/views
