@@ -1,5 +1,12 @@
-# Nebulajs Cloud云开发平台
 
+<p align="center">
+	<img width="100" alt="logo" src="https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fnebulajs.png">
+</p>
+<h1 align="center" style="margin: 30px 0 30px; font-weight: bold;">Nebulajs Cloud低代码平台</h1>
+<h4 align="center">基于Node.js + Amis开发的SAAS化低代码快速开发平台</h4>
+
+   `Nebulajs Cloud`应用是由`SAAS通用模块`和`业务模块`两种方式组合而成的。`SAAS通用模块`由云平台统一提供，无需代码生成。如：系统管理、流程管理等功能。
+`业务模块`则是由用户设置模型属性后进行代码生成，用户可以对其进行灵活地`定制和开发`。
 `Nebulajs Cloud`是一个基于`Node.js`的低代码云平台。它适用于多种不同类型企业的多样化场景企业应用开发、系统项目实施与数字化建设。
 主要功能如下：
 
@@ -12,10 +19,10 @@
  * 页面设计：集成 [百度Amis](https://aisuda.bce.baidu.com/amis/zh-CN/docs/index) 设计器，支持在线设计页面。
  * 在线调试：集成WEB版`VSCODE`编辑器，可以在线启动调试应用。
  * 云环境：通过Docker方便地启动所依赖的中间件。
-    * `MySQL`：关系数据库
-    * `SQLite`：本地关系数据库
-    * `Redis`：分布式缓存
-    * `MongoDB`：KV数据库
+    * __MySQL__ ：关系数据库
+    * __SQLite__ ：本地关系数据库
+    * __Redis__ ：分布式缓存
+    * __MongoDB__ ：KV数据库
 
 ## 运行维护
 * 打包构建：应用版本管理，将应用构建为为`Docker`镜像。
@@ -53,6 +60,6 @@ Nebulajs Cloud应用是由`SAAS通用模块`和`业务模块`两种方式组合�
 
 ### 页面定制
 
-页面展示采用了[百度amis](https://aisuda.bce.baidu.com/amis/zh-CN/docs/index)高度定制化模块，并附加配套的页面编辑器，真正达到`0`代码定制页面的效果。
+页面展示采用了[百度Amis](https://aisuda.bce.baidu.com/amis/zh-CN/docs/index)高度定制化模块，并附加配套的页面编辑器，真正达到`0`代码定制页面的效果。
 
 
