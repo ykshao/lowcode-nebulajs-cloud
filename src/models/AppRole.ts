@@ -86,7 +86,7 @@ export class AppRole extends BaseModel<
                     defaultValue: DataStatus.ENABLED,
                 },
                 appId: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.UUID,
                     comment: '应用ID',
                 },
             },

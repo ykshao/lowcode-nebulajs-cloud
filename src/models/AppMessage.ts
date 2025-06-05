@@ -98,7 +98,7 @@ export class AppMessage extends BaseModel<
                     defaultValue: '{}',
                 },
                 appId: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.UUID,
                     comment: '应用ID',
                     allowNull: false,
                 },

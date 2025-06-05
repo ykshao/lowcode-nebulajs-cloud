@@ -49,7 +49,7 @@ export class AppProcessGroup extends BaseModel<
                     comment: '备注',
                 },
                 appId: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.UUID,
                     comment: '应用ID',
                 },
             },

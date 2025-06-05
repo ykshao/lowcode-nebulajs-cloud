@@ -56,7 +56,7 @@ export class ClAppInfo extends BaseModel<
                     comment: 'VSCODE密码',
                 },
                 appId: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.UUID,
                     comment: '应用ID',
                     unique: true,
                 },

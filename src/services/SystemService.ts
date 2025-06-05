@@ -17,7 +17,7 @@ export class SystemService {
             const results = await nebula.sequelize.query(
                 'select table_name as table_name, table_comment as table_comment ' +
                     'from information_schema.tables ' +
-                    'where table_schema = :schema',
+                    'where table_schema = :schema and table_name like "cl_%"',
                 {
                     raw: true,
                     type: QueryTypes.SELECT,

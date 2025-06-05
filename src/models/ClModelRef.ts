@@ -65,7 +65,7 @@ export class ClModelRef extends BaseModel<
                     comment: '别名',
                 },
                 appId: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.UUID,
                     comment: '应用ID',
                     allowNull: false,
                 },
