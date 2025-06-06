@@ -71,8 +71,7 @@ module.exports = {
             setting: {},
             apps: rows,
             currentApp: appModel.dataValues,
-            docURL: '',
-            // docURL: nebula.config.app.docURL,
+            docURL: 'https://docs.nebulajs.com/',
         })
     },
 }

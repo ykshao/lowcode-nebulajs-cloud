@@ -24,7 +24,7 @@ COPY bin /usr/local/nebula/bin
 COPY cli /usr/local/nebula/cli
 COPY dist /usr/local/nebula/dist
 COPY docs /usr/local/nebula/docs
-COPY schema /usr/local/nebula/res
+COPY res /usr/local/nebula/res
 COPY static /usr/local/nebula/static
 COPY templates /usr/local/nebula/templates
 COPY views /usr/local/nebula/views
