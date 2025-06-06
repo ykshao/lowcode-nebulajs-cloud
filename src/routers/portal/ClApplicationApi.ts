@@ -272,7 +272,7 @@ export = {
         })
     },
 
-    'post /cl-application/pull': async function (ctx, next) {
+    'post /cl-application/code/pull': async function (ctx, next) {
         const model = await ApplicationService.getCurrentApplication(ctx)
         if (!model) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
@@ -282,13 +282,22 @@ export = {
         ctx.ok()
     },
 
-    'post /cl-application/push': async function (ctx, next) {
+    'post /cl-application/code/push': async function (ctx, next) {
         const model = await ApplicationService.getCurrentApplication(ctx)
         if (!model) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
         await ApplicationService.pushAppCode(model)
         ctx.ok()
+    },
+
+    'get /cl-application/code/download': async function (ctx, next) {
+        const model = await ApplicationService.getCurrentApplication(ctx)
+        if (!model) {
+            return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
+        }
+        await ApplicationService.downloadAppCode(model, ctx)
+        // ctx.ok()
     },
 
     'post /cl-application/info': async (ctx, next) => {

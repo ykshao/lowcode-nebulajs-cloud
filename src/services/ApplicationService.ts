@@ -3,6 +3,7 @@ import crypto from 'crypto'
 import randomstring from 'randomstring'
 import fs from 'fs'
 import ejs from 'ejs'
+import archiver from 'archiver'
 import swaggerJSDoc from 'swagger-jsdoc'
 import { FileUtil } from '../utils/file-util'
 import { Op, Model } from 'sequelize'
@@ -17,7 +18,12 @@ import {
     InstanceStatus,
     MiddlewareTypes,
 } from '../config/constants'
-import { BaseModel, NebulaBizError, NebulaRouter } from 'nebulajs-core'
+import {
+    BaseModel,
+    NebulaBizError,
+    NebulaKoaContext,
+    NebulaRouter,
+} from 'nebulajs-core'
 import { ApplicationErrors } from '../config/errors'
 import YAML from 'yaml'
 import moment from 'moment'
@@ -957,6 +963,69 @@ export class ApplicationService {
             appInfo.gitUrl
         )
         await gitService.push(gitAuth)
+    }
+
+    static async downloadAppCode(
+        appModel: ClApplication,
+        ctx: NebulaKoaContext
+    ) {
+        const appFolder = ApplicationService.getAppDataPath(appModel.code)
+        const srcFolder = path.join(appFolder, 'src')
+        const archive = archiver('zip', {
+            zlib: { level: 9 }, // Sets the compression level.
+        })
+        const excludeSrcFolders = [
+            '.idea',
+            '.vscode',
+            '.git',
+            'node_modules',
+            'db',
+            'logs',
+        ]
+        const isExcludePath = (srcPath: string, realPath: string) => {
+            const fileObj = fs.statSync(realPath)
+            for (const ex of excludeSrcFolders) {
+                if (
+                    fileObj.isDirectory() &&
+                    realPath === path.join(srcPath, ex)
+                ) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        // 设置响应头，告诉浏览器下载文件
+        ctx.attachment(`${appModel.code}_SRC.zip`)
+        ctx.res.writeHead(200, {
+            'Content-Type': 'application/zip, application/octet-stream',
+            'Content-Disposition': `attachment; filename=${appModel.code}_SRC.zip`,
+        })
+        ctx.set('Access-Control-Expose-Headers', 'Content-Disposition')
+
+        // 监听归档过程中的错误事件
+        archive.on('error', (err) => {
+            throw err
+        })
+
+        // archive.pipe(zipFile)
+        archive.pipe(ctx.res)
+
+        const dir = fs.readdirSync(srcFolder)
+        for (const item of dir) {
+            const filePath = path.join(srcFolder, item)
+            const fileObj = fs.statSync(filePath)
+            if (!isExcludePath(srcFolder, filePath)) {
+                if (fileObj.isFile()) {
+                    archive.file(filePath, { name: item })
+                } else if (fileObj.isDirectory()) {
+                    archive.directory(filePath, item)
+                }
+            }
+        }
+
+        // 完成归档文件的创建
+        await archive.finalize()
     }
 
     static getSwaggerType(type) {

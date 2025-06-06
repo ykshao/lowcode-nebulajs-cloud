@@ -24,6 +24,102 @@
                             "type": "container",
                             "body": [
                                 {
+                                    "type": "button",
+                                    "label": "",
+                                    "icon": "nb-icon nb-icon-7yijianfankui",
+                                    "id": "u:ff5e638428ce",
+                                    "className": "ptl-develop-repo-edit",
+                                    "onEvent": {
+                                        "click": {
+                                            "actions": [
+                                                {
+                                                    "dialog": {
+                                                        "type": "dialog",
+                                                        "title": "设置仓库",
+                                                        "body": [
+                                                            {
+                                                                "type": "form",
+                                                                "title": "表单",
+                                                                "labelWidth": 50,
+                                                                "api": {
+                                                                    "method": "post",
+                                                                    "url": "/portal/cl-application/info?git=true",
+                                                                    "messages":{
+                                                                        "success": "保存成功"
+                                                                    }
+                                                                },
+                                                                "body": [
+                                                                    {
+                                                                        "label": "地址",
+                                                                        "type": "input-text",
+                                                                        "name": "gitUrl",
+                                                                        "id": "u:ab5d1c7527cb",
+                                                                        "required": true,
+                                                                        "description": "应用代码的Git地址"
+                                                                    },
+                                                                    {
+                                                                        "type": "input-text",
+                                                                        "label": "用户名",
+                                                                        "name": "gitUsername",
+                                                                        "id": "u:3f5gfe03942c",
+                                                                        "size": "sm",
+                                                                        "required": true,
+                                                                        "description": "应用代码的Git用户名"
+                                                                    },
+                                                                    {
+                                                                        "type": "input-password",
+                                                                        "label": "密码",
+                                                                        "name": "gitPassword",
+                                                                        "id": "u:8d9vfe03384f",
+                                                                        "size": "sm",
+                                                                        "required": true,
+                                                                        "description": "应用代码的Git密码"
+                                                                    },
+                                                                    {
+                                                                        "type": "input-text",
+                                                                        "label": "分支",
+                                                                        "name": "gitBranch",
+                                                                        "id": "u:2c5cfe03107c",
+                                                                        "size": "sm",
+                                                                        "required": true,
+                                                                        "value": "master",
+                                                                        "description": "应用代码的Git分支"
+                                                                    }
+                                                                ],
+                                                                "id": "u:3ed5d8bf059d",
+                                                                "onEvent": {
+                                                                    "submitSucc": {
+                                                                        "weight": 0,
+                                                                        "actions": [
+                                                                            {
+                                                                                "actionType": "reload",
+                                                                                "componentId": "u:7164b4b64650"
+                                                                            }
+                                                                        ]
+                                                                    }
+                                                                }
+                                                            }
+                                                        ],
+                                                        "showCloseButton": true,
+                                                        "showErrorMsg": false,
+                                                        "showLoading": true,
+                                                        "id": "u:f74220687edb",
+                                                        "closeOnEsc": false,
+                                                        "dataMapSwitch": false,
+                                                        "data": {
+                                                            "gitUrl": "${appInfo.gitUrl}",
+                                                            "gitBranch": "${appInfo.gitBranch}",
+                                                            "gitUsername": "${appInfo.gitUsername}",
+                                                            "gitPassword": "${appInfo.gitPassword}"
+                                                        }
+                                                    },
+                                                    "actionType": "dialog"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
                                     "type": "tpl",
                                     "tpl": "代码仓库",
                                     "inline": true,
@@ -57,121 +153,50 @@
                                             "wrapperComponent": ""
                                         },
                                         {
-                                            "type": "button",
-                                            "label": "设置",
-                                            "onEvent": {
-                                                "click": {
-                                                    "actions": [
-                                                        {
-                                                            "dialog": {
-                                                                "type": "dialog",
-                                                                "title": "设置仓库",
-                                                                "body": [
-                                                                    {
-                                                                        "type": "form",
-                                                                        "title": "表单",
-                                                                        "labelWidth": 50,
-                                                                        "api": {
-                                                                            "method": "post",
-                                                                            "url": "/portal/cl-application/info?git=true",
-                                                                            "messages":{
-                                                                                "success": "保存成功"
-                                                                            }
-                                                                        },
-                                                                        "body": [
-                                                                            {
-                                                                                "label": "地址",
-                                                                                "type": "input-text",
-                                                                                "name": "gitUrl",
-                                                                                "id": "u:ab5d1c7527cb",
-                                                                                "required": true,
-                                                                                "description": "应用代码的Git地址"
-                                                                            },
-                                                                            {
-                                                                                "type": "input-text",
-                                                                                "label": "用户名",
-                                                                                "name": "gitUsername",
-                                                                                "id": "u:3f5gfe03942c",
-                                                                                "size": "sm",
-                                                                                "required": true,
-                                                                                "description": "应用代码的Git用户名"
-                                                                            },
-                                                                            {
-                                                                                "type": "input-password",
-                                                                                "label": "密码",
-                                                                                "name": "gitPassword",
-                                                                                "id": "u:8d9vfe03384f",
-                                                                                "size": "sm",
-                                                                                "required": true,
-                                                                                "description": "应用代码的Git密码"
-                                                                            },
-                                                                            {
-                                                                                "type": "input-text",
-                                                                                "label": "分支",
-                                                                                "name": "gitBranch",
-                                                                                "id": "u:2c5cfe03107c",
-                                                                                "size": "sm",
-                                                                                "required": true,
-                                                                                "value": "master",
-                                                                                "description": "应用代码的Git分支"
-                                                                            }
-                                                                        ],
-                                                                        "id": "u:3ed5d8bf059d"
-                                                                    }
-                                                                ],
-                                                                "showCloseButton": true,
-                                                                "showErrorMsg": false,
-                                                                "showLoading": true,
-                                                                "id": "u:f74220687edb",
-                                                                "closeOnEsc": false,
-                                                                "dataMapSwitch": false,
-                                                                "data": {
-                                                                    "gitUrl": "${appInfo.gitUrl}",
-                                                                    "gitBranch": "${appInfo.gitBranch}",
-                                                                    "gitUsername": "${appInfo.gitUsername}",
-                                                                    "gitPassword": "${appInfo.gitPassword}"
-                                                                }
-                                                            },
-                                                            "actionType": "dialog"
-                                                        }
-                                                    ]
-                                                }
-                                            },
-                                            "id": "u:5737fc00758e",
-                                            "className": "m-r-sm",
-                                            "level": "enhance"
-                                        },
-                                        {
-                                            "type": "button",
-                                            "label": "拉取代码",
-                                            "actionType": "ajax",
-                                            "api": {
-                                                "url": "/portal/cl-application/pull",
-                                                "method": "post",
-                                                "messages": {
-                                                    "success": "拉取应用代码成功"
-                                                }
-                                            },
-                                            "id": "u:ff5e638428ce",
+                                            "type": "dropdown-button",
+                                            "label": "应用代码",
                                             "className": "m-r-sm",
                                             "level": "enhance",
-                                            "reload": "u:7164b4b64650"
-                                        },
-                                        {
-                                            "type": "button",
-                                            "label": "推送代码",
-                                            "actionType": "ajax",
-                                            "api": {
-                                                "url": "/portal/cl-application/push",
-                                                "method": "post",
-                                                "messages": {
-                                                    "success": "推送应用代码成功"
+                                            "buttons": [
+                                                {
+                                                    "type": "button",
+                                                    "label": "拉取",
+                                                    "actionType": "ajax",
+                                                    "api": {
+                                                        "url": "/portal/cl-application/code/pull",
+                                                        "method": "post",
+                                                        "messages": {
+                                                            "success": "拉取应用代码成功"
+                                                        }
+                                                    },
+                                                    "id": "u:ff5e638428ce",
+                                                    "level": "enhance",
+                                                    "reload": "u:7164b4b64650"
+                                                },
+                                                {
+                                                    "type": "button",
+                                                    "label": "推送",
+                                                    "actionType": "ajax",
+                                                    "api": {
+                                                        "url": "/portal/cl-application/code/push",
+                                                        "method": "post",
+                                                        "messages": {
+                                                            "success": "推送应用代码成功"
+                                                        }
+                                                    },
+                                                    "id": "u:ee67638449ud",
+                                                    "level": "enhance",
+                                                    "reload": "u:7164b4b64650"
+                                                },
+                                                {
+                                                    "type": "button",
+                                                    "label": "下载ZIP",
+                                                    "actionType": "url",
+                                                    "url": "/portal/cl-application/code/download",
+                                                    "id": "u:ee67638557ud",
+                                                    "level": "enhance"
                                                 }
-                                            },
-                                            "id": "u:ee67638449ud",
-                                            "level": "primary",
-                                            "reload": "u:7164b4b64650",
-                                            "className": "m-r-sm"
+                                            ]
                                         },
                                         {
                                             "type": "button",
@@ -194,7 +219,6 @@
                                 }
                             ],
                             "style": {
-                                "position": "static",
                                 "display": "block"
                             },
                             "className": "nb-card p",
