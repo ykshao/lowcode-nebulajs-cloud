@@ -36,6 +36,7 @@
   --Tree-indent: 1.4rem;
   --Drawer-body-padding: 0;
   --DropDown-caret-marginLeft: 3px;
+  --DropDown-menuItem-color: #36383b;
   --dialog-header-fontSize: 18px;
   --button-light-default-font-color:#255abb;
   --animation-duration:0.2s;
@@ -151,10 +152,11 @@
 .cxd-DropDown .cxd-DropDown-caret > svg {
   width: 0.55rem;
   height: 0.55rem;
+  top: 0;
 }
 
 .cxd-DropDown-menu {
-  box-shadow: 2px 2px 8px 0px #e3e3e3;
+  box-shadow: 2px 2px 8px 1px #e3e3e3;
 }
 .cxd-DropDown-menu > li a {
   display: flex;
@@ -382,6 +384,7 @@
 }
 
 .nb-card {
+  position: relative;
   background: #fff;
   border-radius: 5px;
   box-shadow: 0px 0px 9px 0px #e7e7e7;

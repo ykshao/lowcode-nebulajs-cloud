@@ -74,6 +74,19 @@
   background-color: transparent !important;
 }
 
+.ptl-develop-repo-edit {
+  position: absolute;
+  right: 10px;
+  top: 14px;
+  border: 0;
+}
+.ptl-develop-repo-edit i {
+  font-size: 20px;
+}
+.ptl-develop-repo-edit:hover {
+  border: 0 !important;
+}
+
 .ptl-config-card {
   background: #fff;
   border-radius: 5px;

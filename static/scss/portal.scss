@@ -85,7 +85,18 @@
         }
     }
 }
-
+.ptl-develop-repo-edit{
+    position: absolute;
+    right: 10px;
+    top: 14px;
+    border: 0;
+    i {
+        font-size: 20px;
+    }
+    &:hover{
+        border: 0 !important;
+    }
+}
 .ptl-config-card {
     background: #fff;
     border-radius: 5px;
