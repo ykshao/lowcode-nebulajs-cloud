@@ -59,7 +59,7 @@ Nebulajs Cloud启动时会依赖部分第三方中间件，使平台的性能及
 ### Postgres
 npm install --save pg pg-hstore
 
-### MySQL
+### MySQL（推荐）
 npm install --save mysql2
 
 ### Mariadb
@@ -272,7 +272,7 @@ app: {
 
 #### 4.1 DockerSocat启动
 
-Nebulajs Cloud平台使用`Socat`和`Docker`服务器通信。
+Nebulajs Cloud平台使用`Socat`和`Docker`服务器通信。通过`Socat`管理各子应用及中间件的启动状态。
 
 ```shell
 docker run -d --name socat-local --restart always -p 127.0.0.1:2375:2375 -v /var/run/docker.sock:/var/run/docker.sock alpine/socat tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock
