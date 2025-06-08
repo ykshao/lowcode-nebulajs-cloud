@@ -3,13 +3,9 @@ import { MiddlewareTypes } from '../../config/constants'
 import Metalize from 'nebulajs-metalize'
 import { ApplicationService } from '../ApplicationService'
 import { ClMiddleware } from '../../models/ClMiddleware'
-import path from 'path'
 
 export class DatabaseService {
-    /**
-     * @type {Sequelize}
-     */
-    sequelize = null
+    sequelize: Sequelize = null
 
     options: ClMiddleware & { dialect: string } = null
 
@@ -75,10 +71,10 @@ export class DatabaseService {
                 }
             )
             return ret
-                .filter((t) =>
+                .filter((t: any) =>
                     prefix ? t.table_name.indexOf(prefix) === 0 : true
                 )
-                .map((t) => {
+                .map((t: any) => {
                     return { name: t.table_name, descr: t.table_comment }
                 })
         } else if (dialect === MiddlewareTypes.SQLite) {

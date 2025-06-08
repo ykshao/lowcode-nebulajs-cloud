@@ -161,7 +161,7 @@
                                                 {
                                                     "type": "button",
                                                     "label": "拉取",
-                                                    "actionType": "ajax",
+                                                    "actionType": "download",
                                                     "api": {
                                                         "url": "/portal/cl-application/code/pull",
                                                         "method": "post",

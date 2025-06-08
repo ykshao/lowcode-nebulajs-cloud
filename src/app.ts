@@ -84,7 +84,6 @@ async function startup(port) {
 
     // Nebula平台API，接收租户应用请求（SDK请求、租户端系统页面请求）
     // 验证租户签名，可能存在A系统用户，携带B系统的请求头访问
-    // TODO 安全问题，一个系统的管理员可以重置别一个系统的用户密码
     // 理论上不可以，cloud接口都是通过sdk调用
     app.middlewares.push(
         clientExtension({ logger: app.logger, routePath: ['/api', '/app'] })
