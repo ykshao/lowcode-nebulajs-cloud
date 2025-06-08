@@ -1,6 +1,6 @@
 import randomstring from 'randomstring'
 import bcrypt from 'bcryptjs'
-import { NebulaBizError, NebulaErrors, QueryParser } from 'nebulajs-core'
+import { NebulaBizError, NebulaKoaContext, QueryParser } from 'nebulajs-core'
 import { UserService } from '../../services/app/UserService'
 import { UserErrors } from '../../config/errors'
 import { DataStatus, Constants } from '../../config/constants'
@@ -9,6 +9,7 @@ import { AppOrganization } from '../../models/AppOrganization'
 import { AppRole } from '../../models/AppRole'
 import { IncludeOptions, Op } from 'sequelize'
 import { MenuService } from '../../services/app/MenuService'
+import { ExcelUtil } from '../../utils/excel-util'
 
 export = {
     'post /app-user/allocate/roles': async function (ctx, next) {
@@ -64,14 +65,25 @@ export = {
 
     'get /app-user/struct': async function (ctx, next) {
         const ignoreKeys = ['appId', 'createdAt', 'updatedAt']
-        const attrs = Object.keys(AppUser.rawAttributes)
+        const attrs = Object.keys(AppUser.getAttributes())
             .filter((key) => !ignoreKeys.includes(key))
-            .map((key) => AppUser.rawAttributes[key])
+            .map((key) => AppUser.getAttributes()[key])
             .map((attr) => {
                 delete attr['_modelAttribute']
                 return { ...attr, excelCol: attr['fieldName'] }
             })
         ctx.ok(attrs)
+    },
+
+    'get /app-user/exp': async function (ctx: NebulaKoaContext, next) {
+        const ignoreAttrs = ['appId', 'createdAt', 'updatedAt']
+        const dataList = await AppUser.findAll({
+            where: {
+                appId: ctx.clientAppId,
+            },
+        })
+        await ExcelUtil.exportExcel(ctx, AppUser, dataList, ignoreAttrs)
+        ctx.res.end()
     },
 
     'post /app-user/imp': async function (ctx, next) {
