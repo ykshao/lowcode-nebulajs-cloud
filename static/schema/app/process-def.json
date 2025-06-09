@@ -38,7 +38,7 @@
                         {"type": "tpl","tpl": "$formName - $formModel"},
                         {
                             "type": "button",
-                            "icon": "nb-icon el-icon-refresh",
+                            "icon": "nb-icon nb-icon-refresh",
                             "hiddenOn": "${!formModel}",
                             "level": "link",
                             "tooltip": "同步模型表单",

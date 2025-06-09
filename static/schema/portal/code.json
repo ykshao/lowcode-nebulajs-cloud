@@ -161,7 +161,7 @@
                                                 {
                                                     "type": "button",
                                                     "label": "拉取",
-                                                    "actionType": "download",
+                                                    "actionType": "ajax",
                                                     "api": {
                                                         "url": "/portal/cl-application/code/pull",
                                                         "method": "post",
@@ -348,7 +348,7 @@
                                                 "url": "/portal/cl-application/develop",
                                                 "method": "post",
                                                 "messages": {
-                                                    "success": "启动开发容器成功"
+                                                    "success": "启动容器成功，首次启动需要1-2分钟，请稍后..."
                                                 },
                                                 "dataType": "json"
                                             },

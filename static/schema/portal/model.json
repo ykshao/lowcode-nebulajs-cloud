@@ -147,7 +147,7 @@
                                                         "checkAll": false,
                                                         "joinValues": true,
                                                         "disabled": false,
-                                                        "value": "Q,C,U,D,R",
+                                                        "value": "Q,C,U,D,R,E",
                                                         "description": "根据模型生成对应功能"
                                                     },
                                                     {

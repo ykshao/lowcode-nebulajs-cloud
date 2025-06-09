@@ -27,7 +27,7 @@
                 {
                     "label": "新增配置",
                     "type": "button",
-                    "icon": "el-icon-plus",
+                    "icon": "nb-icon nb-icon-add-select",
                     "actionType": "dialog",
                     "level": "primary",
                     "id": "u:e12af0905426",

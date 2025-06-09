@@ -87,7 +87,6 @@
                                         "id": "u:878654acb5d6",
                                         "size": "md",
                                         "level": "primary",
-                                        "icon": "el-icon-video-play",
                                         "actionType": "dialog",
                                         "dialog": {
                                             "type": "dialog",
