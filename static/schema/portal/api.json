@@ -50,7 +50,7 @@
                     "map": {
                         "get": "<span class='nb-tag success'>${method | upperCase}</span>",
                         "post": "<span class='nb-tag primary'>${method | upperCase}</span>",
-                        "put": "<span class='nb-tag warn'>${method | upperCase}</span>",
+                        "put": "<span class='nb-tag warning'>${method | upperCase}</span>",
                         "delete": "<span class='nb-tag danger'>${method | upperCase}</span>"
                     },
                     "body": [
