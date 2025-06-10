@@ -6,6 +6,7 @@ import { Op } from 'sequelize';
 import { NebulaBizError, NebulaErrors, QueryParser, NebulaKoaContext } from 'nebulajs-core'
 import { Constants, ProcessStatus } from '../../config/constants'
 import { CommonErrors } from '../../config/errors'
+import { ExcelUtil } from '../../utils/excel-util'
 import { <%=name%> } from '../../models/<%=name%>'
 export = {
 
@@ -317,6 +318,23 @@ export = {
         }
         nebula.logger.info('导入完成')
         ctx.ok()
+    },
+    <%_}_%>
+
+    <%_if(crud.indexOf('E')>=0){_%>
+    'get /<%=fn_decamelize(name) %>/exp': async function (ctx: NebulaKoaContext, next) {
+        // 忽略导出的字段
+        const ignoreAttrs = []
+        const { where, order, include } = QueryParser.parseFilter(
+            ctx.request.query,
+            <%=name%>
+        )
+        const dataList = await <%=name%>.findAll({
+            where,
+            include,
+            order
+        })
+        await ExcelUtil.exportExcel(ctx, <%=name%>, dataList, ignoreAttrs)
     },
     <%_}_%>
 

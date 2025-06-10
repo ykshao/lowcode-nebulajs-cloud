@@ -1,10 +1,13 @@
 {
-  "id": "u:fc892d895b93",
+  "id": "page-<%=fn_decamelize(name)%>",
   "asideResizor": false,
   "type": "page",
   "title": "<%=comment%>",
   "pullRefresh": {
     "disabled": true
+  },
+  "data": {
+    "filterData": {}
   },
   "regions": [
     "body"
@@ -297,14 +300,33 @@
         },
         <%_}_%>
         "bulkActions"
+        <%_if(crud.indexOf('E')>=0){_%>
+        ,{
+            "type": "button",
+            "id": "u:f61daa006881",
+            "label": "导出",
+            "align": "right",
+            "icon": "nb-icon nb-icon-bottom",
+            "actionType": "download",
+            "api": {
+                "method": "get",
+                "url": "rest/<%=fn_decamelize(name) %>/exp",
+                "data": {
+                    "&": "${filterData}"
+                },
+                "headers": {
+                    "response-type": "arraybuffer"
+                }
+            }
+        }
+        <%_}_%>
         <%_if(crud.indexOf('I')>=0){_%>
         ,{
             "type": "button",
-            "tpl": "内容",
             "id": "u:f61daa006881",
-            "label": "Excel导入",
+            "label": "导入",
             "align": "right",
-            "level": "enhance",
+            "icon": "nb-icon nb-icon-import",
             "onEvent": {
                 "click": {
                     "weight": 0,
@@ -411,9 +433,7 @@
             }
         }
         <%_}_%>
-
       ],
-
       "messages": {},
       "filter": {
         "id": "u:c1ce3e27c33e",
@@ -449,6 +469,21 @@
 
           <%_ } _%>
         ],
+        "onEvent": {
+          "submitSucc": {
+            "actions": [
+              {
+                "componentId": "page-<%=fn_decamelize(name)%>",
+                "actionType": "setValue",
+                "args": {
+                  "value": {
+                    "filterData": "${event.data}"
+                  }
+                }
+              }
+            ]
+          }
+        },
         "actions": [
           {
             "type": "button",
