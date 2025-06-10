@@ -2,7 +2,7 @@ import ExcelJS, { Workbook } from 'exceljs'
 import { Model, ModelStatic } from 'sequelize'
 import moment from 'moment'
 export class ExcelUtil {
-    static async exportExcelBuffer(
+    static async exportExcel(
         ctx,
         model: ModelStatic<any>,
         dataList: Model[],
@@ -26,7 +26,7 @@ export class ExcelUtil {
         nebula.logger.info(`导出Excel数据文件：${filename}`)
 
         const workbook = this.getModelDataExcel(model, dataList, ignoreAttrs)
-        return await workbook.xlsx.writeBuffer()
+        ctx.body = await workbook.xlsx.writeBuffer()
     }
 
     static getModelDataExcel(

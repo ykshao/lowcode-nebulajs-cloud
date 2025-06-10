@@ -96,12 +96,7 @@ export = {
             order,
             include,
         })
-        ctx.body = await ExcelUtil.exportExcelBuffer(
-            ctx,
-            AppUser,
-            dataList,
-            ignoreAttrs
-        )
+        await ExcelUtil.exportExcel(ctx, AppUser, dataList, ignoreAttrs)
     },
 
     'post /app-user/imp': async function (ctx, next) {
