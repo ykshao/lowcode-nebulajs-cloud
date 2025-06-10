@@ -590,6 +590,18 @@
   margin-right: 8px;
 }
 
+.nb-tree-side {
+  max-height: 640px;
+}
+.nb-tree-side > .cxd-TreeControl {
+  height: calc(100% - 30px);
+}
+.nb-tree-side > .cxd-Form-label {
+  font-size: 15px;
+  color: #3a3b3b;
+  font-weight: bold;
+}
+
 .nb-task-info-drawer .cxd-Drawer-body {
   background: var(--Page-main-bg);
   padding: 0;

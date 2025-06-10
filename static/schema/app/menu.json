@@ -16,7 +16,7 @@
                             "hideRoot": true,
                             "showIcon": true,
                             "initiallyOpen": true,
-                            "className": "h-full nb-card p flex flex-col",
+                            "className": "h-full nb-card nb-tree-side p flex flex-col",
                             "treeContainerClassName": "h-full",
                             "source": {
                                 "method": "get",

@@ -12,114 +12,41 @@
             "type": "grid",
             "columns": [
                 {
+                    "columnClassName": "p-b",
                     "body": [
                         {
-                            "type": "flex",
-                            "className": "h-full nb-card p",
-                            "items": [
-                                {
-                                    "type": "container",
-                                    "body": [
-                                        {
-                                            "type": "grid",
-                                            "columns": [
-                                                {
-                                                    "body": [
-                                                        {
-                                                            "type": "tpl",
-                                                            "tpl": "上级组织",
-                                                            "inline": true,
-                                                            "wrapperComponent": "",
-                                                            "id": "u:74017066e3ba",
-                                                            "style": {
-                                                                "fontFamily": "",
-                                                                "fontSize": 15,
-                                                                "color": "#3a3b3b",
-                                                                "fontWeight": "bold"
-                                                            }
-                                                        }
-                                                    ],
-                                                    "id": "u:904ae077205a",
-                                                    "valign": "middle"
-                                                }
-                                            ],
-                                            "id": "u:d8fa45a7036d"
-                                        }
-                                    ],
-                                    "size": "xs",
-                                    "style": {
-                                        "position": "static",
-                                        "display": "block",
-                                        "flex": "0 0 auto",
-                                        "overflowY": "auto"
-                                    },
-                                    "wrapperBody": false,
-                                    "isFixedHeight": false,
-                                    "isFixedWidth": false,
-                                    "id": "u:54b3287d0a6b"
-                                },
-                                {
-                                    "type": "container",
-                                    "body": [
-                                        {
-                                            "id": "orgTree",
-                                            "type": "input-tree",
-                                            "name": "treeParentId",
-                                            "multiple": false,
-                                            "enableNodePath": false,
-                                            "hideRoot": true,
-                                            "showIcon": true,
-                                            "initiallyOpen": true,
-                                            "className": "h-full",
-                                            "treeContainerClassName": "h-full m-t-xs",
-                                            "deferApi": {
-                                                "method": "get",
-                                                "url": "cloud/app/app-org?filter[parentId][eq]=${id}",
-                                                "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
-                                                "data": {
-                                                    "sort[0]": "seq,asc",
-                                                    "size": 100
-                                                }
-                                            },
-                                            "source": {
-                                                "method": "get",
-                                                "url": "cloud/app/app-org?filter[parentId][empty]=true",
-                                                "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
-                                                "data": {
-                                                    "sort[0]": "seq,asc",
-                                                    "size": 100
-                                                }
-                                            },
-                                            "labelField": "shortName",
-                                            "valueField": "id"
-                                        }
-                                    ],
-                                    "size": "xs",
-                                    "style": {
-                                        "position": "static",
-                                        "display": "block",
-                                        "flex": "1 1 auto",
-                                        "flexGrow": 1,
-                                        "flexBasis": "auto"
-                                    },
-                                    "wrapperBody": false,
-                                    "isFixedHeight": false,
-                                    "isFixedWidth": false,
-                                    "id": "u:42e5358afa08"
+                            "id": "orgTree",
+                            "type": "input-tree",
+                            "name": "treeParentId",
+                            "multiple": false,
+                            "enableNodePath": false,
+                            "hideRoot": true,
+                            "label": "上级组织",
+                            "showIcon": true,
+                            "initiallyOpen": true,
+                            "className": "h-full nb-card nb-tree-side p flex flex-col",
+                            "treeContainerClassName": "h-full m-t-xs",
+                            "deferApi": {
+                                "method": "get",
+                                "url": "cloud/app/app-org?filter[parentId][eq]=${id}",
+                                "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                "data": {
+                                    "sort[0]": "seq,asc",
+                                    "size": 100
                                 }
-                            ],
-                            "style": {
-                                "position": "static",
-                                "flexWrap": "nowrap"
                             },
-                            "direction": "column",
-                            "justify": "flex-start",
-                            "alignItems": "stretch",
-                            "id": "u:09717810c209",
-                            "isFixedHeight": false,
-                            "isFixedWidth": false
+                            "source": {
+                                "method": "get",
+                                "url": "cloud/app/app-org?filter[parentId][empty]=true",
+                                "adaptor": "for(const item of payload.data){\n  item.defer = true\n}\nreturn payload",
+                                "data": {
+                                    "sort[0]": "seq,asc",
+                                    "size": 100
+                                }
+                            },
+                            "labelField": "shortName",
+                            "valueField": "id"
                         }
-
                     ],
                     "md": 4
                 },
