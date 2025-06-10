@@ -75,15 +75,33 @@ export = {
         ctx.ok(attrs)
     },
 
+    /**
+     * Excel导出
+     *  Amis的Bug导致dropdown按钮无法下载，6.1.0已修复
+     *  https://github.com/baidu/amis/pull/9554
+     * @param ctx
+     * @param next
+     */
     'get /app-user/exp': async function (ctx: NebulaKoaContext, next) {
-        const ignoreAttrs = ['appId', 'createdAt', 'updatedAt']
+        const { where, order, include } = QueryParser.parseFilter(
+            ctx.request.query,
+            AppUser
+        )
+        const ignoreAttrs = ['appId', 'password']
         const dataList = await AppUser.findAll({
             where: {
+                ...where,
                 appId: ctx.clientAppId,
             },
+            order,
+            include,
         })
-        await ExcelUtil.exportExcel(ctx, AppUser, dataList, ignoreAttrs)
-        ctx.res.end()
+        ctx.body = await ExcelUtil.exportExcelBuffer(
+            ctx,
+            AppUser,
+            dataList,
+            ignoreAttrs
+        )
     },
 
     'post /app-user/imp': async function (ctx, next) {

@@ -6,6 +6,9 @@
     "regions": [
         "body"
     ],
+    "data": {
+        "filterData": {}
+    },
     "body": [
         {
             "type": "crud",
@@ -545,140 +548,128 @@
                     "type": "bulk-actions"
                 },
                 {
-                    "type": "dropdown-button",
-                    "label": "",
-                    "align": "right",
-                    "buttons": [
-                        {
-                            "type": "button",
-                            "id": "u:f61daa006881",
-                            "label": "导入数据",
-                            "align": "right",
-                            "icon": "nb-icon nb-icon-import",
-                            "onEvent": {
-                                "click": {
-                                    "weight": 0,
-                                    "actions": [
-                                        {
-                                            "dialog": {
-                                                "type": "dialog",
-                                                "title": "Excel导入",
-                                                "body": [
-                                                    {
-                                                        "type": "wizard",
-                                                        "id": "u:3b7ce318b5d8",
-                                                        "steps": [
-                                                            {
-                                                                "title": "选择文件",
-                                                                "body": [
-                                                                    {
-                                                                        "type": "input-excel",
-                                                                        "label": "选择Excel",
-                                                                        "name": "excel",
-                                                                        "id": "u:a5a70d91ca3d"
-                                                                    }
-                                                                ],
-                                                                "id": "u:591d8d943970",
-                                                                "mode": "normal"
-                                                            },
-                                                            {
-                                                                "title": "数据映射",
-                                                                "data": {},
-                                                                "body": [
-                                                                    {
-                                                                        "type": "input-table",
-                                                                        "name": "columnMap",
-                                                                        "label": "数据映射",
-                                                                        "columns": [
-                                                                            {
-                                                                                "label": "字段",
-                                                                                "name": "fieldName",
-                                                                                "quickEdit": false,
-                                                                                "type": "text",
-                                                                                "id": "u:717ec09900e5",
-                                                                                "placeholder": "-"
-                                                                            },
-                                                                            {
-                                                                                "label": "说明",
-                                                                                "name": "comment",
-                                                                                "quickEdit": false,
-                                                                                "type": "text",
-                                                                                "id": "u:929ec05511e5",
-                                                                                "placeholder": "-"
-                                                                            },
-                                                                            {
-                                                                                "label": "Excel列",
-                                                                                "name": "excelCol",
-                                                                                "quickEdit": false,
-                                                                                "type": "select",
-                                                                                "source": "${excel | first | objectToArray:value:name}",
-                                                                                "labelField": "name",
-                                                                                "valueField": "name",
-                                                                                "multiple": false,
-                                                                                "clearable": true,
-                                                                                "showInvalidMatch": true,
-                                                                                "id": "u:50d0024b51c3",
-                                                                                "placeholder": "-"
-                                                                            }
-                                                                        ],
-                                                                        "strictMode": true,
-                                                                        "id": "u:3abf29f5a112"
-                                                                    }
-                                                                ],
-                                                                "mode": "normal",
-                                                                "id": "u:efbe8d681739",
-                                                                "initApi": {
-                                                                    "method": "get",
-                                                                    "url": "cloud/app/app-user/struct",
-                                                                    "data": null,
-                                                                    "adaptor": "return {\n    columnMap:payload.data\n}",
-                                                                    "dataType": "json"
-                                                                }
-                                                            }
-                                                        ],
-                                                        "mode": "horizontal",
-                                                        "api": "cloud/app-user/imp"
-                                                    }
-                                                ],
-                                                "showCloseButton": true,
-                                                "showErrorMsg": false,
-                                                "showLoading": true,
-                                                "id": "u:2d6ca88f984e",
-                                                "closeOnEsc": false,
-                                                "dataMapSwitch": false,
-                                                "size": "md",
-                                                "actions": []
-                                            },
-                                            "actionType": "dialog"
-                                        }
-                                    ]
-                                }
-                            }
-                        },
-                        {
-                            "type": "button",
-                            "id": "u:f61daa006881",
-                            "label": "导出数据（全部）",
-                            "align": "right",
-                            "level": "enhance",
-                            "icon": "nb-icon nb-icon-export",
-                            "actionType": "download",
-                            "api": {
-                                "method": "get",
-                                "url": "cloud/app/app-user/exp",
-                                "data": {},
-                                "headers": {
-                                    "response-type": "arraybuffer"
-                                }
-                            }
-                        }
-                    ]
-                },
-                {
-                    "type": "export-excel",
+                    "type": "button",
+                    "id": "u:f61daa006881",
                     "label": "导出",
                     "align": "right",
-                    "icon": "nb-icon nb-icon-bottom"
+                    "actionType": "download",
+                    "icon": "nb-icon nb-icon-bottom",
+                    "api": {
+                        "method": "get",
+                        "url": "cloud/app/app-user/exp",
+                        "data": {
+                            "&": "${filterData}"
+                        },
+                        "headers": {
+                            "response-type": "arraybuffer"
+                        }
+                    }
+                },
+                {
+                    "type": "button",
+                    "id": "u:f61daa006881",
+                    "label": "导入",
+                    "align": "right",
+                    "icon": "nb-icon nb-icon-import",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "Excel导入",
+                                        "body": [
+                                            {
+                                                "type": "wizard",
+                                                "id": "u:3b7ce318b5d8",
+                                                "steps": [
+                                                    {
+                                                        "title": "选择文件",
+                                                        "body": [
+                                                            {
+                                                                "type": "input-excel",
+                                                                "label": "选择Excel",
+                                                                "name": "excel",
+                                                                "id": "u:a5a70d91ca3d"
+                                                            }
+                                                        ],
+                                                        "id": "u:591d8d943970",
+                                                        "mode": "normal"
+                                                    },
+                                                    {
+                                                        "title": "数据映射",
+                                                        "data": {},
+                                                        "body": [
+                                                            {
+                                                                "type": "input-table",
+                                                                "name": "columnMap",
+                                                                "label": "数据映射",
+                                                                "columns": [
+                                                                    {
+                                                                        "label": "字段",
+                                                                        "name": "fieldName",
+                                                                        "quickEdit": false,
+                                                                        "type": "text",
+                                                                        "id": "u:717ec09900e5",
+                                                                        "placeholder": "-"
+                                                                    },
+                                                                    {
+                                                                        "label": "说明",
+                                                                        "name": "comment",
+                                                                        "quickEdit": false,
+                                                                        "type": "text",
+                                                                        "id": "u:929ec05511e5",
+                                                                        "placeholder": "-"
+                                                                    },
+                                                                    {
+                                                                        "label": "Excel列",
+                                                                        "name": "excelCol",
+                                                                        "quickEdit": false,
+                                                                        "type": "select",
+                                                                        "source": "${excel | first | objectToArray:value:name}",
+                                                                        "labelField": "name",
+                                                                        "valueField": "name",
+                                                                        "multiple": false,
+                                                                        "clearable": true,
+                                                                        "showInvalidMatch": true,
+                                                                        "id": "u:50d0024b51c3",
+                                                                        "placeholder": "-"
+                                                                    }
+                                                                ],
+                                                                "strictMode": true,
+                                                                "id": "u:3abf29f5a112"
+                                                            }
+                                                        ],
+                                                        "mode": "normal",
+                                                        "id": "u:efbe8d681739",
+                                                        "initApi": {
+                                                            "method": "get",
+                                                            "url": "cloud/app/app-user/struct",
+                                                            "data": null,
+                                                            "adaptor": "return {\n    columnMap:payload.data\n}",
+                                                            "dataType": "json"
+                                                        }
+                                                    }
+                                                ],
+                                                "mode": "horizontal",
+                                                "api": "cloud/app-user/imp"
+                                            }
+                                        ],
+                                        "showCloseButton": true,
+                                        "showErrorMsg": false,
+                                        "showLoading": true,
+                                        "id": "u:2d6ca88f984e",
+                                        "closeOnEsc": false,
+                                        "dataMapSwitch": false,
+                                        "size": "md",
+                                        "actions": []
+                                    },
+                                    "actionType": "dialog"
+                                }
+                            ]
+                        }
+                    }
                 }
             ],
             "id": "u:4285c2292e45",
@@ -729,7 +720,22 @@
                 ],
                 "id": "u:0234900b49e7",
                 "mode": "horizontal",
-                "horizontal": {}
+                "horizontal": {},
+                "onEvent": {
+                    "submitSucc": {
+                        "actions": [
+                            {
+                                "componentId": "u:e6122aec35be",
+                                "actionType": "setValue",
+                                "args": {
+                                    "value": {
+                                        "filterData": "${event.data}"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                }
             },
             "alwaysShowPagination": true,
             "perPageField": "size",

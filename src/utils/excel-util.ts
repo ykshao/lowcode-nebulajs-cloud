@@ -2,20 +2,23 @@ import ExcelJS, { Workbook } from 'exceljs'
 import { Model, ModelStatic } from 'sequelize'
 import moment from 'moment'
 export class ExcelUtil {
-    static async exportExcel(
+    static async exportExcelBuffer(
         ctx,
         model: ModelStatic<any>,
         dataList: Model[],
         ignoreAttrs: string[] = []
     ) {
         // 设置下载文件名
-        const filename = `${model.name}${
-            model.options.comment
-        }_${moment().format('x')}.xlsx`
-        // 设置响应头，告诉浏览器下载文件
+        const filename = `${model.name}_${moment().format('x')}.xlsx`
+        // 设置响应头
+        ctx.set('Access-Control-Expose-Headers', 'Content-Disposition')
+        // ctx.set(
+        //     'access-control-allow-methods',
+        //     'GET,POST,PUT,DELETE,OPTIONS,HEAD'
+        // )
+        // ctx.set('access-control-allow-origin:', 'https://demo.nebulajs.com')
         ctx.res.writeHead(200, {
-            'Content-Type':
-                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'Content-Type': 'application/octet-stream',
             'Content-Disposition': `attachment; filename=${encodeURIComponent(
                 filename
             )}`,
@@ -23,8 +26,7 @@ export class ExcelUtil {
         nebula.logger.info(`导出Excel数据文件：${filename}`)
 
         const workbook = this.getModelDataExcel(model, dataList, ignoreAttrs)
-        const buffer = await workbook.xlsx.writeBuffer()
-        ctx.res.write(buffer)
+        return await workbook.xlsx.writeBuffer()
     }
 
     static getModelDataExcel(
@@ -33,10 +35,6 @@ export class ExcelUtil {
         ignoreAttrs: string[] = []
     ) {
         const workbook = new ExcelJS.Workbook()
-        // const workbook = new ExcelJS.stream.xlsx.WorkbookWriter({
-        //     stream: ctx.res,
-        //     filename: 'test.xlsx',
-        // })
         const sheet = workbook.addWorksheet('Sheet1')
         const attrs = Object.keys(model.getAttributes())
             .filter((key) => !ignoreAttrs.includes(key))
