@@ -375,6 +375,8 @@ export class ApplicationService {
             const url = `/${decamelize(name, { separator: '-' })}`
             const schema = ejs.render(tpl.toString(), {
                 fn_decamelize: (str) => decamelize(str, { separator: '-' }),
+                fn_camelize: (str, firstUppercase) =>
+                    camelcase(str, { pascalCase: firstUppercase }),
                 fn_getAmisFormItemProps: (prop, refs, readOnly) =>
                     AmisService.getAmisFormItemProps(prop, refs, readOnly),
                 fn_getAmisListColumnProps: (prop) =>

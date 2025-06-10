@@ -1,5 +1,5 @@
 {
-  "id": "page-<%=fn_decamelize(name)%>",
+  "id": "<%=fn_camelize(name,false)%>Page",
   "asideResizor": false,
   "type": "page",
   "title": "<%=comment%>",
@@ -473,7 +473,7 @@
           "submitSucc": {
             "actions": [
               {
-                "componentId": "page-<%=fn_decamelize(name)%>",
+                "componentId": "<%=fn_camelize(name,false)%>Page",
                 "actionType": "setValue",
                 "args": {
                   "value": {
