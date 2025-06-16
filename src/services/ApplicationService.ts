@@ -180,7 +180,7 @@ export class ApplicationService {
         const tplFolder = ApplicationService.getAppTemplatePath('app')
         nebula.logger.info('生成应用骨架：%s', appFolder)
         if (!fs.existsSync(appFolder)) {
-            fs.mkdirSync(appFolder)
+            fs.mkdirSync(appFolder, { recursive: true })
         }
         FileUtil.copyDir(tplFolder, appFolder, (src, dest) => {
             nebula.logger.info('复制文件：%s --> %s', src, dest)
