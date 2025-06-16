@@ -23,9 +23,9 @@
 * ### 网上的低代码平台大都是基于`Java`开发的。
 * ### 本平台使用`Node.js`作为开发语言，开发效率可以碾压`Java`。
 
- > * 如果您是`Node.js`开发人员
- > * 如果您是前端`Javascript`开发人员
- > * 如果您厌倦了`Java`开发
+ > * 🍎 如果您是`Node.js`开发人员
+ > * 🍐 如果您是前端`Javascript`开发人员
+ > * 🍑 如果您厌倦了`Java`开发
 
 * ### 请试试这一款，开源不易请点个`Star`吧
 
@@ -110,15 +110,19 @@ Nebulajs Cloud应用是由`SAAS通用模块`和`业务模块`两种方式组合�
 
 </table>
 
-#### 3.2 页面编辑器
+#### 3.2 页面设计器
+[nebula-page-editor](https://gitee.com/nebulajs/nebula-page-editor)
+
 ![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1531747906033_.pic.jpg?imageMogr2/thumbnail/1920x/format/webp/interlace/0/quality/100)
 
-#### 3.3 代码编辑器
-![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1481747832488_.pic.jpg?imageMogr2/thumbnail/1920x/format/webp/interlace/0/quality/100)
+#### 3.3 流程设计器
+[nebulajs-workflow-modeler](https://gitee.com/nebulajs/nebulajs-workflow-modeler)
 
-#### 3.4 流程设计器
 ![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1781748086853_.pic.jpg?imageMogr2/thumbnail/1920x/format/webp/interlace/0/quality/100)
 ![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2Fsystem%2F1771748086827_.pic.jpg?imageMogr2/thumbnail/1920x/format/webp/interlace/0/quality/100)
+
+#### 3.4 代码编辑器
+![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot%2F1481747832488_.pic.jpg?imageMogr2/thumbnail/1920x/format/webp/interlace/0/quality/100)
 
 #### 3.5 云应用
 
