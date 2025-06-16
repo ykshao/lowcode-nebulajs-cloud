@@ -84,7 +84,7 @@ module.exports = {
                     commit: cm.commit.message
                         .trim()
                         .replace(/["']/g, '')
-                        .replace(/\n/g, ' '),
+                        .replace(/\r?\n/g, ' '),
                     author: cm.commit.committer.name,
                     time: moment(cm.commit.committer.timestamp * 1000).format(
                         'YYYY-MM-DD HH:mm:ss'

@@ -1,6 +1,7 @@
 import { ClJobExecution } from '../../models/ClJobExecution'
 import { NebulaErrors } from 'nebulajs-core'
 import fs from 'fs'
+import { EOL } from 'os'
 import path from 'path'
 import { JobService } from '../../services/JobService'
 
@@ -55,7 +56,7 @@ export = {
                 fs.mkdirSync(logPath, { recursive: true })
             const writeStream = fs.createWriteStream(logFile, { flags: 'a' })
             writeStream.write(log)
-            writeStream.write('\n')
+            writeStream.write(EOL)
             writeStream.end()
         }
         ctx.ok()

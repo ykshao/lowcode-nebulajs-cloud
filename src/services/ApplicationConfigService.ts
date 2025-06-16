@@ -32,7 +32,7 @@ export class ApplicationConfigService {
         if (authConfig?.casConfig?.certificate) {
             // 证书回车转义
             authConfig.casConfig.certificate2 =
-                authConfig.casConfig.certificate.replace(/\n/g, '\\n')
+                authConfig.casConfig.certificate.replace(/\r?\n/g, '\\n')
         }
 
         return ejs.render(

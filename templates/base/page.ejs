@@ -403,7 +403,7 @@
                                                     "method": "get",
                                                     "url": "rest/<%=fn_decamelize(name) %>/struct",
                                                     "data": null,
-                                                    "adaptor": "return {\n    columnMap:payload.data\n}",
+                                                    "adaptor": "return {columnMap:payload.data}",
                                                     "dataType": "json"
                                                 }
                                             }

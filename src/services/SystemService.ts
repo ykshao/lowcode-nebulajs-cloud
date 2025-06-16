@@ -41,6 +41,7 @@ export class SystemService {
             const sqlFile = fs
                 .readFileSync(path.resolve('./res/init.sql'))
                 .toString()
+                .replace(/\r?\n/g, '\n')
             const sqlCmds = sqlFile
                 .split(/;\n/)
                 .map((s) => s.trim())
