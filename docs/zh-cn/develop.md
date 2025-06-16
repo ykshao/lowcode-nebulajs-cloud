@@ -48,15 +48,39 @@
 ## 3. 业务开发
 ---
 
-#### 3.1 定义一个接口
 
+#### 3.1 使用RESTful接口查询数据
 
+#### 3.2 定义一个接口
+
+XxxApi.ts
 ```javascript
-
+'get /dashboard': async (ctx: NebulaKoaContext, next) => {
+    
+    // do something
+    
+    ctx.ok({
+        dashboardData
+    })
+}
 ```
 
-#### 3.2 数据库模型查询
+#### 3.3 数据库操作
 
+* 模型查询
 ```javascript
-
+const list = await XxxModel.findAll({
+    where: {
+        id: {
+            [Op.in]: [1,2,3] 
+        }
+    },
+    attributes: ['id','name','phone'],
+    limit: 20
+})
+```
+* 原生SQL查询
+```javascript
+const sql = 'select * from t_user'
+const [ result ] = await nebula.sequelize.query(sql)
 ```
