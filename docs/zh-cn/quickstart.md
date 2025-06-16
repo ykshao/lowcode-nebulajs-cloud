@@ -92,10 +92,16 @@ database: {
 }
 ```
 
-* __Redis配置（必须）__
+* __Redis配置（必选）__
 
-本平台使用Redis作为应用缓存。配置如下：
-  
+使用`Redis`本地Mock。<b style="color:red">注意：Mock配置仅限于本地调试，请务将其用于生产。</b>
+```javascript
+redis: {
+    useMock: true
+}
+```
+
+使用`Redis`服务器作为应用缓存。
 ```javascript
 redis: {
     port: 6379, // Redis port
