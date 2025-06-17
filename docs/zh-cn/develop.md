@@ -53,7 +53,13 @@
 
 #### 3.2 定义一个接口
 
-XxxApi.ts
+本平台对`koa`路由进行了封装，使用户定义接口更方便。只需要新建一个`ts`文件定义出接口的请求路径、请求方式（`GET`、`POST` ...）、实现内容即可。
+ * XxxRest.ts，请置于`/routers/rest`目录下，该接口将以`/rest`作为前缀。
+ * XxxApi.ts，请置于`/routers/api`目录下，该接口将 以`/api`作为前缀。
+ * Xxx.ts，请置于`/routers/root`目录下，该接口没有任何前缀。
+
+如下所示，页面最终请求路径为`/api/dashboard`。
+routers/api/XxxApi.ts
 ```javascript
 'get /dashboard': async (ctx: NebulaKoaContext, next) => {
     
