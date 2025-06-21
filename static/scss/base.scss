@@ -78,6 +78,8 @@
     display: flex;
     align-items: center;
     height: 50px;
+    padding: 0;
+    justify-content: center;
     img{
         width: 28px;
         height: 28px;
@@ -479,6 +481,14 @@
     height: 100%;
     margin: 0;
     padding: 0;
+}
+
+.nb-login{
+    .cxd-Layout-brand {
+        span {
+            color: #414141;
+        }
+    }
 }
 
 .nb-card {
