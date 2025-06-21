@@ -44,7 +44,7 @@ export = {
         const appId = ctx.appId
         const id = ctx.getParam('id')
         const body = { ...ctx.request.body, appId }
-        let model: ClApi | null = null
+        let model: ClApi = null
         if (id) {
             model = await ApiService.updateApi(body)
         } else {

@@ -1,8 +1,11 @@
 import { NebulaErrors, QueryParser } from 'nebulajs-core'
 import { UserErrors } from '../../config/errors'
-import { DataStatus } from '../../config/constants'
+import {
+    DataStatus,
+    ForbiddenUpdateAppModelProps,
+} from '../../config/constants'
 import { AppOrganization } from '../../models/AppOrganization'
-import { AppUserOrganization } from '../../models/AppUser'
+import { AppUser, AppUserOrganization } from '../../models/AppUser'
 
 export = {
     'get /app-org/:id': async function (ctx, next) {
@@ -34,9 +37,10 @@ export = {
         ctx.ok(rows)
         ctx.set('X-Total-Count', count)
     },
+
     'post /app-org': async function (ctx, next) {
         const body = ctx.request.body
-        let model = null
+        let model: AppOrganization = null
 
         body.appId = ctx.clientAppId
         body.shortName = body.shortName || body.name
@@ -51,11 +55,18 @@ export = {
             if (!model) {
                 return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
             }
+            // 去掉不可更新字段
+            ForbiddenUpdateAppModelProps.forEach((p) => delete body[p])
+
             model.set(body)
             model = await model.save()
         } else {
             // 新增
-            model = await AppOrganization.create(body)
+            model = await AppOrganization.create({
+                ...body,
+                appId: ctx.clientAppId,
+                status: true,
+            })
         }
 
         ctx.ok(model.dataValues)
@@ -74,6 +85,7 @@ export = {
         if (!instance) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
+        ctx.checkClientAuth(instance)
         await instance.destroy()
         ctx.ok()
     },

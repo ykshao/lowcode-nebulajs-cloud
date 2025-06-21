@@ -8,7 +8,7 @@ INSERT INTO app_menu (id,pid,`group`,label,url,link,redirect,visible,is_system,i
 	 ('8744f6e8-8418-4e0e-b546-14265ce6c8b1','e20346a7-1b7a-437f-b668-2f33083c03b8',NULL,'流程管理',NULL,NULL,NULL,1,1,NULL,NULL,'admin','admin',NULL,'nebula','2023-01-27 10:45:36','2023-03-20 21:59:23'),
 	 ('87c09e5b-0299-4dd3-b2d0-4335b1e03c43','e20346a7-1b7a-437f-b668-2f33083c03b8',NULL,'字典管理','/system/dict',NULL,NULL,1,1,NULL,NULL,'admin','admin',NULL,'nebula','2023-01-28 00:02:18','2023-01-28 00:02:33'),
 	 ('b00d144b-ffd2-4c92-999b-02631d201153','e20346a7-1b7a-437f-b668-2f33083c03b8',NULL,'菜单管理','/system/menu',NULL,NULL,1,1,NULL,1,'admin','admin',NULL,'nebula','2021-12-09 00:03:41','2023-04-12 22:13:12'),
-	 ('d6662d3c-8431-48fb-98c3-aca0fbacaae3','e20346a7-1b7a-437f-b668-2f33083c03b8',NULL,'文件管理','/system/file',NULL,NULL,1,1,NULL,NULL,'admin','admin','12334','nebula','2023-01-27 10:44:58','2023-05-14 00:18:43'),
+--	 ('d6662d3c-8431-48fb-98c3-aca0fbacaae3','e20346a7-1b7a-437f-b668-2f33083c03b8',NULL,'文件管理','/system/file',NULL,NULL,1,1,NULL,NULL,'admin','admin','12334','nebula','2023-01-27 10:44:58','2023-05-14 00:18:43'),
 	 ('143d2827-41c0-4fdb-8bf2-894dc9d459a3','8744f6e8-8418-4e0e-b546-14265ce6c8b1',NULL,'流程分组','/system/process-group',NULL,NULL,1,1,NULL,1,'admin','admin',NULL,'nebula','2023-03-20 22:13:28','2023-03-20 22:14:06'),
 	 ('5c779ebc-2023-4a96-9c4e-0fd4ce12cdf4','8744f6e8-8418-4e0e-b546-14265ce6c8b1',NULL,'流程定义','/system/process-def',NULL,NULL,1,1,NULL,2,'admin','admin',NULL,'nebula','2023-03-20 21:53:57','2023-03-20 21:59:30'),
 	 ('2bd0a499-93da-4406-8e5c-5f6f80de01fe','5c38a00b-c219-4b3b-bc9a-3dbc739962f4',NULL,'待我处理','/system/process-todo',NULL,NULL,1,1,NULL,2,'admin','admin',NULL,'nebula','2023-04-03 22:34:09','2023-04-03 22:38:50');
@@ -62,7 +62,7 @@ INSERT INTO cl_page (id,name,version,url,`schema`,schema_file,is_internal,is_sys
 	 ('3e2d15cf-f562-4e68-a410-815a3267905a','【系统】流程定义',NULL,'/system/process-def',NULL,'app/process-def.json',1,1,'admin','admin',NULL,'nebula','2023-03-20 21:59:00','2023-03-20 22:02:25',NULL,NULL),
      ('2f62c59a-0581-4ddd-9702-910e3e025920','【系统】菜单页',NULL,'/system/menu',NULL,'app/menu.json',1,1,NULL,NULL,NULL,'nebula','2021-12-09 00:15:48','2021-12-09 00:15:48',NULL,NULL),
 	 ('811468cd-170d-4ff2-b1b0-1b5c59fe038f','【系统】字典管理',NULL,'/system/dict',NULL,'app/dict.json',1,1,NULL,NULL,NULL,'nebula','2021-12-09 00:15:48','2021-12-09 00:15:48',NULL,NULL),
-	 ('07394159-f51b-4566-b2c8-ee37b602fe1e','【系统】文件管理',NULL,'/system/file',NULL,'app/file.json',1,1,NULL,NULL,NULL,'nebula','2023-01-27 23:50:57','2023-01-27 23:50:57',NULL,NULL),
+--	 ('07394159-f51b-4566-b2c8-ee37b602fe1e','【系统】文件管理',NULL,'/system/file',NULL,'app/file.json',1,1,NULL,NULL,NULL,'nebula','2023-01-27 23:50:57','2023-01-27 23:50:57',NULL,NULL),
      ('0d9988aa-427d-4853-97aa-c699ce46c19c','【系统】用户管理',NULL,'/system/user',NULL,'app/user.json',1,1,NULL,NULL,NULL,'nebula','2023-01-27 22:51:00','2023-01-27 22:51:00',NULL,'5bafb15b-5a0a-44fa-bfb5-31f1a12aede7'),
 	 ('d49358d3-9cba-4c35-810f-474d47cd27e2','【系统】角色管理',NULL,'/system/role',NULL,'app/role.json',1,1,NULL,NULL,NULL,'nebula','2023-01-27 23:50:24','2023-01-27 23:50:24',NULL,NULL),
 	 ('fdd2b33e-5644-45d3-888b-fcfb6a01daa3','【系统】组织用户分配',NULL,'/system/org/user-allocate',NULL,'app/org-user.json',1,1,'admin','admin',NULL,'nebula','2023-04-02 21:16:42','2023-04-02 21:16:42',NULL,NULL),

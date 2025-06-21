@@ -140,6 +140,8 @@ export const AuditModelProps = [
     'updatedAt',
 ]
 
+export const ForbiddenUpdateAppModelProps = ['appId']
+
 export const UserMessageTypes = {
     COMMON_MESSAGE: 'COMMON_MESSAGE', // 一般消息
     PROCESS_TASK_TODO: 'PROCESS_TASK_TODO', // 待办

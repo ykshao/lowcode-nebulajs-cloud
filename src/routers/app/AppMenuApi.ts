@@ -119,6 +119,7 @@ export = {
         if (!model) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
+        ctx.checkClientAuth(model)
 
         const list = (
             await AppMenu.findAll({

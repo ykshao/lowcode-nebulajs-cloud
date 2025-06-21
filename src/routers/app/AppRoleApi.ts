@@ -1,7 +1,11 @@
 import { NebulaBizError, NebulaErrors, QueryParser } from 'nebulajs-core'
 import { Op } from 'sequelize'
 import { ApplicationErrors, UserErrors } from '../../config/errors'
-import { Cache, DataStatus } from '../../config/constants'
+import {
+    Cache,
+    DataStatus,
+    ForbiddenUpdateAppModelProps,
+} from '../../config/constants'
 import { RoleService } from '../../services/app/RoleService'
 import { MenuService } from '../../services/app/MenuService'
 import { AppRole } from '../../models/AppRole'
@@ -47,15 +51,13 @@ export = {
     'post /app-role': async function (ctx, next) {
         ctx.checkRequired(['code'])
 
-        let model = null
+        let model: AppRole = null
         const body = ctx.request.body
         const role = await RoleService.getRoleByCodeAndAppId(
             ctx.clientAppId,
             body.code
         )
 
-        body.appId = ctx.clientAppId
-        body.status = true
         if (body.id) {
             // 更新
             model = await AppRole.getByPk(body.id)
@@ -67,6 +69,8 @@ export = {
             if (role && role.dataValues.id !== model.dataValues.id) {
                 throw new NebulaBizError(UserErrors.RoleCodeExist)
             }
+            // 去掉不可更新字段
+            ForbiddenUpdateAppModelProps.forEach((p) => delete body[p])
             model.set(body)
             model = await model.save()
         } else {
@@ -74,7 +78,11 @@ export = {
             if (role) {
                 throw new NebulaBizError(UserErrors.RoleCodeExist)
             }
-            model = await AppRole.create(body)
+            model = await AppRole.create({
+                ...body,
+                appId: ctx.clientAppId,
+                status: true,
+            })
         }
 
         ctx.ok(model.dataValues)
@@ -86,6 +94,8 @@ export = {
         if (!model) {
             throw new NebulaBizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
+        ctx.checkClientAuth(model)
+
         // model.set({ status: DataStatus.DISABLED })
         // await model.save()
         await model.destroy()

@@ -1,5 +1,9 @@
 import { NebulaBizError, NebulaErrors, QueryParser } from 'nebulajs-core'
-import { AuditModelProps, DataStatus } from '../../config/constants'
+import {
+    AuditModelProps,
+    DataStatus,
+    ForbiddenUpdateAppModelProps,
+} from '../../config/constants'
 import sequelize, { Op } from 'sequelize'
 import { AppDict } from '../../models/AppDict'
 
@@ -27,11 +31,12 @@ export = {
 
     'delete /app-dict/:id': async function (ctx, next) {
         const id = ctx.getParam('id')
-        const instance = await AppDict.getByPk(id)
-        if (!instance) {
+        const model = await AppDict.getByPk(id)
+        if (!model) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
-        await instance.destroy()
+        ctx.checkClientAuth(model)
+        await model.destroy()
         ctx.ok()
     },
 
@@ -88,9 +93,8 @@ export = {
     'post /app-dict': async function (ctx, next) {
         ctx.checkRequired(['code'])
 
-        let model: AppDict | null = null
+        let model: AppDict = null
         const body = ctx.request.body
-        body.appId = ctx.clientAppId
         if (body.id) {
             // 更新
             model = await AppDict.getByPk(body.id)
@@ -99,10 +103,12 @@ export = {
                     NebulaErrors.BadRequestErrors.DataNotFound
                 )
             }
+            // 去掉不可更新字段
+            ForbiddenUpdateAppModelProps.forEach((p) => delete body[p])
             model.set(body)
             model = await model.save()
         } else {
-            model = await AppDict.create(body)
+            model = await AppDict.create({ ...body, appId: ctx.clientAppId })
         }
         ctx.ok(model.dataValues)
     },

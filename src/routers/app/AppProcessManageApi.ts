@@ -141,6 +141,7 @@ export = {
         if (!instance) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
+        ctx.checkClientAuth(instance)
         const camundaService = new CamundaService(ctx.clientApp.camundaTenantId)
         if (instance.dataValues.camundaProcessId) {
             try {

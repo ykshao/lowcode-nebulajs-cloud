@@ -133,6 +133,7 @@ export = {
 
     'delete /app-process/:processInstanceId': async function (ctx, next) {
         const processInstanceId = ctx.getParam('processInstanceId')
+        // TODO 删除有安全问题，一个应用可删另一个应用
         await CamundaService.deleteHistoryProcessInstanceById(processInstanceId)
         ctx.ok()
     },
