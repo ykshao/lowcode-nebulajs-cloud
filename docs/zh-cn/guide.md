@@ -212,7 +212,14 @@ Nebulajs Cloud是一个云应用平台，用户可以在平台托管多个应用
 ## 6. 启动开发工具
 ---
 
-选择`开发`菜单，在右侧的vscode编辑器中启动在线编辑器（首次启动需要1-2分钟），启动成功后打开下面的`开发地址`，用户可进入在线开发VSCODE编辑器。如下图所示：
+选择`开发`菜单，在右侧的vscode编辑器中启动在线编辑器（首次启动需要1-2分钟），启动成功后打开下面的`开发地址`，用户可进入在线开发VSCODE编辑器。
+
+在线代码编辑器依赖`codercom/code-server`镜像，首次运行时需要手动拉取`Docker`镜像。
+
+```shell
+docker pull codercom/code-server:latest
+```
+
 
 ![](https://nebulajs-1251015100.cos.ap-chengdu.myqcloud.com/screenshot/1461747812169_.pic.jpg)
 
