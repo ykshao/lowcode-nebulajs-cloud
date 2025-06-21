@@ -122,6 +122,9 @@ export class ApplicationService {
                         env,
                         appId: model.id,
                         logLevel: 'info',
+                        authConfigText: JSON.stringify({
+                            authType: 'nebula',
+                        }),
                     },
                     { transaction }
                 )
