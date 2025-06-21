@@ -96,7 +96,7 @@ export = {
     app: {
         serviceURL: 'http://10.100.227.3:3000',
         wsServiceURL: 'ws://10.100.227.3:3001',
-        dataPath: process.env.NEBULA_DATA_PATH || '/opt/nebula-data',
+        dataPath: process.env.NEBULA_DATA_PATH || '/opt/nebulajs-data',
         servers: {
             default: {
                 name: '本地默认',

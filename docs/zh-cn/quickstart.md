@@ -40,7 +40,7 @@ export NEBULA_NODE_HOME=/opt/node-v16.13.1-linux-x64
 配置Nebula应用代码存放的位置。默认位置为`nebulajs-cloud/data`下，用户可以在配置文件中更改。
 
 ```shell
-export NEBULA_DATA_PATH=/opt/nebula-data
+export NEBULA_DATA_PATH=/opt/nebulajs-data
 ```
 
 ## 2.中间件配置
