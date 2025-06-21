@@ -63,7 +63,7 @@
                                                                         "name": "gitUsername",
                                                                         "id": "u:3f5gfe03942c",
                                                                         "size": "sm",
-                                                                        "required": true,
+                                                                        "required": false,
                                                                         "description": "应用代码的Git用户名"
                                                                     },
                                                                     {
@@ -72,7 +72,7 @@
                                                                         "name": "gitPassword",
                                                                         "id": "u:8d9vfe03384f",
                                                                         "size": "sm",
-                                                                        "required": true,
+                                                                        "required": false,
                                                                         "description": "应用代码的Git密码"
                                                                     },
                                                                     {

@@ -27,7 +27,7 @@ export = {
     'get /cl-application/switch/:id': async function (ctx, next) {
         const id = ctx.getParam('id')
         const model = await ClApplication.getByPk(id)
-        if (!model) {
+        if (!model || model.status === DataStatus.DISABLED) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
         ctx.cookies.set(Cookies.CURRENT_APP_ID, id)
