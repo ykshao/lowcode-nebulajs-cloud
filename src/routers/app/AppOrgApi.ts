@@ -55,6 +55,8 @@ export = {
             if (!model) {
                 return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
             }
+            // 验证Client权限
+            ctx.checkClientAuth(model)
             // 去掉不可更新字段
             ForbiddenUpdateAppModelProps.forEach((p) => delete body[p])
 

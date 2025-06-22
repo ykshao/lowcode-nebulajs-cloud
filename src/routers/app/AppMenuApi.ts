@@ -1,5 +1,14 @@
-import { NebulaKoaContext, NebulaErrors, QueryParser } from 'nebulajs-core'
-import { Cache, AuditModelProps } from '../../config/constants'
+import {
+    NebulaKoaContext,
+    NebulaErrors,
+    QueryParser,
+    NebulaBizError,
+} from 'nebulajs-core'
+import {
+    Cache,
+    AuditModelProps,
+    ForbiddenUpdateAppModelProps,
+} from '../../config/constants'
 import { MenuService } from '../../services/app/MenuService'
 import { Op } from 'sequelize'
 import { AppMenu } from '../../models/AppMenu'
@@ -62,14 +71,28 @@ export = {
     },
 
     'post /app-menu': async function (ctx, next) {
+        let model: AppMenu = null
         const body = ctx.request.body
-        const [{ dataValues }] = await AppMenu.upsert({
-            ...body,
-            appId: ctx.clientAppId,
-        })
-        await MenuService.clearMenuNavCache(ctx.clientAppId)
+        if (body.id) {
+            // 更新
+            model = await AppMenu.getByPk(body.id)
+            if (!model) {
+                throw new NebulaBizError(
+                    NebulaErrors.BadRequestErrors.DataNotFound
+                )
+            }
+            // 验证Client权限
+            ctx.checkClientAuth(model)
+            // 去掉不可更新字段
+            ForbiddenUpdateAppModelProps.forEach((p) => delete body[p])
+            model.set(body)
+            model = await model.save()
+        } else {
+            model = await AppMenu.create({ ...body, appId: ctx.clientAppId })
+        }
 
-        ctx.ok(dataValues)
+        await MenuService.clearMenuNavCache(ctx.clientAppId)
+        ctx.ok(model.dataValues)
     },
 
     'post /app-menu/bind': async function (ctx, next) {

@@ -144,7 +144,7 @@ export = {
     'post /app-user': async function (ctx, next) {
         ctx.checkRequired(['login'])
         const saved = await UserService.createOrUpdateUser(
-            ctx.clientAppId,
+            ctx,
             ctx.request.body
         )
         ctx.ok(saved.dataValues)

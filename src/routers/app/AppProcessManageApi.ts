@@ -5,7 +5,10 @@ import { ProcessErrors } from '../../config/errors'
 import { AppProcessGroup } from '../../models/AppProcessGroup'
 import { AppProcessDef } from '../../models/AppProcessDef'
 import { ClModel } from '../../models/ClModel'
-import { DataStatus } from '../../config/constants'
+import {
+    DataStatus,
+    ForbiddenUpdateAppModelProps,
+} from '../../config/constants'
 
 export = {
     'get /app-process-group': async function (ctx, next) {
@@ -59,6 +62,10 @@ export = {
             if (!model) {
                 return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
             }
+            // 验证Client权限
+            ctx.checkClientAuth(model)
+            // 去掉不可更新字段
+            ForbiddenUpdateAppModelProps.forEach((p) => delete body[p])
             model.set({ ...body, appId: ctx.clientAppId })
             model = await model.save()
         } else {

@@ -1,7 +1,11 @@
-import { NebulaBizError, NebulaErrors } from 'nebulajs-core'
+import { NebulaBizError, NebulaErrors, NebulaKoaContext } from 'nebulajs-core'
 import bcrypt from 'bcryptjs'
 import { Sequelize, Op } from 'sequelize'
-import { Constants, DataStatus } from '../../config/constants'
+import {
+    Constants,
+    DataStatus,
+    ForbiddenUpdateAppModelProps,
+} from '../../config/constants'
 import { AppUser } from '../../models/AppUser'
 import { AppUserOrganization } from '../../models/AppUser'
 import { AppRole } from '../../models/AppRole'
@@ -65,10 +69,14 @@ export class UserService {
 
     /**
      * 根据ID创建或更新用户
-     * @param appId
+     * @param ctx
      * @param body
      */
-    static async createOrUpdateUser(appId, body): Promise<AppUser> {
+    static async createOrUpdateUser(
+        ctx: NebulaKoaContext,
+        body
+    ): Promise<AppUser> {
+        const appId = ctx.clientAppId
         const { id, login, name, email, avatar, deptId, position } = body
         const user = await UserService.getUserByLoginAndAppId(appId, login)
         let model: AppUser = null
@@ -84,6 +92,10 @@ export class UserService {
             if (user && user.dataValues.login !== model.dataValues.login) {
                 throw new NebulaBizError(UserErrors.UserLoginExist)
             }
+            // 验证Client权限
+            ctx.checkClientAuth(model)
+            // 去掉不可更新字段
+            ForbiddenUpdateAppModelProps.forEach((p) => delete body[p])
             model.set({ name, login, email, avatar, deptId, position })
             model = await model.save()
         } else {
