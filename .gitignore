@@ -12,3 +12,4 @@ db/
 src/**/*.js
 .version
 build/
+tsconfig.tsbuildinfo
