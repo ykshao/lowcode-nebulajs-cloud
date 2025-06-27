@@ -79,11 +79,11 @@ export class AppMenu extends BaseModel<
                     comment: '显示顺序',
                 },
                 createdBy: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.STRING(50),
                     comment: '创建人',
                 },
                 updatedBy: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.STRING(50),
                     comment: '更新人',
                 },
                 remark: {

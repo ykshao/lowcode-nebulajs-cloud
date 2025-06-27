@@ -55,12 +55,13 @@ module.exports = {
     },
 
     async getClient(clientId, clientSecret, request) {
-        console.log('getClient----------------', request.body, request.query)
+        // console.log('getClient----------------', request.body, request.query)
         const { grant_type } = request.body
         if (grant_type && !OAuthGrantTypes.includes(grant_type)) {
             return null
         }
         const app = await ClApplication.getByUniqueKey('clientId', clientId)
+        nebula.logger.debug('OAuth model getClient: %o', app.dataValues)
         if (!app) {
             return null
         }
@@ -80,6 +81,7 @@ module.exports = {
         // console.log('getUser----------------', request.body, request.query)
         const { client_id, app_id } = request.body
         const user = await UserService.getUserByLoginAndAppId(app_id, username)
+        nebula.logger.debug('OAuth model getUser: %o', user.dataValues)
         if (!user || user.status !== DataStatus.ENABLED) {
             return null
         }

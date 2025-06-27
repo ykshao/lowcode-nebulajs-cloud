@@ -32,6 +32,7 @@ export class ClModel extends BaseModel<
     declare updatedByField: string
     declare deletedAtField: string
     declare tags: string
+    declare codegenSetting: string
     declare createdBy: string
     declare updatedBy: string
     declare remark: string
@@ -120,6 +121,10 @@ export class ClModel extends BaseModel<
                 tags: {
                     type: DataTypes.STRING,
                     comment: '标签',
+                },
+                codegenSetting: {
+                    type: DataTypes.STRING,
+                    comment: '生成代码设置',
                 },
                 createdBy: {
                     type: DataTypes.STRING,
