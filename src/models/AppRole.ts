@@ -12,6 +12,7 @@ import decamelize from 'decamelize'
 import { BaseModel } from 'nebulajs-core'
 import { DataStatus } from '../config/constants'
 import { AppMenu } from './AppMenu'
+import { AppResource } from './AppResource'
 
 export class AppRoleMenu extends BaseModel {
     static initAttributes = (sequelize) =>
@@ -28,6 +29,29 @@ export class AppRoleMenu extends BaseModel {
                 tableName: decamelize(AppRoleMenu.prototype.constructor.name),
                 underscored: true,
                 comment: '角色菜单',
+                sequelize,
+                createdAt: false,
+                updatedAt: false,
+            }
+        )
+}
+export class AppRoleResource extends BaseModel {
+    static initAttributes = (sequelize) =>
+        this.init(
+            {
+                id: {
+                    type: DataTypes.UUID,
+                    comment: 'ID',
+                    primaryKey: true,
+                    defaultValue: DataTypes.UUIDV4,
+                },
+            },
+            {
+                tableName: decamelize(
+                    AppRoleResource.prototype.constructor.name
+                ),
+                underscored: true,
+                comment: '角色权限',
                 sequelize,
                 createdAt: false,
                 updatedAt: false,
@@ -51,6 +75,10 @@ export class AppRole extends BaseModel<
     declare addMenu: HasManyAddAssociationMixin<AppMenu, string>
     declare removeMenu: HasManyRemoveAssociationMixin<AppMenu, string>
 
+    declare resources: NonAttribute<AppResource[]>
+    declare addResource: HasManyAddAssociationMixin<AppResource, string>
+    declare removeResource: HasManyRemoveAssociationMixin<AppResource, string>
+
     static initAttributes = (sequelize) =>
         this.init(
             {
@@ -69,11 +97,11 @@ export class AppRole extends BaseModel<
                     comment: '角色名称',
                 },
                 createdBy: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.STRING(50),
                     comment: '创建人',
                 },
                 updatedBy: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.STRING(50),
                     comment: '更新人',
                 },
                 remark: {
@@ -105,6 +133,14 @@ export class AppRole extends BaseModel<
             through: AppRoleMenu,
             foreignKey: 'roleId',
             otherKey: 'menuId',
+            onDelete: 'CASCADE',
+        })
+
+        AppRole.belongsToMany(AppResource, {
+            as: 'resources',
+            through: AppRoleResource,
+            foreignKey: 'roleId',
+            otherKey: 'resourceId',
             onDelete: 'CASCADE',
         })
     }

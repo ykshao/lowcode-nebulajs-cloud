@@ -15,9 +15,10 @@ export class AppResource extends BaseModel<
     declare id: string
     declare name: string
     declare key: string
-    declare type: string
-    declare createdBy: string
-    declare updatedBy: string
+    declare method: string
+    declare url: string
+    declare pageId: string
+    declare pageName: string
     declare remark: string
     declare appId: string
 
@@ -32,31 +33,33 @@ export class AppResource extends BaseModel<
                 },
                 name: {
                     type: DataTypes.STRING,
-                    comment: '名称',
+                    comment: '权限名称',
                 },
                 key: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.STRING(30),
                     comment: '权限标识',
                 },
-
                 /**
-                 * 权限类型
-                 * 1. 接口权限
-                 * 2. 数据权限
-                 * 3. 页面权限（菜单）
-                 * 4. 元素权限
+                 * 接口请求方式
                  */
-                type: {
-                    type: DataTypes.STRING,
+                method: {
+                    type: DataTypes.STRING(30),
+                    comment: '请求方式（*,GET,POST,PUT...）',
+                },
+                /**
+                 * 接口路径
+                 */
+                url: {
+                    type: DataTypes.STRING(100),
                     comment: '类型',
                 },
-                createdBy: {
-                    type: DataTypes.STRING,
-                    comment: '创建人',
+                pageId: {
+                    type: DataTypes.UUID,
+                    comment: '页面ID',
                 },
-                updatedBy: {
+                pageName: {
                     type: DataTypes.STRING,
-                    comment: '更新人',
+                    comment: '页面名称',
                 },
                 remark: {
                     type: DataTypes.STRING,
@@ -71,7 +74,10 @@ export class AppResource extends BaseModel<
                 tableName: decamelize(AppResource.prototype.constructor.name),
                 underscored: true,
                 comment: '权限资源',
+                indexes: [{ fields: ['app_id'] }],
                 sequelize,
             }
         )
+
+    static initAssociations() {}
 }

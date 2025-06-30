@@ -211,6 +211,91 @@
                         }
                     },
                     "id": "u:69be91894217"
+                },
+                {
+                    "label": "分配权限",
+                    "type": "button",
+                    "onEvent": {
+                        "click": {
+                            "weight": 0,
+                            "actions": [
+                                {
+                                    "dialog": {
+                                        "type": "dialog",
+                                        "title": "选择权限",
+                                        "body": [
+                                            {
+                                                "type": "form",
+                                                "title": "表单",
+                                                "mode": "normal",
+                                                "initApi": {
+                                                    "url": "cloud/app/app-role/${id}/resources",
+                                                    "method": "get",
+                                                    "messages": {}
+                                                },
+                                                "body": [
+                                                    {
+                                                        "type": "input-tree",
+                                                        "name": "resources",
+                                                        "multiple": true,
+                                                        "enableNodePath": false,
+                                                        "hideRoot": false,
+                                                        "showIcon": true,
+                                                        "initiallyOpen": true,
+                                                        "cascade": true,
+                                                        "className": "h-full",
+                                                        "treeContainerClassName": "h-full",
+                                                        "source": {
+                                                            "method": "get",
+                                                            "url": "cloud/app/app-resource/tree"
+                                                        },
+                                                        "joinValues": false,
+                                                        "labelField": "label",
+                                                        "valueField": "id",
+                                                        "id": "u:870178b615ba"
+                                                    }
+                                                ],
+                                                "wrapWithPanel": false,
+                                                "api": {
+                                                    "url": "cloud/app/app-role/allocate/resources",
+                                                    "method": "post",
+                                                    "messages": {
+                                                        "success": "分配权限成功"
+                                                    },
+                                                    "dataType": "json",
+                                                    "data": {
+                                                        "resIds": "${ARRAYMAP(resources, item => item.id)}",
+                                                        "roleIds": "${SPLIT(ids, ',')}"
+                                                    }
+                                                },
+                                                "id": "u:4d36dc514680",
+                                                "onEvent": {
+                                                    "submitSucc": {
+                                                        "actions": [
+                                                            {
+                                                                "actionType": "reload",
+                                                                "componentId": "u:b1d463ece8bc",
+                                                                "dataMergeMode": "merge"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            }
+                                        ],
+                                        "showCloseButton": true,
+                                        "showErrorMsg": false,
+                                        "showLoading": true,
+                                        "id": "u:de8149176a88",
+                                        "closeOnEsc": false,
+                                        "dataMapSwitch": false,
+                                        "size": "md"
+                                    },
+                                    "actionType": "dialog"
+                                }
+                            ]
+                        }
+                    },
+                    "id": "u:32be91894482"
                 }
             ],
             "itemActions": [],

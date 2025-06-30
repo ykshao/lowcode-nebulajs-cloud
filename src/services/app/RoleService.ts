@@ -1,6 +1,7 @@
 import { Op } from 'sequelize'
 import { AppRole } from '../../models/AppRole'
 import { AppMenu } from '../../models/AppMenu'
+import { AppResource } from '../../models/AppResource'
 
 export class RoleService {
     /**
@@ -80,6 +81,44 @@ export class RoleService {
             for (const mm of roleMenus) {
                 if (!menuIds.includes(mm.dataValues.id)) {
                     await rm.removeMenu(mm)
+                }
+            }
+        }
+    }
+
+    static async allocateResources(appId, resIds, roleIds) {
+        const roleModels = await AppRole.findAll({
+            where: {
+                id: { [Op.in]: roleIds },
+                appId,
+            },
+            include: {
+                model: AppResource,
+                as: 'resources',
+            },
+        })
+        const resModels = await AppResource.findAll({
+            where: {
+                id: { [Op.in]: resIds },
+                //[Op.or]: [{ appId }, { isSystem: true }],
+                appId,
+            },
+        })
+        for (const rm of roleModels) {
+            const roleResources = rm.resources
+            const roleResourceIds = rm.resources.map((r) => r.id)
+
+            // 新增
+            for (const mm of resModels) {
+                if (!roleResourceIds.includes(mm.dataValues.id)) {
+                    await rm.addResource(mm)
+                }
+            }
+
+            // 删除
+            for (const mm of roleResources) {
+                if (!resIds.includes(mm.dataValues.id)) {
+                    await rm.removeResource(mm)
                 }
             }
         }

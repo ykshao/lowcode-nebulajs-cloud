@@ -2,6 +2,7 @@ import { NebulaBizError, NebulaErrors, QueryParser } from 'nebulajs-core'
 import { Op } from 'sequelize'
 import { ApplicationErrors, UserErrors } from '../../config/errors'
 import {
+    AuditModelProps,
     Cache,
     DataStatus,
     ForbiddenUpdateAppModelProps,
@@ -10,6 +11,7 @@ import { RoleService } from '../../services/app/RoleService'
 import { MenuService } from '../../services/app/MenuService'
 import { AppRole } from '../../models/AppRole'
 import { AppMenu } from '../../models/AppMenu'
+import { AppResource } from '../../models/AppResource'
 
 export = {
     'post /app-role/allocate/menus': async function (ctx, next) {
@@ -17,6 +19,13 @@ export = {
         const { menuIds, roleIds } = ctx.request.body
         await RoleService.allocateMenus(ctx.clientAppId, menuIds, roleIds)
         await MenuService.clearMenuNavCache(ctx.clientAppId)
+        ctx.ok()
+    },
+
+    'post /app-role/allocate/resources': async function (ctx, next) {
+        ctx.checkRequired(['resIds', 'roleIds'])
+        const { resIds, roleIds } = ctx.request.body
+        await RoleService.allocateResources(ctx.clientAppId, resIds, roleIds)
         ctx.ok()
     },
 
@@ -88,6 +97,26 @@ export = {
         }
 
         ctx.ok(model.dataValues)
+    },
+
+    'get /app-role/:id/resources': async function (ctx, next) {
+        const id = ctx.getParam('id')
+        const role = await AppRole.findOne({
+            where: {
+                id,
+                appId: ctx.clientAppId,
+            },
+            include: [
+                {
+                    model: AppResource,
+                    as: 'resources',
+                    attributes: {
+                        exclude: ['appId', ...AuditModelProps],
+                    },
+                },
+            ],
+        })
+        ctx.ok(role.dataValues)
     },
 
     'delete /app-role/:id': async function (ctx, next) {

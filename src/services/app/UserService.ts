@@ -139,7 +139,7 @@ export class UserService {
                 {
                     model: AppRole,
                     as: 'roles',
-                    attributes: ['code'],
+                    attributes: ['id', 'code'],
                 },
             ],
         })
