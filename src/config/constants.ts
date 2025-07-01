@@ -95,8 +95,9 @@ export const Cache = {
     getAppConfigKey: (env, appId) => `app-config:${env}:${appId}`,
     getAppMenuNavKey: (appId) => `app-menu:${appId}:*`,
     getAppUserMenuNavKey: (appId, login) => `app-menu:${appId}:${login}`,
+    getAppUserResourceKey: (appId, login) => `user-resource:${appId}:${login}`,
     getAppUserMessageCountKey: (appId, login) =>
-        `app-message-count:${appId}:${login}`,
+        `user-message-count:${appId}:${login}`,
     getAuthCodeKey: (code) => `auth-code:${code}`,
 }
 

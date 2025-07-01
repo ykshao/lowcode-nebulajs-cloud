@@ -32,6 +32,11 @@ export function clientExtension({
             return await next()
         }
 
+        /**
+         * Model权限验证
+         * 验证要访问的Model是否属于本App
+         * @param model
+         */
         ctx.checkClientAuth = function (model: Model) {
             const modelAppId = model.dataValues['appId']
             if (modelAppId && this.clientAppId !== modelAppId) {

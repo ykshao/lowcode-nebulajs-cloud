@@ -85,18 +85,18 @@ module.exports = {
         if (!user || user.status !== DataStatus.ENABLED) {
             return null
         }
-        if (!user.password) {
+        const { login, password: hashPassword, id } = user
+        if (!user.password || !bcrypt.compareSync(password, hashPassword)) {
             throw new OAuthError(`the password of ${user.login} is invalid.`, {
                 code: 401,
             })
         }
-        const { login, password: hashPassword, id } = user
-        const result = await bcrypt.compareSync(password, hashPassword)
-        if (!result) {
-            return null
+        return {
+            // id, 无用，减少JWT体积
+            login,
+            name: user.name,
+            roles: user.roles.map((r) => r.code),
         }
-
-        return { login, id, name: user.name }
     },
     async saveToken(token, client, user) {
         // console.log('saveToken', token, client, user)
