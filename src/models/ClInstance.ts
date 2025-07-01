@@ -95,7 +95,7 @@ export class ClInstance extends BaseModel<
                     comment: '目录映射（映射目录列表，逗号分割）',
                 },
                 status: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.STRING(1),
                     comment: '状态（0:停止，1:启动中，2:运行中）',
                     defaultValue: InstanceStatus.STOPPED,
                     allowNull: false,

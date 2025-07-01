@@ -100,8 +100,11 @@
                             "className": "text-danger",
                             "confirmText": "确定要删除？",
                             "api": {
-                                "method": "post",
-                                "url": ""
+                                "method": "delete",
+                                "url": "cloud/app/app-process-group/$id",
+                                "messages": {
+                                    "success": "删除流程分组成功"
+                                }
                             },
                             "id": "u:b30372a0beb8"
                         }

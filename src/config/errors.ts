@@ -146,7 +146,7 @@ export class ProcessErrors extends NebulaErrors.BadRequestErrors {
     }
     static ProcessDefCannotDelete = {
         code: 23010,
-        msg: '无法删除该流程，有未完成的流程实例',
+        msg: '无法删除该流程，存在未完成的流程实例',
     }
     static ProcessDefNotFound = {
         code: 23011,
@@ -155,5 +155,9 @@ export class ProcessErrors extends NebulaErrors.BadRequestErrors {
     static ProcessAssigneesCannotBeNull = {
         code: 23012,
         msg: '指派人不能为空',
+    }
+    static ProcessDefGroupCannotDelete = {
+        code: 23010,
+        msg: '无法删除该流程分组，存在对应的流程定义',
     }
 }

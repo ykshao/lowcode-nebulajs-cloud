@@ -77,7 +77,25 @@ export = {
         }
         ctx.ok(model.dataValues)
     },
-
+    'delete /app-process-group/:id': async function (ctx, next) {
+        const id = ctx.getParam('id')
+        const model = await AppProcessGroup.getByPk(id)
+        if (!model) {
+            return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
+        }
+        ctx.checkClientAuth(model)
+        const count = await AppProcessDef.count({
+            where: {
+                appId: ctx.clientAppId,
+                groupId: id,
+            },
+        })
+        if (count > 0) {
+            throw new NebulaBizError(ProcessErrors.ProcessDefGroupCannotDelete)
+        }
+        await model.destroy()
+        ctx.ok()
+    },
     'get /app-process-def': async function (ctx, next) {
         const {
             where,
@@ -176,6 +194,7 @@ export = {
         }
         instance.set({
             status: DataStatus.DISABLED,
+            groupId: null, // 删除流程时，清空分组信息
         })
         await instance.save()
         ctx.ok()

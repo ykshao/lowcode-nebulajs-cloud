@@ -46,7 +46,7 @@ export class ClImage extends BaseModel<
                     comment: '版本',
                 },
                 buildStatus: {
-                    type: DataTypes.STRING,
+                    type: DataTypes.STRING(1),
                     comment: '构建状态',
                     defaultValue: BuildStatus.BUILDING,
                 },
