@@ -228,5 +228,6 @@
     ],
     "type": "page",
     "toolbar": [],
+    "title": "应用列表",
     "className": ""
 }

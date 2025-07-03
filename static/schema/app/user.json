@@ -653,7 +653,10 @@
                                                     }
                                                 ],
                                                 "mode": "horizontal",
-                                                "api": "cloud/app-user/imp"
+                                                "api": {
+                                                    "url": "cloud/app-user/imp",
+                                                    "method": "post"
+                                                }
                                             }
                                         ],
                                         "showCloseButton": true,

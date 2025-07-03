@@ -767,6 +767,7 @@
         }
     ],
     "toolbar": [],
+    "title": "模型编辑",
     "type": "page",
     "style": {
         "boxShadow": " 0px 0px 0px 0px transparent"

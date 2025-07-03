@@ -254,6 +254,7 @@
             "isFixedWidth": false
         }
     ],
+    "title": "设置",
     "type": "page",
     "initApi": {
         "method": "get",

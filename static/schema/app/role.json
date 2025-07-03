@@ -387,5 +387,6 @@
         }
     ],
     "type": "page",
+    "title": "角色管理",
     "asideResizor": false
 }
