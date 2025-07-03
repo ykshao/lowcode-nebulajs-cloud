@@ -654,7 +654,7 @@
                                                 ],
                                                 "mode": "horizontal",
                                                 "api": {
-                                                    "url": "cloud/app-user/imp",
+                                                    "url": "cloud/app/app-user/imp",
                                                     "method": "post"
                                                 }
                                             }

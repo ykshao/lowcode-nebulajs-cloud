@@ -86,7 +86,10 @@
                             "type": "log",
                             "height": 510,
                             "disableColor": false,
-                            "source": "/portal/cl-job/execution/$id/log",
+                            "source": {
+                              "url": "/portal/cl-job/execution/$id/log",
+                              "method": "get"
+                            },
                             "id": "u:ef7b91217625",
                             "autoScroll": true,
                             "operation": [

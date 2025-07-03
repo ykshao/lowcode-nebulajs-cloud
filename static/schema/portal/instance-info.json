@@ -367,7 +367,10 @@
                                     "type": "log",
                                     "height": 510,
                                     "disableColor": false,
-                                    "source": "/portal/cl-instance/log/$id",
+                                    "source": {
+                                        "url": "/portal/cl-instance/log/$id",
+                                        "method": "get"
+                                    },
                                     "id": "u:ef7b91217625",
                                     "autoScroll": true,
                                     "operation": [
