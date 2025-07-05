@@ -155,6 +155,7 @@
                                                         "showIcon": true,
                                                         "initiallyOpen": true,
                                                         "cascade": true,
+                                                        "autoCheckChildren": false,
                                                         "className": "h-full",
                                                         "treeContainerClassName": "h-full",
                                                         "source": {
@@ -239,9 +240,9 @@
                                                         "name": "resources",
                                                         "multiple": true,
                                                         "enableNodePath": false,
-                                                        "hideRoot": false,
+                                                        "hideRoot": true,
                                                         "showIcon": true,
-                                                        "initiallyOpen": true,
+                                                        "initiallyOpen": false,
                                                         "cascade": true,
                                                         "className": "h-full",
                                                         "treeContainerClassName": "h-full",
@@ -285,7 +286,7 @@
                                         "showCloseButton": true,
                                         "showErrorMsg": false,
                                         "showLoading": true,
-                                        "id": "u:de8149176a88",
+                                        "id": "u:cc8139283a88",
                                         "closeOnEsc": false,
                                         "dataMapSwitch": false,
                                         "size": "md"

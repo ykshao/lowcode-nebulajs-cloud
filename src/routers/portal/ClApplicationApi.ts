@@ -203,7 +203,7 @@ export = {
         ctx.set('X-Total-Count', count)
     },
 
-    'post /cl-application/develop': async (ctx, next) => {
+    'post /cl-application/develop/vscode/start': async (ctx, next) => {
         let instance = await ClInstance.findOne({
             where: {
                 appId: ctx.appId,
@@ -220,6 +220,21 @@ export = {
             )
         }
         await InstanceService.startInstance(instance)
+        ctx.ok()
+    },
+
+    'post /cl-application/develop/vscode/stop': async (ctx, next) => {
+        const instance = await ClInstance.findOne({
+            where: {
+                appId: ctx.appId,
+                type: 'vscode',
+                env: 'dev',
+            },
+        })
+        if (!instance) {
+            return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
+        }
+        await InstanceService.stopInstance(instance)
         ctx.ok()
     },
 

@@ -60,7 +60,7 @@ export = {
                 login,
             },
         })
-        ctx.ok(user?.dataValues)
+        ctx.ok(user.dataValues)
     },
 
     'get /app-user/struct': async function (ctx, next) {

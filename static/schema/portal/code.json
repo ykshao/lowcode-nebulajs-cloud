@@ -345,7 +345,7 @@
                                             "level": "primary",
                                             "actionType": "ajax",
                                             "api": {
-                                                "url": "/portal/cl-application/develop",
+                                                "url": "/portal/cl-application/develop/vscode/start",
                                                 "method": "post",
                                                 "messages": {
                                                     "success": "启动容器成功，首次启动需要1-2分钟，请稍后..."
@@ -362,8 +362,8 @@
                                             "label": "停止编辑器",
                                             "actionType": "ajax",
                                             "api": {
-                                                "url": "/portal/cl-instance/stop/${instance.id}",
-                                                "method": "get",
+                                                "url": "/portal/cl-application/develop/vscode/stop",
+                                                "method": "post",
                                                 "messages": {
                                                     "success": "停止开发容器成功"
                                                 }

@@ -13,7 +13,8 @@
                 "responseData": {
                     "currentUser": "$$"
                 },
-                "sendOn":"${ss:currentUser == null}"
+                // 此处需要强制获取用户，不用sendOn，如果页面被嵌入时外层切换用户，应重新调用接口获取用户
+                // "sendOn": "${ss:currentUser == null}"
             },
             "onEvent": {
                 "fetchInited":{
