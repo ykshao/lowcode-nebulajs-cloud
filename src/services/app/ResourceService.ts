@@ -1,7 +1,9 @@
 import { AppResource } from '../../models/AppResource'
-import { AuditModelProps } from '../../config/constants'
+import { AuditModelProps, DataStatus } from '../../config/constants'
 import { TreeUtils } from 'nebulajs-core/lib/utils'
 import { TreeNode } from 'nebulajs-core'
+import { AppRole } from '../../models/AppRole'
+import { Op } from 'sequelize'
 
 export class ResourceService {
     static async getResourceTree(appId) {
@@ -9,27 +11,32 @@ export class ResourceService {
             where: {
                 appId,
             },
-            order: [['pageId', 'asc']],
+            order: [
+                ['group', 'asc'],
+                ['url', 'asc'],
+            ],
             attributes: {
                 exclude: AuditModelProps,
             },
         })
 
-        const pageList: (TreeNode & { label: string })[] = []
-        const resList: (TreeNode & { label: string })[] = []
+        const pageList: TreeNode[] = []
+        const resList: TreeNode[] = []
         list.map((r) => r.dataValues).forEach((r) => {
-            if (!pageList.find((p) => p.id === r.pageId)) {
+            r.group = r.group || '系统资源'
+            r.name = r.name || ''
+            if (!pageList.find((p) => p.id === r.group)) {
                 pageList.push({
-                    id: r.pageId,
+                    id: r.group,
                     pid: null,
                     seq: 0,
                     children: [],
-                    label: r.pageName,
+                    label: r.group,
                 })
             }
             resList.push({
                 ...r,
-                pid: r.pageId,
+                pid: r.group,
                 seq: 1,
                 children: [],
                 label: r.name + ':' + r.method + ' ' + r.url,
@@ -43,5 +50,26 @@ export class ResourceService {
             }
         )
         return treeList
+    }
+    static async findResourcesByRoleCodes(appId, roleCodes): Promise<string[]> {
+        const resModels = await AppResource.findAll({
+            where: {
+                appId,
+                regexp: {
+                    [Op.not]: null,
+                },
+            },
+            include: {
+                model: AppRole,
+                as: 'roles',
+                where: {
+                    code: { [Op.in]: roleCodes },
+                    appId,
+                },
+            },
+        })
+        return resModels.map((r) => {
+            return r.method + ' ' + r.regexp.substring(1, r.regexp.length - 2)
+        })
     }
 }

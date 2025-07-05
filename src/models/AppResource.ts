@@ -7,6 +7,7 @@ import {
 } from 'sequelize'
 import decamelize from 'decamelize'
 import { BaseModel } from 'nebulajs-core'
+import { AppRole, AppRoleResource } from './AppRole'
 
 export class AppResource extends BaseModel<
     InferAttributes<AppResource>,
@@ -17,9 +18,8 @@ export class AppResource extends BaseModel<
     declare key: string
     declare method: string
     declare url: string
-    declare pageId: string
-    declare pageName: string
-    declare remark: string
+    declare regexp: string
+    declare group: string
     declare appId: string
 
     static initAttributes = (sequelize) =>
@@ -53,17 +53,13 @@ export class AppResource extends BaseModel<
                     type: DataTypes.STRING(100),
                     comment: '类型',
                 },
-                pageId: {
-                    type: DataTypes.UUID,
-                    comment: '页面ID',
+                regexp: {
+                    type: DataTypes.STRING(200),
+                    comment: '路径正则表达式',
                 },
-                pageName: {
-                    type: DataTypes.STRING,
-                    comment: '页面名称',
-                },
-                remark: {
-                    type: DataTypes.STRING,
-                    comment: '备注',
+                group: {
+                    type: DataTypes.STRING(50),
+                    comment: '页面/组',
                 },
                 appId: {
                     type: DataTypes.UUID,
@@ -79,5 +75,13 @@ export class AppResource extends BaseModel<
             }
         )
 
-    static initAssociations() {}
+    static initAssociations() {
+        AppResource.belongsToMany(AppRole, {
+            as: 'roles',
+            through: AppRoleResource,
+            foreignKey: 'resourceId',
+            otherKey: 'roleId',
+            onDelete: 'CASCADE',
+        })
+    }
 }

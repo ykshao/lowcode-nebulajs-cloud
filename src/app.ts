@@ -18,6 +18,7 @@ import { portalExtension } from './midwares/app-extension'
 import { clientExtension } from './midwares/client-extension'
 import { NebulaAppInitOptions } from 'nebulajs-core/lib/types/nebula'
 import OAuth2Server from 'nebulajs-oauth2-server'
+import { ResourceUtils } from 'nebulajs-core/lib/utils'
 
 const pkg = require('../package.json')
 const config = require('./config/env')
@@ -72,19 +73,21 @@ async function startup(port) {
             accessManager: new AccessManager({
                 whitePathList: [...whitePathList, '* /api'],
                 // whitePathList,
+                pathRewriteMap: new Map([[/^\/cloud\/(.+)/, '/$1']]), // 替换cloud接口
             }),
             accessTokenCookieName: Cookies.ACCESS_TOKEN,
             refreshTokenCookieName: Cookies.REFRESH_TOKEN,
         })
     )
 
+    // 使用/cloud代理调用Nebula云端系统接口
     app.middlewares.push(
         cloudExtension({ logger: app.logger, routePath: '/cloud' })
     )
 
-    // Nebula平台API，接收租户应用请求（SDK请求、租户端系统页面请求）
-    // 验证租户签名，可能存在A系统用户，携带B系统的请求头访问
-    // 理论上不可以，cloud接口都是通过sdk调用
+    // Nebula平台API，接收租户应用请求
+    // 1.SDK请求
+    // 2.SDK携带用户信息，租户端系统页面请求
     app.middlewares.push(
         clientExtension({ logger: app.logger, routePath: ['/api', '/app'] })
     )
@@ -117,6 +120,9 @@ async function startup(port) {
     // 装载任务调度
     await setupScheduler()
 
+    // 同步应用权限资源
+    await registerClientResources()
+
     // Camunda 工作流任务监听
     SystemService.listenCamundaTasks()
 
@@ -128,6 +134,19 @@ async function startup(port) {
     })
 
     return app
+}
+
+async function registerClientResources() {
+    // console.log('multiLayerRouters', app.router.multiLayerRouters)
+    const pageResources = await ResourceUtils.scanAmisResources(
+        nebula.staticPath + '/schema',
+        new Map([[/^\/cloud\/(.+)/, '/$1']]) // 替换cloud接口
+    )
+    const resources = ResourceUtils.findAllResources(
+        ['* ^/api/.+', ...whitePathList],
+        pageResources
+    )
+    await nebula.sdk.resource.syncResources(resources)
 }
 
 async function setupScheduler() {

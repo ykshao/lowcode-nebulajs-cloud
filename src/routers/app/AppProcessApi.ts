@@ -447,6 +447,6 @@ export = {
     //         })
     //     ctx.ok(taskList)
     // },
-    'post /app-process/task/delegate': async function (ctx, next) {},
-    'post /app-process/task/complete': async function (ctx, next) {},
+    // 'post /app-process/task/delegate': async function (ctx, next) {},
+    // 'post /app-process/task/complete': async function (ctx, next) {},
 }
