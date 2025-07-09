@@ -15,14 +15,17 @@ database:
   <%_ } _%>
 <%_ } _%>
 
-<%_ if(typeof redis !== 'undefined'){ _%>
 ## Redis配置
+<%_ if(typeof redis !== 'undefined'){ _%>
 redis:
   port: <%=redis.port%> # Redis port
   host: '<%=redis.host%>' # Redis host
   family: 4 # 4 (IPv4) or 6 (IPv6)
   db: <%=redis.schema%>
   password: '<%=redis.password%>'
+<%_ } else { _%>
+redis:
+  useMock: true
 <%_ } _%>
 
 ## 日志配置
