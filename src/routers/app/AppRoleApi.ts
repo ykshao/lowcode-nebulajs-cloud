@@ -42,6 +42,7 @@ export = {
                 ...where,
                 appId: ctx.clientAppId,
             },
+            distinct: true, // 不加此选项查询数据会重复，count不准确
             include: [
                 {
                     model: AppMenu,
