@@ -12,18 +12,19 @@
     "tsc": "tsc --watch",
     "build": "./node_modules/.bin/tsc",
     "dev": "nodemon bin/www",
-    "local":"cross-env NODE_ENV='dev' HTTP_PORT='3003' SERVICE_URL='<%=serviceURL%>' WS_SERVICE_URL='<%=wsServiceURL%>' nodemon --inspect=9229 bin/www",
+    "local":"cross-env NODE_ENV='dev' HTTP_PORT='3003' SERVICE_URL='<%=serviceURL%>' WS_SERVICE_URL='<%=wsServiceURL%>' nodemon bin/www -- --inspect=9229",
     "start": "node bin/www",
     "gen-docs": "cross-env HTTP_PORT='3003' node ./cli/gen-docs.js",
     "docs": "docsify serve ./docs --port 3010"
   },
   "nodemonConfig": {
+    "verbose": true,
     "ignore": [
       "*.js.map",
       ".git/**",
       "node_modules/**",
       "static/**",
-      "schema/**",
+      "docs/**",
       "logs/**",
       "jobs/**"
     ]
@@ -50,6 +51,7 @@
     "exceljs": "4.4.0",
     "randomstring": "^1.2.1",
     "ioredis": "^5.2.4",
+    "ioredis-mock": "^8.9.0",
     "socket.io-client": "^4.5.4",
     "string-format": "^2.0.0",
     "swagger-jsdoc": "^6.1.0",
@@ -62,7 +64,7 @@
     "@types/koa": "^2.11.6",
     "@types/node": "^16.18.91",
     "cross-env": "7.0.0",
-    "nodemon": "^3.1.10",
+    "nodemon": "^2.0.22",
     "prettier": "~2.7.1",
     "typescript": "^4.9.5",
     "docsify-cli": "^4.4.4"

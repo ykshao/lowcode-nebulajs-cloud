@@ -15,16 +15,17 @@
         "archive:with-node-modules": "node cli/archive.js --with_node_modules",
         "package": "node cli/package.js",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "cross-env NODE_ENV='dev' HTTP_PORT='3000' nodemon bin/www -V -- --inspect=9230",
+        "dev": "cross-env NODE_ENV='dev' HTTP_PORT='3000' nodemon bin/www -- --inspect=9230",
         "uat": "cross-env NODE_ENV='uat' node bin/www",
         "prod": "cross-env NODE_ENV='prod' node bin/www",
-        "prod:dev": "cross-env NODE_ENV='prod' HTTP_PORT='3000' nodemon bin/www -V -- --inspect=9230",
+        "prod:dev": "cross-env NODE_ENV='prod' HTTP_PORT='3000' nodemon bin/www -- --inspect=9230",
         "generate": "cross-env NODE_ENV='dev' node ./bin/generate.js",
         "start": "node bin/www.js",
         "docs": "docsify serve ./docs --port 3010 --open",
         "gen-docs": "node ./cli/gen-docs.js"
     },
     "nodemonConfig": {
+        "verbose": true,
         "watch": [
             "dist/"
         ]
@@ -89,7 +90,7 @@
         "@types/node": "^16.18.91",
         "cross-env": "7.0.0",
         "docsify-cli": "^4.4.4",
-        "nodemon": "^3.1.10",
+        "nodemon": "^2.0.22",
         "pm2": "^5.3.1",
         "prettier": "~2.7.1",
         "sass": "^1.58.3",
