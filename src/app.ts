@@ -4,6 +4,7 @@ import {
     Constants,
     authExtension,
     cloudExtension,
+    NebulaBizError,
 } from 'nebulajs-core'
 import path from 'path'
 import { ApplicationService } from './services/ApplicationService'
@@ -16,9 +17,13 @@ import { Agenda } from '@hokify/agenda'
 import { JobService } from './services/JobService'
 import { portalExtension } from './midwares/app-extension'
 import { clientExtension } from './midwares/client-extension'
-import { NebulaAppInitOptions } from 'nebulajs-core/lib/types/nebula'
+import {
+    NebulaAppInitOptions,
+    NebulaKoaContext,
+} from 'nebulajs-core/lib/types/nebula'
 import OAuth2Server from 'nebulajs-oauth2-server'
 import { ResourceUtils } from 'nebulajs-core/lib/utils'
+import { AuthenticateErrors } from 'nebulajs-core/lib/error/def'
 
 const pkg = require('../package.json')
 const config = require('./config/env')
@@ -73,7 +78,21 @@ async function startup(port) {
             accessManager: new AccessManager({
                 whitePathList: [...whitePathList, '* /api'],
                 // whitePathList,
-                pathRewriteMap: new Map([[/^\/cloud\/(.+)/, '/$1']]), // 替换cloud接口
+                pathRewriteMap: new Map([[/^\/cloud\/(.+)/, '/$1']]), // 替换/cloud接口
+                checkUserPermission: async function (
+                    ctx: NebulaKoaContext,
+                    user: { login: string; roles?: string[] }
+                ) {
+                    let resources = await nebula.sdk.resource.getUserResources(
+                        user.login
+                    )
+                    if (!this.matchUserResource(ctx, resources)) {
+                        throw new NebulaBizError(
+                            AuthenticateErrors.AccessForbidden,
+                            `User has no access to the url:${ctx.request.path}`
+                        )
+                    }
+                },
             }),
             accessTokenCookieName: Cookies.ACCESS_TOKEN,
             refreshTokenCookieName: Cookies.REFRESH_TOKEN,
@@ -140,7 +159,7 @@ async function registerClientResources() {
     // console.log('multiLayerRouters', app.router.multiLayerRouters)
     const pageResources = await ResourceUtils.scanAmisResources(
         nebula.staticPath + '/schema',
-        new Map([[/^\/cloud\/(.+)/, '/$1']]) // 替换cloud接口
+        new Map([[/^\/cloud\/(.+)/, '/$1']]) // 替换/cloud接口
     )
     const resources = ResourceUtils.findAllResources(
         ['* ^/api/.+', ...whitePathList],

@@ -9,6 +9,8 @@ import {
 } from 'nebulajs-core'
 import { AccessConfig, SocketEvent } from './config/constants'
 import { MessageHandler } from './services/message-handler'
+import { ResourceUtils } from 'nebulajs-core/lib/utils'
+import { AuthenticateErrors } from 'nebulajs-core/lib/error/def'
 
 const pkg = require('./package.json')
 const options = {
@@ -18,7 +20,16 @@ const options = {
     name: pkg.name,
     version: pkg.version,
 }
-
+async function registerClientResources() {
+    const pageResources = await ResourceUtils.scanAmisResources(
+        nebula.staticPath + '/schema'
+    )
+    const resources = ResourceUtils.findAllResources(
+        ['* ^/api/.+', ...AccessConfig.whitePathList],
+        pageResources
+    )
+    await nebula.sdk.resource.syncResources(resources)
+}
 async function startup(port) {
     const app = await NebulaApp.getInstance(options)
 
@@ -30,6 +41,17 @@ async function startup(port) {
             // refreshTokenCookieName: '',
             accessManager: new AccessManager({
                 whitePathList: AccessConfig.whitePathList,
+                pathRewriteMap: new Map([[/^\/cloud\/(.+)/, '/$1']]), // 替换/cloud接口
+                checkUserPermission: async function (ctx, user) {
+                    const resources =
+                        await nebula.sdk.resource.getUserResources(user.login)
+                    if (!this.matchUserResource(ctx, resources)) {
+                        throw new NebulaBizError(
+                            AuthenticateErrors.AccessForbidden,
+                            `User has no access to the url:${ctx.request.path}`
+                        )
+                    }
+                },
             }),
         })
     )
@@ -41,6 +63,9 @@ async function startup(port) {
 
     // 启动
     await app.startup({ port })
+
+    // 同步应用权限资源
+    await registerClientResources()
 
     app.sdk.socket.on(
         SocketEvent.ProcessFormUpdate,

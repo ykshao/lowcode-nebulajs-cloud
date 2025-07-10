@@ -6,6 +6,32 @@ import { Cache } from '../../config/constants'
 import { UserService } from '../../services/app/UserService'
 
 export = {
+    'get /resource/user/:login': async (ctx, next) => {
+        let resources = null
+        const login = ctx.getParam('login')
+        const cacheKey = Cache.getAppUserResourceKey(ctx.clientAppId, login)
+        const resCache = await nebula.redis.get(cacheKey)
+        if (resCache) {
+            resources = JSON.parse(resCache)
+        } else {
+            const user = await UserService.getUserByLoginAndAppId(
+                ctx.clientAppId,
+                login
+            )
+            resources = await ResourceService.findResourcesByRoleCodes(
+                ctx.clientAppId,
+                user.roles.map((r) => r.code)
+            )
+            await nebula.redis.setex(
+                cacheKey,
+                3600 * 4,
+                JSON.stringify(resources)
+            )
+        }
+
+        ctx.ok(resources)
+    },
+
     /**
      * 客户端向云端同步资源
      * @param ctx
