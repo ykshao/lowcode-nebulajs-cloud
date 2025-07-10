@@ -50,7 +50,7 @@
                                                 "id": "${id}"
                                             },
                                             "messages": {
-                                                "success": "新增字典成功"
+                                                "success": "编辑字典成功"
                                             }
                                         },
                                         "body": [
