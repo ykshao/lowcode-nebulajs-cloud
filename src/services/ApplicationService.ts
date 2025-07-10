@@ -806,6 +806,9 @@ export class ApplicationService {
         } else {
             // 默认应用配置
             sysConfig = {
+                redis: {
+                    useMock: true,
+                },
                 logger: {
                     level: 'info',
                 },
