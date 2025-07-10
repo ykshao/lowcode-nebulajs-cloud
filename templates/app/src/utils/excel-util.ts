@@ -2,7 +2,7 @@ import ExcelJS, { Workbook } from 'exceljs'
 import { Model, ModelStatic } from 'sequelize'
 import moment from 'moment'
 export class ExcelUtil {
-    static async exportExcelBuffer(
+    static async exportExcel(
         ctx,
         model: ModelStatic<any>,
         dataList: Model[],
