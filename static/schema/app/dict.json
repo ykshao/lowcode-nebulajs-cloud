@@ -75,13 +75,13 @@
                                                 },
                                                 "size": "md",
                                                 "validations": {
-                                                    "matchRegexp": "^[A-Z_]+$"
+                                                    "matchRegexp": "^[A-Z0-9_]+$"
                                                 },
                                                 "validationErrors": {
-                                                    "matchRegexp": "编码由大写字母、下划线组成"
+                                                    "matchRegexp": "编码由大写字母、下划线和数字组成"
                                                 },
                                                 "required": true,
-                                                "description": "字典编码，通常为英文和数字"
+                                                "description": "字典编码，通常为大写字母、下划线和数字"
                                             },
                                             {
                                                 "label": "值",
@@ -241,13 +241,13 @@
                                         },
                                         "size": "md",
                                         "validations": {
-                                            "matchRegexp": "^[A-Z_]+$"
+                                            "matchRegexp": "^[A-Z0-9_]+$"
                                         },
                                         "validationErrors": {
-                                            "matchRegexp": "编码由大写字母、下划线组成"
+                                            "matchRegexp": "编码由大写字母、下划线和数字组成"
                                         },
                                         "required": true,
-                                        "description": "字典编码，通常为英文和数字"
+                                        "description": "字典编码，通常为大写字母、下划线和数字"
                                     },
                                     {
                                         "type": "input-text",
