@@ -238,6 +238,7 @@
                                                     {
                                                         "type": "input-tree",
                                                         "name": "resources",
+                                                        "searchable": true,
                                                         "multiple": true,
                                                         "enableNodePath": false,
                                                         "hideRoot": true,

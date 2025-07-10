@@ -24,7 +24,7 @@
                     "type": "form",
                     "title": "表单",
                     "api": {
-                        "method": "post",
+                        "method": "put",
                         "url": "/portal/cl-application",
                         "messages": {
                             "success": "保存设置成功"

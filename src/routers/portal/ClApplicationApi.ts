@@ -110,38 +110,37 @@ export = {
      * @returns {Promise<void>}
      */
     'post /cl-application': async function (ctx, next) {
+        ctx.checkRequired(['code', 'name'])
+        const { login } = ctx.state.user
+        const model = await ApplicationService.createApplication(
+            ctx.request.body,
+            login
+        )
+        ctx.ok(model)
+    },
+
+    'put /cl-application': async function (ctx, next) {
         const { id, name, workflow, storageService, logo, remark } =
             ctx.request.body
-        const { login } = ctx.state.user
-        let model: ClApplication | null = null
-        if (!id) {
-            ctx.checkRequired(['code', 'name'])
-            model = await ApplicationService.createApplication(
-                ctx.request.body,
-                login
-            )
-        } else {
-            model = await ClApplication.getByPk(id)
-            let logoURL = null
-            if (!model) {
-                return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
-            }
-            if (logo) {
-                const fileService = new FileService(Constants.NEBULA_APP_CODE)
-                const keys = await fileService.archiveFilesToPublic([logo])
-                logoURL = fileService.getPublicURL(keys[0])
-                nebula.logger.info('应用LOGO地址：%s', logoURL)
-            }
-            model.set({
-                name,
-                workflow,
-                storageService,
-                logo: logoURL || '',
-                remark,
-            })
-            model = await model.save()
+        let model = await ClApplication.getByPk(id)
+        let logoURL = null
+        if (!model) {
+            return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
-
+        if (logo) {
+            const fileService = new FileService(Constants.NEBULA_APP_CODE)
+            const keys = await fileService.archiveFilesToPublic([logo])
+            logoURL = fileService.getPublicURL(keys[0])
+            nebula.logger.info('应用LOGO地址：%s', logoURL)
+        }
+        model.set({
+            name,
+            workflow,
+            storageService,
+            logo: logoURL || '',
+            remark,
+        })
+        model = await model.save()
         ctx.ok(model)
     },
 
