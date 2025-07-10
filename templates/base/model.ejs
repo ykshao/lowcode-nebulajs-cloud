@@ -11,6 +11,15 @@ function getTsType(type){
     }
     return 'string'
 }
+function getSeqTypeWithLen(type, len){
+    if(type.startsWith('DATE') || type.startsWith('BOOLEAN')){
+        return type
+    }
+    if(len){
+        return `${type}(${len})`
+    }
+    return type
+}
 const autoGenProps = [
     {name: createdByField, comment: '创建人', tag: 'createdBy', type:'STRING(50)'},
     {name: updatedByField, comment: '更新人', tag: 'updatedBy', type:'STRING(50)'},
@@ -90,11 +99,8 @@ export class <%=name%> extends BaseModel<
                 if(ignoreProps.includes(props[i].name)){
                     continue;
                 }
-                let propDataType = props[i].type
                 // 处理String，Decimal等长度
-                if(props[i].len){
-                    propDataType = `${props[i].type}(${props[i].len})`
-                }
+                const propDataType = getSeqTypeWithLen(props[i].type, props[i].len)
             _%>
                 <%=props[i].name%>: {
                     type: DataTypes.<%=propDataType%>,
