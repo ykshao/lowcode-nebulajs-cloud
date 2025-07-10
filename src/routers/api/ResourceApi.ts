@@ -1,6 +1,9 @@
 import { AppResource } from '../../models/AppResource'
 import { Op } from 'sequelize'
 import crypto from 'crypto'
+import { ResourceService } from '../../services/app/ResourceService'
+import { Cache } from '../../config/constants'
+import { UserService } from '../../services/app/UserService'
 
 export = {
     /**
@@ -21,14 +24,10 @@ export = {
         const transaction = await nebula.sequelize.transaction()
         try {
             for (const r of resources) {
-                const res: AppResource = {
-                    ...r,
+                const res: AppResource = r
+                if (res.url.startsWith('/app/')) {
+                    res.isSystem = true
                 }
-                // 计算ID
-                // res.id = crypto
-                //     .createHash('md5')
-                //     .update(`${ctx.clientAppId}:${res.method}:${res.url}`)
-                //     .digest('hex')
                 const [model, ret] = await AppResource.upsert(
                     {
                         ...res,

@@ -62,8 +62,7 @@ export = {
                     appId: ctx.clientAppId,
                 },
             })
-            await nebula.redis.set(key, count)
-            await nebula.redis.expire(key, Cache.defaultEx) // 兜底销毁时间
+            await nebula.redis.setex(key, Cache.defaultEx, count)
         }
 
         ctx.ok({ count })

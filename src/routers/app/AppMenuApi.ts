@@ -41,8 +41,11 @@ export = {
                 navCache = {
                     pages: groups,
                 }
-                await nebula.redis.set(key, JSON.stringify(navCache))
-                await nebula.redis.expire(key, 3600 * 4)
+                await nebula.redis.setex(
+                    key,
+                    3600 * 4,
+                    JSON.stringify(navCache)
+                )
             }
         } else {
             navCache = JSON.parse(navCache)

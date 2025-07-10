@@ -10,6 +10,7 @@ import { AppRole } from '../../models/AppRole'
 import { IncludeOptions, Op } from 'sequelize'
 import { MenuService } from '../../services/app/MenuService'
 import { ExcelUtil } from '../../utils/excel-util'
+import { ResourceService } from '../../services/app/ResourceService'
 
 export = {
     'post /app-user/allocate/roles': async function (ctx, next) {
@@ -28,6 +29,7 @@ export = {
             roleCodes.map((r) => r.code)
         )
         await MenuService.clearMenuNavCache(ctx.clientAppId)
+        await ResourceService.clearAppResourceCache(ctx.clientAppId)
         ctx.ok()
     },
 

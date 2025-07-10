@@ -12,6 +12,7 @@ import { MenuService } from '../../services/app/MenuService'
 import { AppRole } from '../../models/AppRole'
 import { AppMenu } from '../../models/AppMenu'
 import { AppResource } from '../../models/AppResource'
+import { ResourceService } from '../../services/app/ResourceService'
 
 export = {
     'post /app-role/allocate/menus': async function (ctx, next) {
@@ -26,6 +27,7 @@ export = {
         ctx.checkRequired(['resIds', 'roleIds'])
         const { resIds, roleIds } = ctx.request.body
         await RoleService.allocateResources(ctx.clientAppId, resIds, roleIds)
+        await ResourceService.clearAppResourceCache(ctx.clientAppId)
         ctx.ok()
     },
 

@@ -90,11 +90,11 @@ export const EnvPortPrefix = {
 }
 
 export const Cache = {
-    defaultKey: 'engine',
     defaultEx: 3600, //秒
     getAppConfigKey: (env, appId) => `app-config:${env}:${appId}`,
     getAppMenuNavKey: (appId) => `app-menu:${appId}:*`,
     getAppUserMenuNavKey: (appId, login) => `app-menu:${appId}:${login}`,
+    getAppResourceKey: (appId) => `user-resource:${appId}:*`,
     getAppUserResourceKey: (appId, login) => `user-resource:${appId}:${login}`,
     getAppUserMessageCountKey: (appId, login) =>
         `user-message-count:${appId}:${login}`,

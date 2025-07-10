@@ -1,5 +1,5 @@
 import { AppResource } from '../../models/AppResource'
-import { AuditModelProps, DataStatus } from '../../config/constants'
+import { AuditModelProps, Cache, DataStatus } from '../../config/constants'
 import { TreeUtils } from 'nebulajs-core/lib/utils'
 import { TreeNode } from 'nebulajs-core'
 import { AppRole } from '../../models/AppRole'
@@ -9,7 +9,7 @@ export class ResourceService {
     static async getResourceTree(appId) {
         const list = await AppResource.findAll({
             where: {
-                appId,
+                [Op.or]: [{ appId }, { isSystem: true }],
             },
             order: [
                 ['group', 'asc'],
@@ -51,10 +51,13 @@ export class ResourceService {
         )
         return treeList
     }
-    static async findResourcesByRoleCodes(appId, roleCodes): Promise<string[]> {
+    static async findResourcesByRoleCodes(
+        appId,
+        roleCodes: string[]
+    ): Promise<string[]> {
         const resModels = await AppResource.findAll({
             where: {
-                appId,
+                [Op.or]: [{ appId }, { isSystem: true }],
                 regexp: {
                     [Op.not]: null,
                 },
@@ -71,5 +74,12 @@ export class ResourceService {
         return resModels.map((r) => {
             return r.method + ' ' + r.regexp.substring(1, r.regexp.length - 2)
         })
+    }
+
+    static async clearAppResourceCache(appId) {
+        const delKeys = await nebula.redis.keys(Cache.getAppResourceKey(appId))
+        if (delKeys.length > 0) {
+            await nebula.redis.del(delKeys)
+        }
     }
 }

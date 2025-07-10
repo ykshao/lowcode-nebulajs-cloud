@@ -31,6 +31,7 @@ module.exports = {
                 access_token: accessToken,
                 expires_in: oAuthServer.options.accessTokenLifetime,
                 refresh_token: refreshToken,
+                refresh_expires_in: oAuthServer.options.refreshTokenLifetime,
                 token_type: 'bearer',
                 scope: scope,
                 client,

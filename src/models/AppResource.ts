@@ -20,6 +20,7 @@ export class AppResource extends BaseModel<
     declare url: string
     declare regexp: string
     declare group: string
+    declare isSystem: boolean
     declare appId: string
 
     static initAttributes = (sequelize) =>
@@ -60,6 +61,11 @@ export class AppResource extends BaseModel<
                 group: {
                     type: DataTypes.STRING(50),
                     comment: '页面/组',
+                },
+                isSystem: {
+                    type: DataTypes.BOOLEAN,
+                    comment: '是否系统资源',
+                    defaultValue: false,
                 },
                 appId: {
                     type: DataTypes.UUID,

@@ -100,8 +100,7 @@ export class RoleService {
         const resModels = await AppResource.findAll({
             where: {
                 id: { [Op.in]: resIds },
-                //[Op.or]: [{ appId }, { isSystem: true }],
-                appId,
+                [Op.or]: [{ appId }, { isSystem: true }],
             },
         })
         for (const rm of roleModels) {
