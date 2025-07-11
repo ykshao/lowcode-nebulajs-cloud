@@ -17,6 +17,7 @@ export = {
                 {
                     model: AppOrganization,
                     as: 'orgs',
+                    required: false,
                     attributes: [
                         'id',
                         'code',
