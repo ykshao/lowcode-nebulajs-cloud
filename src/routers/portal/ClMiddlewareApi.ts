@@ -151,13 +151,13 @@ export = {
      */
     'get /cl-middleware/database/:id/tables': async (ctx, next) => {
         const id = ctx.getParam('id')
-        const { prefix } = ctx.query
+        const { name } = ctx.query
         const model = await ClMiddleware.getByPk(id)
         if (!model) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
         const middlewareService = new DatabaseService(model)
-        const result = await middlewareService.getDatabaseTables(prefix)
+        const result = await middlewareService.getDatabaseTables(name)
 
         ctx.ok(result)
     },

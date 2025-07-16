@@ -53,10 +53,10 @@ export class DatabaseService {
 
     /**
      * 获取数据库表
-     * @param prefix
+     * @param nameLike
      * @returns {Promise<*[]|{descr: *, name: *}[]>}
      */
-    async getDatabaseTables(prefix) {
+    async getDatabaseTables(nameLike) {
         const { schema, dialect, host, app, dataPath } = this.options
         if (dialect === MiddlewareTypes.MySQL) {
             // 需要指定小写列名，可能会区分大小写
@@ -72,7 +72,7 @@ export class DatabaseService {
             )
             return ret
                 .filter((t: any) =>
-                    prefix ? t.table_name.indexOf(prefix) === 0 : true
+                    nameLike ? t.table_name.indexOf(nameLike) >= 0 : true
                 )
                 .map((t: any) => {
                     return { name: t.table_name, descr: t.table_comment }
@@ -85,9 +85,13 @@ export class DatabaseService {
             })
             const sql = "select name from sqlite_master where type = 'table'"
             const [results, metadata] = await sequelize.query(sql)
-            return results.map((t) => {
-                return { name: (t as any).name, descr: '' }
-            })
+            return results
+                .filter((t: any) =>
+                    nameLike ? t.name.indexOf(nameLike) === 0 : true
+                )
+                .map((t) => {
+                    return { name: (t as any).name, descr: '' }
+                })
         }
         return []
     }

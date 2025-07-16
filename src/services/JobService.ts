@@ -74,9 +74,6 @@ export class JobService {
                 appId,
                 status: JobStatus.RUNNING,
             },
-            attributes: {
-                exclude: ['log'],
-            },
         })
 
         // 分环境处理
@@ -98,7 +95,7 @@ export class JobService {
         const jobId = job.attrs._id.toHexString()
         const timestamp = moment().format('YYYYMMDDHHmmssSSS')
         const logTimestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSS')
-        const logPath = `logs/${job.attrs?.data?.appCode}/jobs/${job.attrs.name}`
+        const logPath = `logs/jobs/${job.attrs.name}`
         const logDir = path.join(process.cwd(), logPath)
         const logfileName = `${env}-${timestamp}.log`
         const logfile = path.join(logDir, logfileName)
