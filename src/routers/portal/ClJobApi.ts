@@ -148,7 +148,6 @@ export = {
             throw new NebulaBizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
         await jobs[0].run()
-        await JobService.runClientJob(jobs[0] as Job<{ env; appId; appCode }>)
         ctx.ok()
     },
 
