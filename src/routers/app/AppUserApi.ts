@@ -135,7 +135,10 @@ export = {
         ctx.checkRequired(['login'])
         const { login } = ctx.request.body
         const newPassword = randomstring.generate(16)
-        const userModel = await AppUser.getByUniqueKey('login', login)
+        const userModel = await UserService.getUserByLoginAndAppId(
+            ctx.clientAppId,
+            login
+        )
         const salt = await bcrypt.genSaltSync(10)
         const newHash = await bcrypt.hashSync(newPassword, salt)
         userModel.set({ password: newHash })
