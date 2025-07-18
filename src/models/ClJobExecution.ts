@@ -18,6 +18,8 @@ export class ClJobExecution extends BaseModel<
     declare name: string
     declare env: string
     declare status: string
+    declare startTime: Date
+    declare endTime: Date
     declare result: boolean
     declare logfile: string
     declare createdBy: string
@@ -47,6 +49,14 @@ export class ClJobExecution extends BaseModel<
                     type: DataTypes.STRING,
                     comment: '状态（0:未运行，1:运行中，2:完成）',
                     defaultValue: JobStatus.CREATED,
+                },
+                startTime: {
+                    type: DataTypes.DATE,
+                    comment: '开始时间',
+                },
+                endTime: {
+                    type: DataTypes.DATE,
+                    comment: '结束时间',
                 },
                 result: {
                     type: DataTypes.BOOLEAN,

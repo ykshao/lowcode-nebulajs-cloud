@@ -112,9 +112,10 @@ export class JobService {
             await ClJobExecution.create({
                 appId,
                 jobId,
-                name: `${job.attrs.name}`,
+                name: `${job.attrs.data.name}`,
                 env,
                 status: JobStatus.FINISHED,
+                startTime: moment().toDate(),
                 remark: job.attrs.data.remark,
                 result: false,
                 logfile: path.join(logPath, logfileName),
@@ -130,9 +131,10 @@ export class JobService {
         const execModel = await ClJobExecution.create({
             appId,
             jobId,
-            name: `${job.attrs.name}`,
+            name: `${job.attrs.data.name}`,
             env,
             status: JobStatus.RUNNING, // 运行中
+            startTime: moment().toDate(),
             remark: job.attrs.data.remark,
             logfile: path.join(logPath, logfileName),
         })

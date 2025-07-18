@@ -22,7 +22,8 @@
           "name": "env",
           "tpl": "<span class='nb-tag info'>${env | upperCase}</span>",
           "align": "center",
-          "id": "u:775d6de64b79"
+          "id": "u:775d6de64b79",
+          "width": 90
         },
         {
           "type": "date",
@@ -30,7 +31,21 @@
           "name": "createdAt",
           "format": "YYYY-MM-DD HH:mm:ss",
           "id": "u:8ccf6f0df65h",
-          "width": 180
+          "width": 150
+        },
+        {
+          "type": "date",
+          "label": "结束时间",
+          "name": "endTime",
+          "format": "YYYY-MM-DD HH:mm:ss",
+          "id": "u:9fdf6f0df48h",
+          "width": 150
+        },
+        {
+          "type": "tpl",
+          "label": "运行时长",
+          "name": "-",
+          "tpl": "${!endTime?'-':MINUTES(endTime, createdAt)+' 分钟'}"
         },
         {
           "type": "mapping",
@@ -43,7 +58,7 @@
             "1": "运行中",
             "2": "已完成"
           },
-          "width": 100
+          "width": 90
         },
         {
           "type": "static-mapping",
@@ -56,12 +71,12 @@
             "true": "<span class='nb-tag success'>成功</span>",
             "false": "<span class='nb-tag danger'>失败</span>"
           },
-          "width": 100
+          "width": 90
         },
         {
           "type": "operation",
           "label": "操作",
-          "width": 150,
+          "width": 120,
           "align": "center",
           "id": "u:e5e135d333f2",
           "buttons": [

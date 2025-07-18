@@ -1,6 +1,7 @@
 import { ClJobExecution } from '../../models/ClJobExecution'
 import { NebulaErrors } from 'nebulajs-core'
 import fs from 'fs'
+import moment from 'moment'
 import { EOL } from 'os'
 import path from 'path'
 import { JobService } from '../../services/JobService'
@@ -24,7 +25,7 @@ export = {
         if (!model) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
-        model.set({ status, result })
+        model.set({ status, result, endTime: moment().toDate() })
         await model.save()
         ctx.ok(model.dataValues)
     },
