@@ -12,6 +12,7 @@ import { ClJobExecution } from '../../models/ClJobExecution'
 import stripAnsi from 'strip-ansi'
 import fs from 'fs'
 import path from 'path'
+import TailFile from '@logdna/tail-file'
 
 export = {
     'get /cl-job': async (ctx, next) => {
@@ -199,7 +200,7 @@ export = {
         ctx.ok()
     },
 
-    'get /cl-job/execution/:id/log': async (ctx, next) => {
+    'get /cl-job/execution/:id/log': async (ctx: NebulaKoaContext, next) => {
         const id = ctx.getParam('id')
         const instance = await ClJobExecution.getByPk(id)
         if (!instance) {
@@ -213,29 +214,26 @@ export = {
         })
 
         const logFile = path.join(process.cwd(), instance.logfile)
-        const stream = fs.createReadStream(logFile)
+        const logText = fs.readFileSync(logFile).toString()
+        ctx.res.write(logText)
         await new Promise((resolve, reject) => {
-            //处理流事件 -->data, end , and error
-            stream.on('data', function (chunk) {
-                // data  = chunk;
-                // console.log(iconv.decode(chunk, 'ascii'))
-                const data = stripAnsi(chunk.toString())
-                ctx.res.write(data)
-            })
-            stream.on('end', function () {
-                ctx.res.end()
-                resolve({})
-            })
-            stream.on('error', function (err) {
-                nebula.logger.warn('log stream error. %o', err)
-                ctx.res.end('Error')
-            })
-            // stream.on('pause', function () {})
-            // stream.on('resume', function () {})
-            stream.on('close', function () {
-                ctx.res.end()
-                resolve({})
-            })
+            const tail = new TailFile(logFile, { encoding: 'utf8' })
+                .on('data', (chunk) => {
+                    const data = stripAnsi(chunk.toString())
+                    ctx.res.write(data)
+                })
+                .on('tail_error', (err) => {
+                    ctx.res.end('Tail file error')
+                    resolve({})
+                })
+                .on('error', (err) => {
+                    ctx.res.end('Tail file stream error')
+                    resolve({})
+                })
+                .start()
+                .catch((err) => {
+                    reject(err)
+                })
         })
     },
 }
