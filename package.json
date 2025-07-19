@@ -31,7 +31,7 @@
         ]
     },
     "dependencies": {
-        "@logdna/tail-file": "^4.0.2",
+        "@logdna/tail-file": "^3.0.1",
         "@hokify/agenda": "^6.3.0",
         "archiver": "7.0.1",
         "axios": "^1.1.3",
