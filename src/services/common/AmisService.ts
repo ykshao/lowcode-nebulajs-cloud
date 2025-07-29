@@ -35,6 +35,7 @@ export class AmisService {
             format: undefined,
             options: undefined,
             sortable: true,
+            map: {},
         }
         if (dictCode) {
             amisProps.type = 'mapping'
@@ -47,10 +48,10 @@ export class AmisService {
                     break
                 case 'BOOLEAN':
                     amisProps.type = 'mapping'
-                    amisProps.options = [
-                        { label: '是', value: true },
-                        { label: '否', value: false },
-                    ]
+                    amisProps.map = {
+                        true: '是',
+                        false: '否',
+                    }
                     break
                 default:
             }
