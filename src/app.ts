@@ -83,7 +83,7 @@ async function startup(port) {
                     ctx: NebulaKoaContext,
                     user: { login: string; roles?: string[] }
                 ) {
-                    let resources = await nebula.sdk.resource.getUserResources(
+                    let resources = await app.sdk.resource.getUserResources(
                         user.login
                     )
                     if (!this.matchUserResource(ctx, resources)) {

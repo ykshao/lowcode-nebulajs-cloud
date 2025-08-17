@@ -468,7 +468,7 @@
                                         "size": "md",
                                         "description": "由英文、数字、下划线、中划线组成。 不少于5位",
                                         "validations": {
-                                            "minLength": 5,
+                                            "minLength": 4,
                                             "matchRegexp": "^[a-zA-Z0-9\\-_]+$"
                                         },
                                         "validationErrors": {

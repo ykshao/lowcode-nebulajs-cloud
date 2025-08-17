@@ -30,6 +30,32 @@ async function registerClientResources() {
     )
     await nebula.sdk.resource.syncResources(resources)
 }
+function listenProcessMessage() {
+    nebula.sdk.socket.on(
+        SocketEvent.ProcessFormUpdate,
+        MessageHandler.handleProcessFormUpdateMessage
+    )
+    nebula.sdk.socket.on(
+        SocketEvent.ProcessTaskCreated,
+        MessageHandler.handleProcessTaskCreatedMessage
+    )
+    nebula.sdk.socket.on(
+        SocketEvent.ProcessTaskCompleted,
+        MessageHandler.handleProcessTaskCompletedMessage
+    )
+    nebula.sdk.socket.on(
+        SocketEvent.ProcessTaskDeleted,
+        MessageHandler.handleProcessTaskDeletedMessage
+    )
+    nebula.sdk.socket.on(
+        SocketEvent.ProcessInstanceCompleted,
+        MessageHandler.handleProcessInstanceCompletedMessage
+    )
+    nebula.sdk.socket.on(
+        SocketEvent.ProcessInstanceTerminated,
+        MessageHandler.handleProcessInstanceTerminatedMessage
+    )
+}
 async function startup(port) {
     const app = await NebulaApp.getInstance(options)
 
@@ -43,8 +69,9 @@ async function startup(port) {
                 whitePathList: AccessConfig.whitePathList,
                 pathRewriteMap: new Map([[/^\/cloud\/(.+)/, '/$1']]), // 替换/cloud接口
                 checkUserPermission: async function (ctx, user) {
-                    const resources =
-                        await nebula.sdk.resource.getUserResources(user.login)
+                    const resources = await app.sdk.resource.getUserResources(
+                        user.login
+                    )
                     if (!this.matchUserResource(ctx, resources)) {
                         throw new NebulaBizError(
                             AuthenticateErrors.AccessForbidden,
@@ -67,30 +94,8 @@ async function startup(port) {
     // 同步应用权限资源
     await registerClientResources()
 
-    app.sdk.socket.on(
-        SocketEvent.ProcessFormUpdate,
-        MessageHandler.handleProcessFormUpdateMessage
-    )
-    app.sdk.socket.on(
-        SocketEvent.ProcessTaskCreated,
-        MessageHandler.handleProcessTaskCreatedMessage
-    )
-    app.sdk.socket.on(
-        SocketEvent.ProcessTaskCompleted,
-        MessageHandler.handleProcessTaskCompletedMessage
-    )
-    app.sdk.socket.on(
-        SocketEvent.ProcessTaskDeleted,
-        MessageHandler.handleProcessTaskDeletedMessage
-    )
-    app.sdk.socket.on(
-        SocketEvent.ProcessInstanceCompleted,
-        MessageHandler.handleProcessInstanceCompletedMessage
-    )
-    app.sdk.socket.on(
-        SocketEvent.ProcessInstanceTerminated,
-        MessageHandler.handleProcessInstanceTerminatedMessage
-    )
+    // 监听流程消息
+    listenProcessMessage()
 
     return app
 }
