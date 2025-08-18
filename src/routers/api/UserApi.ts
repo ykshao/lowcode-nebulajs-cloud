@@ -33,6 +33,7 @@ export = {
                 {
                     model: AppRole,
                     as: 'roles',
+                    required: false,
                     attributes: ['id', 'code', 'name'],
                     where: {
                         status: DataStatus.ENABLED,

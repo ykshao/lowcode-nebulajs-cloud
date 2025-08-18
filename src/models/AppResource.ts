@@ -52,7 +52,7 @@ export class AppResource extends BaseModel<
                  */
                 url: {
                     type: DataTypes.STRING(100),
-                    comment: '类型',
+                    comment: '接口路径',
                 },
                 regexp: {
                     type: DataTypes.STRING(200),
