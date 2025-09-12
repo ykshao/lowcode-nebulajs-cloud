@@ -185,6 +185,7 @@
                                                 ],
                                                 "type": "dialog"
                                             },
+                                            "visibleOn": "!this.isSystem",
                                             "id": "u:0897d1570d15"
                                         },
                                         {
@@ -286,7 +287,7 @@
                                                 "closeOnOutside": false,
                                                 "showCloseButton": true
                                             },
-                                            "visibleOn": "!!!this.url",
+                                            "visibleOn": "!this.isSystem && !!!this.url",
                                             "id": "u:03c1078bc6b9"
                                         },
                                         {
@@ -294,10 +295,13 @@
                                             "label": "解除绑定",
                                             "actionType": "ajax",
                                             "level": "link",
-                                            "visibleOn": "!!this.url",
+                                            "visibleOn": "!this.isSystem && !!this.url",
                                             "api": {
                                                 "method": "post",
                                                 "url": "cloud/app/app-menu/unbind",
+                                                "messages": {
+                                                    "success": "解除页面绑定成功"
+                                                },
                                                 "data": {
                                                     "menuId": "${id}"
                                                 }
@@ -309,6 +313,7 @@
                                         {
                                             "type": "button",
                                             "label": "删除",
+                                            "visibleOn": "!this.isSystem",
                                             "icon": "nb-icon nb-icon-shanchu",
                                             "actionType": "ajax",
                                             "level": "link",
@@ -316,7 +321,10 @@
                                             "confirmText": "确定要删除？",
                                             "api": {
                                                 "method": "delete",
-                                                "url": "cloud/app/app-menu/${id}"
+                                                "url": "cloud/app/app-menu/${id}",
+                                                "messages": {
+                                                    "success": "删除菜单成功"
+                                                }
                                             },
                                             "id": "u:5bc4e622147b"
                                         }

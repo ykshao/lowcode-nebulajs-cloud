@@ -14,6 +14,7 @@ import { Op } from 'sequelize'
 import { AppMenu } from '../../models/AppMenu'
 import { ClPage } from '../../models/ClPage'
 import { TreeUtils } from 'nebulajs-core/lib/utils'
+import { SystemManageErrors } from '../../config/errors'
 
 export = {
     /**
@@ -84,6 +85,9 @@ export = {
                     NebulaErrors.BadRequestErrors.DataNotFound
                 )
             }
+            if (model.isSystem) {
+                return ctx.bizError(SystemManageErrors.InnerMenuCannotBeUpdated)
+            }
             // 验证Client权限
             ctx.checkClientAuth(model)
             // 去掉不可更新字段
@@ -107,12 +111,15 @@ export = {
         if (!model || !page) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
+        if (model.isSystem) {
+            return ctx.bizError(SystemManageErrors.InnerMenuCannotBeUpdated)
+        }
+        ctx.checkClientAuth(model)
 
         model.set({ url: page.url })
         const updated = await model.save()
 
         await MenuService.clearMenuNavCache(ctx.clientAppId)
-
         ctx.ok(updated.dataValues)
     },
 
@@ -123,12 +130,15 @@ export = {
         if (!model) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
         }
+        if (model.isSystem) {
+            return ctx.bizError(SystemManageErrors.InnerMenuCannotBeUpdated)
+        }
+        ctx.checkClientAuth(model)
 
         model.set({ url: null })
         const updated = await model.save()
 
         await MenuService.clearMenuNavCache(ctx.clientAppId)
-
         ctx.ok(updated.dataValues)
     },
 
@@ -144,6 +154,9 @@ export = {
         const model = await AppMenu.getByPk(ctx.params.id)
         if (!model) {
             return ctx.bizError(NebulaErrors.BadRequestErrors.DataNotFound)
+        }
+        if (model.isSystem) {
+            return ctx.bizError(SystemManageErrors.InnerMenuCannotBeUpdated)
         }
         ctx.checkClientAuth(model)
 

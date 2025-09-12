@@ -58,9 +58,13 @@ export class ApplicationErrors extends NebulaErrors.BadRequestErrors {
         code: 20026,
         msg: '创建存储桶失败，已存在相同名称的存储桶',
     }
+    static ApiPathExist = {
+        code: 20027,
+        msg: '接口路径及请求方式已存在',
+    }
 }
 /**
- * 模块编码：21 User
+ * 模块编码：21 User模块
  */
 export class UserErrors extends NebulaErrors.BadRequestErrors {
     static UserLoginExist = {
@@ -95,17 +99,17 @@ export class UserErrors extends NebulaErrors.BadRequestErrors {
 }
 
 /**
- * 模块编码：22 Api
+ * 模块编码：22 System模块
  */
-export class ApiErrors extends NebulaErrors.BadRequestErrors {
-    static ApiPathExist = {
+export class SystemManageErrors extends NebulaErrors.BadRequestErrors {
+    static InnerMenuCannotBeUpdated = {
         code: 22001,
-        msg: '接口路径及请求方式已存在',
+        msg: '无法修改系统内置菜单',
     }
 }
 
 /**
- * 模块编码：23 Process
+ * 模块编码：23 Process模块
  */
 export class ProcessErrors extends NebulaErrors.BadRequestErrors {
     static ProcessFormNotFound = {

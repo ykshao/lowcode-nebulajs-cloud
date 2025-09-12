@@ -1,5 +1,5 @@
 import { NebulaBizError, BaseModel } from 'nebulajs-core'
-import { ApiErrors } from '../config/errors'
+import { ApplicationErrors } from '../config/errors'
 
 import fs from 'fs'
 import ejs from 'ejs'
@@ -26,7 +26,7 @@ export class ApiService {
             },
         })
         if (found && found.dataValues.id !== id) {
-            throw new NebulaBizError(ApiErrors.ApiPathExist)
+            throw new NebulaBizError(ApplicationErrors.ApiPathExist)
         }
 
         let model = await ClApi.getByPk(id)
@@ -63,7 +63,7 @@ export class ApiService {
             },
         })
         if (!build) {
-            throw new NebulaBizError(ApiErrors.ApiPathExist)
+            throw new NebulaBizError(ApplicationErrors.ApiPathExist)
         }
 
         model.set({ ...body, appId, isCustom: true })
