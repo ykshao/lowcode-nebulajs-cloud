@@ -117,6 +117,86 @@ module.exports = {
         // ctx.ok(account.dataValues)
     },
 
+    'get /oauth/authorize/gitee': async (ctx, next) => {
+        const { gitee } = nebula.config.socialSSO
+        const { clientId, redirectURI } = gitee
+        const redirect =
+            'https://gitee.com/oauth/authorize' +
+            `?client_id=${clientId}` +
+            `&redirect_uri=${encodeURI(redirectURI)}&response_type=code`
+        ctx.redirect(redirect)
+    },
+
+    'get /oauth/callback/gitee': async (ctx, next) => {
+        const { code } = ctx.request.query
+        const { gitee } = nebula.config.socialSSO
+        const { baseURL, redirectURI, clientId, clientSecret } = gitee
+        const utils = new GiteeClient({
+            baseURL,
+            redirectURI: encodeURI(redirectURI),
+            clientId,
+            clientSecret,
+        })
+        const { access_token } = await utils.getAccessToken({
+            code,
+        })
+        const { id, login, name, avatar_url } = await utils.getUserInfo(
+            access_token
+        )
+        const events = await utils.getRepoLatestStarEvent(access_token)
+        if (events.find((ev) => ev.actor.login === login)) {
+            //star用户
+            const nebulaLogin = 'gitee_' + login
+            const appId = 'nebula'
+            let user = await UserService.getUserByLoginAndAppId(
+                'nebula',
+                nebulaLogin
+            )
+            if (!user) {
+                const defaultPwd = randomstring.generate(8)
+                const salt = await bcrypt.genSaltSync(10)
+                const hash = await bcrypt.hashSync(defaultPwd, salt)
+                user = await AppUser.create(
+                    {
+                        appId,
+                        password: hash,
+                        login: nebulaLogin,
+                        name,
+                        avatar: avatar_url,
+                    },
+                    {}
+                )
+                // 分配演示角色
+                await UserService.allocateRoles(appId, [user.id], ['ROLE_DEMO'])
+            }
+            const nebulaToken = await OAuthModel.generateAccessToken(
+                {
+                    id: 'nebula-client-id',
+                    code: 'nebula',
+                    appId: 'nebula',
+                    grants: ['password', 'refresh_token'],
+                },
+                {
+                    login: user.login,
+                    name: user.name,
+                    roles: ['ROLE_DEMO'],
+                },
+                'web-app'
+            )
+            ctx.cookies.set(Cookies.ACCESS_TOKEN, nebulaToken, {
+                path: '/',
+                httpOnly: false,
+            })
+            ctx.redirect('/')
+        } else {
+            throw new NebulaBizError({
+                code: 21099,
+                msg: '演示环境只允许Star用户登录，请先在gitee上Star该项目。（https://gitee.com/nebulajs/nebulajs-cloud）',
+                status: 400,
+            })
+        }
+    },
+
     'get /oauth/callback/cas': async (ctx, next) => {
         // state为SDK初始化时设置的appName，此处为appId
         const { code, state, redirect = '' } = ctx.request.query

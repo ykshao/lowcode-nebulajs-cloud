@@ -174,30 +174,31 @@
                                     "type": "container",
                                     "body": [
                                         {
-                                            "type": "image",
-                                            "id": "u:672d830b288e",
-                                            "imageMode": "thumb",
-                                            "width": 35,
-                                            "height": 35,
-                                            "src": "/images/login/qiyeweixin.png",
-                                            "imageClassName": "",
-                                            "innerClassName": "no-border"
+                                            "type": "link",
+                                            "href": "/oauth/authorize/gitee",
+                                            "body": " ",
+                                            "blank": false,
+                                            "className": "aaa",
+                                            "style": {
+                                                "display": "inline-block",
+                                                "backgroundImage": "url(/images/login/gitee.png)",
+                                                "backgroundSize": "100%",
+                                                "width": "35px",
+                                                "height": "35px"
+                                            }
                                         }
                                     ],
                                     "size": "xs",
                                     "style": {
                                         "position": "static",
-                                        "display": "block",
+                                        "display": "flex",
                                         "flex": "1 1 auto",
                                         "flexGrow": 1,
                                         "flexBasis": "auto",
                                         "fontFamily": "",
                                         "fontSize": 12,
-                                        "textAlign": "center",
-                                        "borderTopLeftRadius": "",
-                                        "borderTopRightRadius": "",
-                                        "borderBottomLeftRadius": "",
-                                        "borderBottomRightRadius": ""
+                                        "alignItems": "center",
+                                        "justifyContent": "center"
                                     },
                                     "wrapperBody": false,
                                     "isFixedHeight": false,
