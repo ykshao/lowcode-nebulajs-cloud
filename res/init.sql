@@ -69,7 +69,7 @@ INSERT INTO cl_page (id,name,version,url,`schema`,schema_file,is_internal,is_sys
 	 ('ffea9eac-8857-456d-bffc-7befcaa8d796','【系统】组织管理',NULL,'/system/org',NULL,'app/org.json',1,1,NULL,NULL,NULL,'nebula','2023-01-27 23:50:01','2023-01-27 23:50:01',NULL,NULL);
 
 INSERT INTO app_user (id,login,name,password,`position`,avatar,email,mobile,created_by,updated_by,remark,app_id,created_at,updated_at,dept_id,dept_name,last_login_date,last_login_ip,status) VALUES
-	 ('ddd91cf5-354c-4dec-81d4-4c2cde4d0b1b','admin','管理员','$2b$10$2sY.m8X39VrNvsUQXXUXS.gbVVtFBehAUPBbkapgeEecVYteftl9m',NULL,NULL,'admin@nebulajs.com',NULL,'admin','admin',NULL,'nebula','2023-02-15 20:56:09','2024-12-06 17:10:04','b2a38726-b4a2-44c7-9760-688a13f544a3',NULL,NULL,NULL,'1');
+	 ('ddd91cf5-354c-4dec-81d4-4c2cde4d0b1b','admin','管理员','$2b$10$2sY.m8X39VrNvsUQXXUXS.gbVVtFBehAUPBbkapgeEecVYteftl9m',NULL,NULL,'admin@nebulajs.com',NULL,'admin','admin',NULL,'nebula','2023-02-15 20:56:09','2024-12-06 17:10:04',NULL,NULL,NULL,NULL,'1');
 
 INSERT INTO app_role (id,name,created_by,updated_by,remark,app_id,created_at,updated_at,status,code) VALUES
 	 ('9543d5c4-e050-44b2-9a55-d6dc2abde433','管理角色','admin','admin',NULL,'nebula','2023-05-13 23:51:47','2023-05-13 23:51:47','1','ROLE_ADMIN');
