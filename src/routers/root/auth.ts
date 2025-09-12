@@ -4,6 +4,11 @@ import { UserService } from '../../services/app/UserService'
 import { AuthUtils } from 'nebulajs-core/lib/utils'
 import { Cookies } from '../../config/constants'
 import bcrypt from 'bcryptjs'
+import randomstring from 'randomstring'
+import { GiteeClient } from '../../services/client/GiteeClient'
+import { AppUser } from '../../models/AppUser'
+
+const OAuthModel = require('../../oauth/oauth-model')
 
 module.exports = {
     /**

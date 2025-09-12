@@ -4,5 +4,6 @@ export const whitePathList = [
     'post ^/auth/login',
     'post ^/oauth/token$',
     'get ^/oauth/token_key$',
-    'get ^/oauth/callback/cas', // CAS回调
+    'get ^/oauth/authorize/', // CAS授权登录
+    'get ^/oauth/callback/', // CAS回调
 ]
