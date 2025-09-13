@@ -4,7 +4,6 @@ import {
     BaseModel,
     NebulaBizError,
 } from 'nebulajs-core'
-import { ApiErrors, ApplicationErrors } from '../../config/errors'
 import { ApiService } from '../../services/ApiService'
 import { ClApi } from '../../models/ClApi'
 

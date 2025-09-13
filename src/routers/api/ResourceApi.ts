@@ -61,6 +61,7 @@ export = {
                     },
                     {
                         transaction,
+                        logging: false,
                     }
                 )
 
